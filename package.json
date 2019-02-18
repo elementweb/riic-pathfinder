@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "dependencies": {
+    "autoprefixer": "^7.2.6",
+    "axios": "^0.16.2",
+    "bootstrap": "^4.3.1",
+    "cross-env": "^5.0.1",
+    "css-mqpacker": "^7.0.0",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.7",
+    "laravel-mix": "^4.0.14",
+    "lodash": "^4.17.4",
+    "lodash-inflection": "^1.5.0",
+    "postcss-conditionals": "^2.1.0",
+    "postcss-css-variables": "^0.11.0",
+    "postcss-custom-media": "^7.0.7",
+    "postcss-discard-comments": "^4.0.2",
+    "postcss-import": "^12.0.1",
+    "resolve-url-loader": "^2.3.1",
+    "sass": "^1.17.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.6",
+    "highcharts": "^7.0.3"
+  }
+}
