@@ -10,7 +10,7 @@
     <meta name="keywords" content="" />
     <meta name="author" content="Kostas Gliozeris" />
 
-    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="shortcut icon" href="favicon.png">
 
     <link href="app.css" rel="stylesheet">
 
