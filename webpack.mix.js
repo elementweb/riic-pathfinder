@@ -1,6 +1,6 @@
 let mix = require('laravel-mix');
 
-var target_path = 'build';
+var target_path = 'public';
 
 mix.setPublicPath(target_path);
 
