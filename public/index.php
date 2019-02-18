@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" href="images/favicon.png">
 
-    <link href="build/app.css" rel="stylesheet">
+    <link href="app.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -22,7 +22,7 @@
 <body id="body-layout-main">
     <div id="container"></div>
 
-    <script src="build/app.js"></script>
+    <script src="app.js"></script>
 
     <script type="text/javascript">
         App.pathFinder.data.timestamp = '<?php echo time() ?>';
