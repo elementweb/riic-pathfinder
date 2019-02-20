@@ -34,8 +34,8 @@
             <div class="controls">
                 <button id="button-initialize">Initialize</button>
                 <button id="button-load-data">Load data</button>
-                <button id="button-flush-cache">Flush cache & reset</button>
                 <button id="button-reset">Reset</button>
+                <button id="button-flush-cache">Flush cache & reset</button>
             </div>
 
             <div class="status"><b>Simulation:</b> <span id="status">waiting</span></div>
@@ -48,11 +48,21 @@
             </div>
         </fieldset>
 
+        <fieldset class="timing">
+            <legend>Timing</legend>
+
+            <div class="items">
+                <div>Time ratio: 20:<span id="time-ratio">1</span></div>
+                <div>Simulation uptime: <span id="simulation-uptime">2:29</div>
+                <div>Spacecraft uptime: <span id="spacecraft-uptime">29 days</div>
+            </div>
+        </fieldset>
+
         <fieldset class="operations">
             <legend>Spacecraft operations</legend>
 
             <div class="controls">
-                <button id="button-start">Start</button>
+                <button id="button-start">Begin</button>
                 <button id="button-stop">Stop</button>
             </div>
 

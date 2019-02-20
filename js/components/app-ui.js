@@ -54,9 +54,15 @@ module.exports = function(App) {
     },
 
     simulationStarted() {
-      App.UI.setStatus('running');
+      App.UI.setStatus('<i class=\'fa fa-cog fa-spin\'></i> running');
       $('#button-start').prop('disabled', 'disabled');
       $('#button-stop').removeAttr('disabled');
+    },
+
+    simulationStopped() {
+     App.UI.setStatus('<i class=\'fa fa-pause\'></i> stopped');
+      $('#button-stop').prop('disabled', 'disabled');
+      $('#button-start').removeAttr('disabled');
     },
 
     dataLoaded() {
@@ -65,12 +71,7 @@ module.exports = function(App) {
 
     dataLoadingComplete() {
       $('#button-start').removeAttr('disabled');
-    },
-
-    simulationStopped() {
-     App.UI.setStatus('stopped');
-      $('#button-stop').prop('disabled', 'disabled');
-      $('#button-start').removeAttr('disabled');
+      App.UI.setStatus('data loaded');
     },
 
     setStatus(status) {

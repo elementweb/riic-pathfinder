@@ -5,12 +5,21 @@ body#body-layout-main {
   #chart-container {
     display: inline-block;
     margin-top: 10px;
+
+    .highcharts-container {
+      .highcharts-plot-background {
+        fill: #FCFCFC;
+      }
+    }
   }
 
   #loading-indicator {
     position: absolute;
     top: 18px;
     left: 12px;
+    color: #FFFFFF;
+    background: #7699FF;
+    padding: 4px 8px;
 
     > i {
       font-size: 16px;
@@ -23,7 +32,7 @@ body#body-layout-main {
     top: 20px;
     right: 25px;
 
-    .simulation-controls, .operations {
+    .simulation-controls, .operations, .timing {
       position: relative;
       border: 1px solid #686868;
       padding-top: 15px;
@@ -79,6 +88,10 @@ body#body-layout-main {
       }
 
       .operations-statistics {
+        margin-bottom: 5px;
+      }
+
+      .items {
         margin-bottom: 5px;
       }
     }
