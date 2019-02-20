@@ -7,13 +7,80 @@ body#body-layout-main {
     margin-top: 10px;
   }
 
+  #loading-indicator {
+    position: absolute;
+    top: 18px;
+    left: 12px;
+
+    > i {
+      font-size: 16px;
+    }
+  }
+
   #pathfinder-controls {
     position: absolute;
     left: 615px;
     top: 20px;
+    right: 25px;
 
-    .controls {
-      margin-bottom: 10px;
+    .simulation-controls, .operations {
+      position: relative;
+      border: 1px solid #686868;
+      padding-top: 15px;
+      min-height: 80px;
+
+      &:not(:first-child) {
+        margin-top: 15px;
+      }
+
+      legend {
+        color: #373737;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .controls {
+        margin-bottom: 10px;
+
+        button:disabled {
+          opacity: 0.5;
+        }
+      }
+
+      .status {
+        margin-bottom: 10px;
+      }
+
+      .subjects-loaded {
+        right: 25px;
+        top: 20px;
+        font-size: 14px;
+
+        @media (min-width: 1170px) {
+          position: absolute;
+        }
+
+        .subjects-loaded-heading {
+          font-weight: bold;
+          padding-bottom: 5px;
+        }
+
+        i.fa {
+          width: 16px;
+
+          &.fa-check {
+            color: #119400;
+          }
+
+          &.fa-times {
+            color: #EC0000;
+          }
+        }
+      }
+
+      .operations-statistics {
+        margin-bottom: 5px;
+      }
     }
   }
 }

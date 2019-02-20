@@ -7,6 +7,10 @@ function bindEvents() {
 
 function initialize() {
   bindEvents();
+  App.cacheFunctions.initialize();
+  App.pathFinder.initialize();
+  App.UI.initialize();
+  App.UI.loading(false);
 }
 
 const App = {
@@ -30,6 +34,3 @@ require('./components/app-ui')(App);
 require('./components/app-chartSettings')(App);
 
 App.container.initialize();
-App.cacheFunctions.initialize();
-App.pathFinder.initialize();
-App.UI.initialize();

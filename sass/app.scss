@@ -1,3 +1,7 @@
 @import "variables";
 @import "global";
 @import "layout";
+
+// Font awesome
+$fa-font-path: $assets-path + "fonts";
+@import "~font-awesome/scss/font-awesome";

@@ -14,6 +14,7 @@ module.exports = function(App) {
       interval_id: null,
       initialized: false,
       timestamp: null,
+      scope_loaded: false
     },
 
     loop() {
@@ -74,48 +75,31 @@ module.exports = function(App) {
       //
     },
 
-    initializeSeries() {
+    initializePlot() {
       if(App.pathFinder.data.initialized) {
         return;
       }
-
-      // Load data
-      App.pathFinder.loadExoplanets();
-
-      // Process exoplanet data
-      App.pathFinder.data.exoplanet_series = _.map(App.pathFinder.data.exoplanets, function(object) {
-        return App.conversion.equatorialToMercator(object.ra, object.dec);
-      });
-
-      // Crop data vertically
-      App.pathFinder.data.exoplanet_series = App.operations.cropY(App.pathFinder.data.exoplanet_series, 50+10);
-
-      // Zero-center data
-      App.pathFinder.data.exoplanet_series = App.operations.zeroData(App.pathFinder.data.exoplanet_series, 0, -108.42339);
-
-      // Offset data to current vernal equinox
-      // App.pathFinder.data.exoplanet_series = App.operations.offsetData(App.pathFinder.data.exoplanet_series, 0, -108.42339);
 
       // Add exoplanet series
       App.pathFinder.chart.addSeries({
         name: 'Exoplanets',
         color: 'rgba(232, 186, 0, .5)',
         animation: { duration: 0 },
+        // If the following was left unset while initializing, this would break the plot later (weird)
+        // So setting to some random value instead that will later be overriden by the actual data 
         data: [[104.23, 82.75]], // Sun's North pole (Z-axis) pointing
       });
-
-      App.pathFinder.data.temp = App.operations.cropX(App.pathFinder.data.exoplanet_series, 50+10);
-      App.pathFinder.setData('Exoplanets', App.pathFinder.data.temp);
-
-      // Load observation scope
-      App.pathFinder.addObservationRectangle(App.pathFinder.chart);
-      
-      // Load Exoplanets data (not into plot yet)
       
       App.UI.initialized();
     },
 
-    addObservationRectangle(chart) {
+    addObservationRectangle() {
+      if(App.pathFinder.data.scope_loaded) {
+        return;
+      }
+
+      let chart = App.pathFinder.chart;
+
       var xAxis = chart.xAxis[0],
           yAxis = chart.yAxis[0];
 
@@ -141,6 +125,8 @@ module.exports = function(App) {
       chart.renderer.path(['M', xAxis.toPixels(-25), yAxis.toPixels(0), 'L', xAxis.toPixels(25), yAxis.toPixels(0)]).attr({
         'stroke-width': 2, stroke: 'silver', dashstyle: 'dash'
       }).add();
+
+      App.pathFinder.data.scope_loaded = true;
     },
 
     addTargetWindow(x, y) {
@@ -179,16 +165,50 @@ module.exports = function(App) {
       App.pathFinder.chart.series.find(el => el.name === name).setData(data);
     },
 
-    loadExoplanets() {
+    moveExoplanetsIntoPlot() {
+      // Process exoplanet data
+      App.pathFinder.data.exoplanet_series = _.map(App.pathFinder.data.exoplanets, function(object) {
+        return App.conversion.equatorialToMercator(object.ra, object.dec);
+      });
+
+      // Crop data vertically
+      App.pathFinder.data.exoplanet_series = App.operations.cropY(App.pathFinder.data.exoplanet_series, 50+10);
+
+      // Zero-center data
+      App.pathFinder.data.exoplanet_series = App.operations.zeroData(App.pathFinder.data.exoplanet_series, 0, -108.42339);
+
+      App.pathFinder.data.temp = App.operations.cropX(App.pathFinder.data.exoplanet_series, 50+10);
+      App.pathFinder.setData('Exoplanets', App.pathFinder.data.temp);
+
+      // Load observation scope
+      App.pathFinder.addObservationRectangle();
+    },
+
+    loadData() {
+      // Load exoplanets
       if(typeof App.cache.get('exoplanets') !== 'undefined') {
         App.pathFinder.data.exoplanets = App.cache.get('exoplanets');
-        return;
+        App.UI.subjectLoaded('exoplanets');
+        App.pathFinder.moveExoplanetsIntoPlot();
+      } else {
+        App.UI.loading(true);
+        $.getJSON("https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?format=json&table=exoplanets&select=ra,dec,st_optmag&where=st_optmag>0%20and%20pl_tranflag>0", function( data ) {
+          App.pathFinder.data.exoplanets = data;
+          App.cache.set('exoplanets', data);
+          App.UI.loading(false);
+          App.UI.subjectLoaded('exoplanets');
+          App.pathFinder.moveExoplanetsIntoPlot();
+        });
       }
 
-      $.getJSON("https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?format=json&table=exoplanets&select=ra,dec,st_optmag&where=st_optmag>0%20and%20pl_tranflag>0", function( data ) {
-        App.pathFinder.data.exoplanets = data;
-        App.cache.set('exoplanets', data);
-      });
+      // Load NEOS
+      App.UI.subjectLoaded('neos');
+      
+      // Load solar system objects
+      App.UI.subjectLoaded('objects');
+
+      // Set flag and disable button
+      App.UI.dataLoaded();
     }
   }
 };
