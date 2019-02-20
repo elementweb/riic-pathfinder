@@ -5,134 +5,114 @@ module.exports = function(App) {
     chart: {},
 
     data: {
-      timestamp: null,
       exoplanets: [],
-      series: [
-        {
-          name: 'Exoplanets',
-          color: 'rgba(223, 83, 83, .5)',
-          data: [
-            [0, 0], [10, 10]
-          ]
-        },
-        {
-          name: 'NEOs',
-          color: 'rgba(119, 152, 191, .5)',
-          data: [
-            [20, 10]
-          ]
-        }
-      ],
-      targetDashlineSettings: {
-        'stroke-width': 2,
-        stroke: 'silver',
-        dashstyle: 'dash'
-      },
-      settings: {
-        horizontal_obs_angle: 50,
-        vertical_obs_angle: 50
-      }
+      neos: [],
+      exoplanet_series: [],
+      temp: [],
+      horizontal_obs_angle: 50,
+      vertical_obs_angle: 50,
+      interval_id: null,
+      initialized: false,
+      timestamp: null,
     },
 
-    settings: {
-      chart: {
-        type: 'scatter',
-        width: 500,
-        height: 500,
-        plotBorderWidth: 1,
-        plotBorderColor: '#000000',
-        events: {
-          redraw: function() {
-            App.pathFinder.addObservationRectangle(this);
-          },
-          load: function() {
-            App.pathFinder.addObservationRectangle(this);
-          }
-        }
-      },
-      exporting: { buttons: { contextButton: { enabled: false }}},
-      tooltip: { enabled: false },
-      legend: { enabled: false },
-      credits: { enabled: false },
-      title: {
-        text: 'RIIC Pathfinder',
-        style: {"color": "#000000", "fontSize": "18px", "fontFamily": "Arial"}
-      },
-      subtitle: {
-        text: 'Data source: NASA Exoplanet Archive',
-        style: {"color": "#000000", "fontSize": "14px", "fontFamily": "Arial"}
-      },
-      xAxis: {
-        title: {
-          enabled: true,
-          text: 'Ecliptical longitude (°)',
-          style: {"color": "#000000", "fontSize": "14px", "fontFamily": "Arial", "fontWeight": "bold"},
-        },
-        labels: {
-          style: {"color": "#000000", "fontSize": "13px", "fontFamily": "Arial", "fontWeight": "bold"},
-          format: '{value}°'
-        },
-        tickWidth: 1,
-        tickColor: '#000000',
-        tickInterval: 10,
-        startOnTick: true,
-        endOnTick: true,
-        showLastLabel: true,
-        min: -30,
-        max: 30
-      },
-      yAxis: {
-        title: {
-          enabled: true,
-          text: 'Ecliptical latitude (°)',
-          style: {"color": "#000000", "fontSize": "14px", "fontFamily": "Arial", "fontWeight": "bold"},
-        },
-        labels: {
-          style: {"color": "#000000", "fontSize": "13px", "fontFamily": "Arial", "fontWeight": "bold"},
-          format: '{value}°'
-        },
-        tickWidth: 1,
-        tickColor: '#000000',
-        tickInterval: 10,
-        startOnTick: true,
-        endOnTick: true,
-        showLastLabel: true,
-        min: -30,
-        max: 30,
-        gridLineWidth: 0
-      },
-      plotOptions: {
-        scatter: {
-          marker: {
-            radius: 5,
-            states: {
-              hover: {
-                enabled: true,
-                lineColor: 'rgb(100,100,100)'
-              }
-            }
-          },
-          states: {
-            hover: {
-              marker: {
-                enabled: false
-              }
-            }
-          },
-          tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x} cm, {point.y} kg'
-          }
-        }
-      },
-      series: []
+    loop() {
+      App.pathFinder.data.timestamp = App.pathFinder.data.timestamp + 3600;
+
+      // let delta = App.conversion.millisecondsToAngle(App.pathFinder.data.timestamp);
+
+      // Shift X-axis
+      App.pathFinder.data.temp = App.operations.offsetData(App.pathFinder.data.exoplanet_series, 0, -0.05);
+
+      App.pathFinder.data.temp = App.operations.cropX(App.pathFinder.data.temp, 50+10);
+      App.pathFinder.setData('Exoplanets', App.pathFinder.data.temp);
+
+      // _.each(App.pathFinder.data.exoplanet_series, function(series) {
+      //   series[0] = App.operations.shift(series[0], 0.005, 360);
+      // });
+
+      // _.each(App.pathFinder.data.series.find(el => el.name === 'NEOs').data, function(series) {
+      //   series[0] = series[0] - 0.01;
+      //   if(series[0] < -25) {
+      //     series[0] = series[0] + 50;
+      //   }
+      // });
+
+      // App.pathFinder.refresh();
+    },
+
+    start() {
+      if(App.pathFinder.data.interval_id !== null) {
+        return;
+      }
+
+      App.pathFinder.data.interval_id = setInterval(function() {
+        App.pathFinder.loop();
+      }, 10);
+
+      App.UI.simulationStarted();
+    },
+
+    stop() {
+      if(App.pathFinder.data.interval_id === null) {
+        return;
+      }
+
+      clearInterval(App.pathFinder.data.interval_id);
+      App.pathFinder.data.interval_id = null;
+
+      App.UI.simulationStopped();
     },
 
     initialize() {
-      $.getJSON("https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?format=json&table=exoplanets&select=ra,dec,st_optmag&where=st_optmag>0%20and%20pl_tranflag>0", function( data ) {
-        App.pathFinder.data.exoplanets = data;
-        App.pathFinder.initializePlot();
+      // Initialize plot
+      App.pathFinder.chart = highcharts.chart('chart-container', App.chartSettings);
+    },
+
+    burnSeriesData(series, data) {
+      App.pathFinder.chart.series.find(el => el.name === series).setData(data);
+      //
+    },
+
+    initializeSeries() {
+      if(App.pathFinder.data.initialized) {
+        return;
+      }
+
+      // Load data
+      App.pathFinder.loadExoplanets();
+
+      // Process exoplanet data
+      App.pathFinder.data.exoplanet_series = _.map(App.pathFinder.data.exoplanets, function(object) {
+        return App.conversion.equatorialToMercator(object.ra, object.dec);
       });
+
+      // Crop data vertically
+      App.pathFinder.data.exoplanet_series = App.operations.cropY(App.pathFinder.data.exoplanet_series, 50+10);
+
+      // Zero-center data
+      App.pathFinder.data.exoplanet_series = App.operations.zeroData(App.pathFinder.data.exoplanet_series, 0, -108.42339);
+
+      // Offset data to current vernal equinox
+      // App.pathFinder.data.exoplanet_series = App.operations.offsetData(App.pathFinder.data.exoplanet_series, 0, -108.42339);
+
+      // Add exoplanet series
+      App.pathFinder.chart.addSeries({
+        name: 'Exoplanets',
+        color: 'rgba(232, 186, 0, .5)',
+        animation: { duration: 0 },
+        data: [[104.23, 82.75]], // Sun's North pole (Z-axis) pointing
+      });
+
+      App.pathFinder.data.temp = App.operations.cropX(App.pathFinder.data.exoplanet_series, 50+10);
+      App.pathFinder.setData('Exoplanets', App.pathFinder.data.temp);
+
+      // Load observation scope
+      App.pathFinder.addObservationRectangle(App.pathFinder.chart);
+      
+      // Load Exoplanets data (not into plot yet)
+      
+      App.UI.initialized();
     },
 
     addObservationRectangle(chart) {
@@ -148,44 +128,67 @@ module.exports = function(App) {
       chart.renderer.rect(x, y, size_x, size_y).attr({
         'stroke-width': 1,
         stroke: '#868686',
-        fill: 'transparent',
+        fill: 'rgba(68, 192, 0, .02)',
         zIndex: 0
       }).addClass('rect').add();
 
       // Vertical target path line
-      chart.renderer.path(['M', xAxis.toPixels(0), yAxis.toPixels(-25), 'L', xAxis.toPixels(0), yAxis.toPixels(25)]).attr(App.pathFinder.data.targetDashlineSettings).add();
+      chart.renderer.path(['M', xAxis.toPixels(0), yAxis.toPixels(-25), 'L', xAxis.toPixels(0), yAxis.toPixels(25)]).attr({
+        'stroke-width': 2, stroke: 'silver', dashstyle: 'dash'
+      }).add();
 
       // Horizontal target path line
-      chart.renderer.path(['M', xAxis.toPixels(-25), yAxis.toPixels(0), 'L', xAxis.toPixels(25), yAxis.toPixels(0)]).attr(App.pathFinder.data.targetDashlineSettings).add();
+      chart.renderer.path(['M', xAxis.toPixels(-25), yAxis.toPixels(0), 'L', xAxis.toPixels(25), yAxis.toPixels(0)]).attr({
+        'stroke-width': 2, stroke: 'silver', dashstyle: 'dash'
+      }).add();
+    },
 
-      // chart.renderer.rect(0, 0, chart.plotLeft, chart.chartHeight + chart.plotTop, 50).attr({
-      //   fill: 'white',
-      //   zIndex: 0
-      // }).addClass('rect').add();
+    addTargetWindow(x, y) {
+      var xAxis = chart.xAxis[0],
+          yAxis = chart.yAxis[0];
+
+      var x = xAxis.toPixels(-25),
+          y = yAxis.toPixels(25),
+          size_x = xAxis.toPixels(25) - xAxis.toPixels(-25),
+          size_y = yAxis.toPixels(-25) - yAxis.toPixels(25);
       
-      // chart.renderer.createElement('ellipse').attr({
-      //   cx: 20,
-      //   cy: 20,
-      //   rx: 50,
-      //   ry: 25,
-      //   'stroke-width': 2,
-      //   stroke: 'red',
-      //   fill: 'yellow',
-      //   zIndex: 3
-      // }).add();
+      // FOV Box
+      chart.renderer.rect(x, y, size_x, size_y).attr({
+        'stroke-width': 1,
+        stroke: '#868686',
+        fill: 'rgba(68, 192, 0, .02)',
+        zIndex: 0
+      }).addClass('rect').add();
+
+      // Vertical target path line
+      chart.renderer.path(['M', xAxis.toPixels(0), yAxis.toPixels(-25), 'L', xAxis.toPixels(0), yAxis.toPixels(25)]).attr({
+        'stroke-width': 2, stroke: 'silver', dashstyle: 'dash'
+      }).add();
+
+      // Horizontal target path line
+      chart.renderer.path(['M', xAxis.toPixels(-25), yAxis.toPixels(0), 'L', xAxis.toPixels(25), yAxis.toPixels(0)]).attr({
+        'stroke-width': 2, stroke: 'silver', dashstyle: 'dash'
+      }).add();
     },
 
-    refresh() {
-      // Logic for updating data goes here
-      App.pathFinder.chart.series.find(el => el.name === 'NEOs').setData([[15, 15], [-15, 15]]);
-
-      // App.pathFinder.chart.redraw();
+    shiftTargetWindow() {
+      //
     },
 
-    initializePlot() {
-      App.pathFinder.settings.series = App.pathFinder.data.series;
+    setData(name, data) {
+      App.pathFinder.chart.series.find(el => el.name === name).setData(data);
+    },
 
-      App.pathFinder.chart = highcharts.chart('container', App.pathFinder.settings);
+    loadExoplanets() {
+      if(typeof App.cache.get('exoplanets') !== 'undefined') {
+        App.pathFinder.data.exoplanets = App.cache.get('exoplanets');
+        return;
+      }
+
+      $.getJSON("https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?format=json&table=exoplanets&select=ra,dec,st_optmag&where=st_optmag>0%20and%20pl_tranflag>0", function( data ) {
+        App.pathFinder.data.exoplanets = data;
+        App.cache.set('exoplanets', data);
+      });
     }
   }
 };

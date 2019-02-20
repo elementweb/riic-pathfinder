@@ -21,3 +21,8 @@ mix.sass('sass/app.scss', target_path).options({
         require('autoprefixer')()
     ]
 });
+
+// Versioning
+if (mix.inProduction()) {
+    mix.version();
+}

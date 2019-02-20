@@ -1,3 +1,19 @@
 body#body-layout-main {
-  //
+  font-family: arial;
+  position: relative;
+
+  #chart-container {
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  #pathfinder-controls {
+    position: absolute;
+    left: 615px;
+    top: 20px;
+
+    .controls {
+      margin-bottom: 10px;
+    }
+  }
 }
