@@ -1,12 +1,17 @@
+let moment = require('moment');
+
 module.exports = function(App) {
   App.UI = {
     data: {
+      subjects: 3,
       loaded_subjects: {
         exoplanets: false,
         neos: false,
         objects: false
       }
     },
+
+    moment,
 
     initialize() {
       /**
@@ -44,6 +49,27 @@ module.exports = function(App) {
       $('#button-reset').on('click', function(e) {
         window.location.reload();
       });
+
+      /**
+       * Bind debug button events
+       */
+      $('#debug-select-random').on('click', function(e) {
+        App.debug.selectRandomTargetInScope();
+      });
+
+      /**
+       * Bind keyboard events
+       */
+      $('body').keyup(function(e){
+        if(e.keyCode == 32){
+          if(App.pathFinder.data.interval_id === null) {
+            App.pathFinder.start();
+            return;
+          }
+
+          App.pathFinder.stop();
+        }
+      });
     },
 
     initialized() {
@@ -79,7 +105,8 @@ module.exports = function(App) {
     },
 
     setDate(date) {
-      $('.highcharts-container .highcharts-subtitle').html('Date: ' + date);
+      var date = App.UI.moment(date*1000).format("D MMMM YYYY - HH:mm");
+      $('.highcharts-container .highcharts-subtitle').html(date);
     },
 
     loading(condition) {
@@ -91,14 +118,41 @@ module.exports = function(App) {
       App.UI.refreshLoadedSubjects();
     },
 
+    allSubjectsLoaded() {
+      return _.filter(App.UI.data.loaded_subjects, function(flag) { return flag; }).length === App.UI.data.subjects;
+    },
+
     refreshLoadedSubjects() {
       _.each(App.UI.data.loaded_subjects, function(flag, subject){
         $('#' + subject + '-loaded > i').attr('class', flag ? 'fa fa-check' : 'fa fa-times');
       });
 
-      if(_.filter(App.UI.data.loaded_subjects, function(flag) { return flag; }).length === 3) {
+      if(App.UI.allSubjectsLoaded()) {
         App.UI.dataLoadingComplete();
       }
+    },
+
+    setTargetDetails(target) {
+      if(target.name === undefined) {
+        target.name = "not known";
+      }
+
+      if(target.host === undefined) {
+        target.host = "not known";
+      }
+
+      if(target.optmag === undefined) {
+        target.optmag = "not known";
+      }
+
+      if(target.integration === undefined) {
+        target.integration = "not known";
+      }
+
+      $('#target-name').html(target.name);
+      $('#target-host').html(target.host);
+      $('#target-optmag').html(target.optmag);
+      $('#target-integration').html(target.integration);
     }
   }
 };

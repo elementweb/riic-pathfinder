@@ -14,6 +14,6 @@ module.exports = function(App) {
 
         return this.get(key);
       }
-    },
+    }
   }
 };

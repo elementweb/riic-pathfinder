@@ -32,7 +32,7 @@ body#body-layout-main {
     top: 20px;
     right: 25px;
 
-    .simulation-controls, .operations, .timing {
+    .simulation-controls, .operations, .timing, .targeting {
       position: relative;
       border: 1px solid #686868;
       padding-top: 15px;
@@ -58,6 +58,7 @@ body#body-layout-main {
 
       .status {
         margin-bottom: 10px;
+        font-size: 15px;
       }
 
       .subjects-loaded {
@@ -87,12 +88,39 @@ body#body-layout-main {
         }
       }
 
-      .operations-statistics {
+      .items, .operations-statistics {
         margin-bottom: 5px;
+        font-size: 15px;
+
+        > div {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+
+  #pathfinder-debug {
+    width: 570px;
+    margin: 8px 25px 10px;
+
+    .debug-controls {
+      position: relative;
+      border: 1px solid #686868;
+      padding-top: 15px;
+      min-height: 80px;
+
+      legend {
+        color: #373737;
+        font-weight: bold;
+        font-size: 14px;
       }
 
-      .items {
-        margin-bottom: 5px;
+      .controls {
+        margin-bottom: 10px;
+
+        button:disabled {
+          opacity: 0.5;
+        }
       }
     }
   }

@@ -3,28 +3,31 @@ let mth = require('svgo/plugins/_transforms').mth;
 let cs = require('coordinate-systems');
 
 module.exports = function(App) {
+  App.orbital = require('orbjs');
+
   App.conversion = {
     data: {
-      equinox: 1553119080, // 20-Mar-2019 21:58:00
-      equinox_angle: 108.423390454,
-      timestamp: 0,
-      angle: 0
+      equinox_2019: 1553119080, // 20-Mar-2019 21:58:00
+      // angle: 0,
+      seconds_year: 365.24225 * 24 * 3600
     },
 
     millisecondsToAngle(ms) {
-      return (360*ms) / Math.round(365.24225 * 24 * 3600 * 1000);
+      return (360*ms) / _.round(App.conversion.data.ms_year);
     },
 
     angleToMilliseconds(angle) {
-      return (Math.round(365.24225 * 24 * 3600 * 1000) * angle) / 360;
+      return (_.round(App.conversion.data.ms_year) * angle) / 360;
     },
 
     timestampToAngle(timestamp) {
-      // We know that Equinox is @ 20-Mar-2019 21:58:00 and
-      // resolves to angle 108.423390453981
-      App.arithmetics.wrapTo360((set[index] + 180) - angle) - 180;
+      if (typeof timestamp === 'undefined') {
+        timestamp = App.pathFinder.data.timestamp;
+      }
 
-      //
+      var angle_delta = (timestamp - App.conversion.data.equinox_2019) * 360 / App.conversion.data.seconds_year;
+
+      return _.round(App.arithmetics.wrapTo360(angle_delta), 2);
     },
 
     equatorialToMercator(ra, dec) {
@@ -48,6 +51,22 @@ module.exports = function(App) {
       }
 
       return [_.round(long, 2), _.round(lat, 2)];
+    },
+
+    stringPadding(num) {
+        return ("0"+num).slice(-2);
+    },
+
+    secondsToReadableTimeString(secs) {
+      var minutes = Math.floor(secs / 60);
+
+      secs = secs % 60;
+
+      var hours = Math.floor(minutes / 60);
+
+      minutes = minutes % 60;
+
+      return `${App.conversion.stringPadding(hours)}:${App.conversion.stringPadding(minutes)}:${App.conversion.stringPadding(secs)}`;
     }
   }
 };

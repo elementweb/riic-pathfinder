@@ -1,29 +1,5 @@
 // General
 $assets-path: '/';
 
-// Fonts
-$font-muli: 'Muli', sans-serif;
-
 // Definitions
 $interacted-state: "&:hover, &:focus, &:active";
-
-// Theme colors
-$themes: (
-  'default': ('color': #3879dc, 'outline': #3f87f5),
-  'green': ('color': #299654, 'outline': #31b164),
-  'light-blue': ('color': #30a0c1, 'outline': #37b8df),
-  'pink': ('color': #d8455a, 'outline': #ff546c),
-  'yellow': ('color': #e8ad1e, 'outline': #f2b31a),
-  'purple': ('color': #634aa0, 'outline': #8060cf)
-);
-
-// Default margin for navbar
-$navbar-margin: 15px;
-
-// Expand navbar slightly when at the top of the page
-$navbar-margin-extension: 5px;
-
-// Export variables to JS
-:export {
-  navbarextension: $navbar-margin-extension;
-}
