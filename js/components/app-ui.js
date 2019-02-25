@@ -1,5 +1,3 @@
-let moment = require('moment');
-
 module.exports = function(App) {
   App.UI = {
     data: {
@@ -11,7 +9,29 @@ module.exports = function(App) {
       }
     },
 
-    moment,
+    moment: require('moment'),
+    
+    humanizeDuration(seconds) {
+      return _.round(seconds / (30.43 * 24 * 3600)) + ' months ago';
+    },
+
+    currentTimestamp() {
+      return App.UI.moment().unix() * 1;
+    },
+
+    currentTimestampMs() {
+      return App.UI.moment().format('x') * 1;
+    },
+
+    initializePerformanceIndicator() {
+      $('#performance-container').removeClass('hidden');
+      $('#performance-timestep').html(App.pathFinder.data.simulation.timestep_sec);
+      App.pathFinder.data.iteration_reference = App.UI.currentTimestampMs();
+    },
+
+    updateIPS(reference, iterations) {
+     $('#performance-itps').html(_.round(iterations * 1000 / (App.UI.currentTimestampMs() - reference), 1).toFixed(1));
+    },
 
     initialize() {
       /**
@@ -55,6 +75,7 @@ module.exports = function(App) {
        */
       $('#debug-select-random').on('click', function(e) {
         App.debug.selectRandomTargetInScope();
+        e.preventDefault();
       });
 
       /**
@@ -70,6 +91,15 @@ module.exports = function(App) {
           App.pathFinder.stop();
         }
       });
+
+      /**
+       * Initialize settings
+       */
+      $('input[type=radio][name=use-plot]').change(function() {
+        App.pathFinder.data.visualisation_enabled = this.value == 1;
+
+        $('#visualisation-status').toggleClass('hidden', this.value == 1);
+      });
     },
 
     initialized() {
@@ -80,13 +110,13 @@ module.exports = function(App) {
     },
 
     simulationStarted() {
-      App.UI.setStatus('<i class=\'fa fa-cog fa-spin\'></i> running');
+      App.UI.setStatus('<i class=\'fa fa-cog fa-spin\'></i> running', 'running');
       $('#button-start').prop('disabled', 'disabled');
       $('#button-stop').removeAttr('disabled');
     },
 
     simulationStopped() {
-     App.UI.setStatus('<i class=\'fa fa-pause\'></i> stopped');
+     App.UI.setStatus('<i class=\'fa fa-pause\'></i> stopped', 'stopped');
       $('#button-stop').prop('disabled', 'disabled');
       $('#button-start').removeAttr('disabled');
     },
@@ -100,8 +130,8 @@ module.exports = function(App) {
       App.UI.setStatus('data loaded');
     },
 
-    setStatus(status) {
-      $('#status').html(status);
+    setStatus(status, classname) {
+      $('#status').html(status).attr('class', classname || '');
     },
 
     setDate(date) {
@@ -132,27 +162,92 @@ module.exports = function(App) {
       }
     },
 
-    setTargetDetails(target) {
-      if(target.name === undefined) {
-        target.name = "not known";
+    highlightTargetArea() {
+      $('#exoplanet-target-info').effect("highlight", {
+        color: '#D8FFDA'
+      }, 500);
+    },
+
+    targetSelected(subject, data) {
+      if(typeof data === 'undefined') {
+        data = {};
       }
 
-      if(target.host === undefined) {
-        target.host = "not known";
+      if(subject == 'earth') {
+        App.UI.updateOperation('idling');
+        return;
       }
 
-      if(target.optmag === undefined) {
-        target.optmag = "not known";
+      if(subject == 'comms') {
+        App.UI.updateOperation('sending data to Earth', 'comms');
+        return;
       }
 
-      if(target.integration === undefined) {
-        target.integration = "not known";
+      if(subject == 'exoplanet') {
+        $('.targeting > .subject').addClass('hidden');
+        $('#exoplanet-target-info').removeClass('hidden');
+        App.UI.updateOperation(data.pl_name + ' spectroscopy', 'exoplanet-spectroscopy');
+        App.UI.setExoplanetDetails(data);
+        return;
       }
 
-      $('#target-name').html(target.name);
-      $('#target-host').html(target.host);
-      $('#target-optmag').html(target.optmag);
-      $('#target-integration').html(target.integration);
+      if(subject == 'neo') {
+        $('.targeting > .subject').addClass('hidden');
+        $('#neo-target-info').removeClass('hidden');
+        App.UI.updateOperation(data.name + ' spectroscopy', 'neo-spectroscopy'); ////
+        App.UI.setNEODetails(data);
+        return;
+      }
+
+      App.UI.updateOperation('idling');
+    },
+
+    setExoplanetDetails(target) {
+      _.each({
+        id:           target.id ? '#' + target.id : '-',
+        name:         target.pl_name || 'unknown',
+        host:         target.pl_hostname || 'unknown',
+        optmag:       _.round(target.st_optmag, 2),
+        integration:  _.round(target.integration_time / 3600, 2) + ' hours',
+        discovery:    target.pl_disc || 'unknown',
+        method:       target.pl_discmethod || 'unknown',
+        equilibrium:  target.pl_eqt ? target.pl_eqt + 'K (' + _.round(App.conversion.TUC.k2c(target.pl_eqt)) + '&deg;C)' : 'unknown',
+        transit:      _.round(target.transit_duration / 3600, 2) + ' hours',
+        period:       target.pl_orbper ? _.round(target.pl_orbper, 2) + ' days' : '-',
+        distance:     target.st_dist ? target.st_dist + 'pc (' + _.round(App.conversion.pc2ly(target.st_dist), 1) + 'ly)' : 'unknown',
+        strad:        _.round(target.st_rad, 1) + ' SR',
+        plrad:        _.round(App.conversion.SR2ER(target.pl_rads), 1) + ' ER',
+        status:       App.exoplanets.resolveCatalogStatus(target.pl_status),
+        spectnum:     target.spect_num > 0 ? (target.spect_num + ' (' + App.UI.humanizeDuration(App.pathFinder.data.timestamp - target.last_spectroscopy) + ')') : 'none yet',
+        class:        target.st_spstr || 'unknown',
+        classnum:     target.st_spn || 'unknown',
+      }, function(value, key) {
+        $('#exoplanet-' + key).html(value);
+      });
+
+      App.UI.highlightTargetArea();
+    },
+
+    setNEODetails(target) {
+      App.UI.highlightTargetArea();
+
+      return;
+    },
+
+    updateOperation(operation, classname) {
+      $('#operation-status').html(operation).attr('class', classname || '');
+    },
+
+    updateExoplanetsScope(scope) {
+      $('#exoplanets-scope').html(scope);
+    },
+
+    consoleMessage(message) {
+      if($('#debug-last-message').length <= 0) {
+        return;
+      }
+      
+      $('#debug-last-message').html(message);
     }
   }
 };

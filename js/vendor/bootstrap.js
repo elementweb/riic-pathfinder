@@ -8,7 +8,8 @@ window._ = require('lodash');
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
+    window.$ = window.jQuery = require('jquery'),
+                               require("jquery-ui-bundle");
 
     require('bootstrap');
 } catch (e) {}

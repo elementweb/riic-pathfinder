@@ -1,6 +1,7 @@
 let galactic = require('galactic');
 let mth = require('svgo/plugins/_transforms').mth;
 let cs = require('coordinate-systems');
+let TUC = require('temp-units-conv');
 
 module.exports = function(App) {
   App.orbital = require('orbjs');
@@ -9,15 +10,34 @@ module.exports = function(App) {
     data: {
       equinox_2019: 1553119080, // 20-Mar-2019 21:58:00
       // angle: 0,
-      seconds_year: 365.24225 * 24 * 3600
+      seconds_year: 365.24225 * 24 * 3600,
+      unix_julian: 2440587.5
     },
 
-    millisecondsToAngle(ms) {
-      return (360*ms) / _.round(App.conversion.data.ms_year);
+    TUC,
+
+    pc2ly(pc) {
+      return pc * 3.26156;
     },
 
-    angleToMilliseconds(angle) {
-      return (_.round(App.conversion.data.ms_year) * angle) / 360;
+    ly2pc(ly) {
+      return ly / 3.26156;
+    },
+
+    SR2ER(SR) {
+      return SR * 109.4894472466;
+    },
+
+    ER2SR(ER) {
+      return ER / 109.4894472466;
+    },
+
+    secondsToAngle(time) {
+      return _.round((360 * time) / App.conversion.data.seconds_year, 3);
+    },
+
+    angleToSeconds(angle) {
+      return _.round((_.round(App.conversion.data.seconds_year) * angle) / 360, 3);
     },
 
     timestampToAngle(timestamp) {
@@ -54,7 +74,7 @@ module.exports = function(App) {
     },
 
     stringPadding(num) {
-        return ("0"+num).slice(-2);
+      return ("0"+num).slice(-2);
     },
 
     secondsToReadableTimeString(secs) {
@@ -67,6 +87,24 @@ module.exports = function(App) {
       minutes = minutes % 60;
 
       return `${App.conversion.stringPadding(hours)}:${App.conversion.stringPadding(minutes)}:${App.conversion.stringPadding(secs)}`;
+    },
+
+    AU2SolarRadii(AU) {
+      return _.round(214.9394693836 * AU, 5);
+    },
+
+    timestampToJulian(timestamp)
+    {
+      return (timestamp / 86400.0) + App.conversion.data.unix_julian;
+    },
+
+    julianToTimestamp(julian)
+    {
+      return _.round(86400.0 * (julian - App.conversion.data.unix_julian));
+    },
+
+    daysToSeconds(days) {
+      return _.round(days * 24 * 3600);
     }
   }
 };

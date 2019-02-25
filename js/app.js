@@ -21,6 +21,11 @@ const App = {
     initialize
   },
 
+  log(message) {
+    console.log(message);
+    App.UI.consoleMessage(message);
+  },
+
   cache: require('lockr'),
 
   settings: {}
@@ -39,6 +44,7 @@ require('./components/app-statistics')(App);
 require('./components/app-debug')(App);
 require('./components/app-spectroscopy')(App);
 require('./components/app-targeting')(App);
+require('./components/app-exoplanets')(App);
 
 App.container.initialize();
 App.statistics.initialize();

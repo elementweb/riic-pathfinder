@@ -1,6 +1,7 @@
 body#body-layout-main {
-  font-family: arial;
+  font-family: calibri;
   position: relative;
+  min-width: 1075px;
 
   #chart-container {
     display: inline-block;
@@ -10,6 +11,19 @@ body#body-layout-main {
       .highcharts-plot-background {
         fill: #FCFCFC;
       }
+    }
+  }
+
+  #performance-container {
+    position: absolute;
+    top: 30px;
+    left: 487px;
+    font-size: 12px;
+    text-align: right;
+
+    .perf-spacer {
+      width: 54px;
+      display: inline-block;
     }
   }
 
@@ -26,17 +40,27 @@ body#body-layout-main {
     }
   }
 
+  #visualisation-status {
+    position: absolute;
+    top: 250px;
+    left: 208px;
+    width: 250px;
+    padding: 50px 0;
+    border: 1px solid #c0c0c0;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+  }
+
   #pathfinder-controls {
     position: absolute;
     left: 615px;
     top: 20px;
     right: 25px;
 
-    .simulation-controls, .operations, .timing, .targeting {
+    .simulation-controls, .operations, .timing, .targeting, .settings {
       position: relative;
       border: 1px solid #686868;
-      padding-top: 15px;
-      min-height: 80px;
+      padding: 10px 15px;
 
       &:not(:first-child) {
         margin-top: 15px;
@@ -45,7 +69,7 @@ body#body-layout-main {
       legend {
         color: #373737;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 16px;
       }
 
       .controls {
@@ -59,15 +83,64 @@ body#body-layout-main {
       .status {
         margin-bottom: 10px;
         font-size: 15px;
+
+        #status {
+          padding: 2px 7px;
+          background: #ececec;
+
+          &.running {
+            background: #00BD24;
+            color: #FFFFFF;
+          }
+
+          &.stopped {
+            background: #D80000;
+            color: #FFFFFF;
+          }
+        }
+
+        #operation-status {
+          padding: 2px 7px;
+          background: #ececec;
+
+          &.exoplanet-spectroscopy {
+            background: #B1D8FF;
+          }
+
+          &.neo-spectroscopy {
+            background: #CBFFB1;
+          }
+
+          &.comms {
+            background: #F3B1FF;
+          }
+        }
       }
 
       .subjects-loaded {
         right: 25px;
         top: 20px;
-        font-size: 14px;
+        font-size: 15px;
+        margin-bottom: 10px;
+
+        > div {
+          display: inline-block;
+
+          &.subject-state {
+            margin-left: 10px;
+          }
+        }
 
         @media (min-width: 1170px) {
           position: absolute;
+          
+          > div {
+            display: block;
+
+            &.subject-state {
+              margin-left: 0;
+            }
+          }
         }
 
         .subjects-loaded-heading {
@@ -95,6 +168,44 @@ body#body-layout-main {
         > div {
           margin-bottom: 5px;
         }
+
+        .target-parameters {
+          width: 100%;
+
+          td {
+            width: 25%;
+            vertical-align: top;
+            padding: 6px;
+
+            .parameter {
+              font-size: 16px;
+              margin-bottom: 10px;
+
+              .parameter-header {
+                font-weight: bold;
+                font-size: 14px;
+              }
+
+              .parameter-value {
+                display: inline-block;
+                font-style: italic;
+                font-size: 16px;
+
+                &#exoplanet-id {
+                  font-size: 12px;
+                  color: #616161;
+                }
+              }
+
+              .link {
+                a {
+                  color: #0084D8;
+                  font-size: 13px;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -112,7 +223,7 @@ body#body-layout-main {
       legend {
         color: #373737;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 16px;
       }
 
       .controls {
