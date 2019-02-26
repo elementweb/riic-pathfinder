@@ -16,6 +16,7 @@ module.exports = function(App) {
       vertical_obs_angle: 50,
       interval_id: null,
       initialized: false,
+      reference_timestamp: null,
       timestamp: null,
       offset: null,
       scope_loaded: false,
@@ -88,7 +89,6 @@ module.exports = function(App) {
       // }
       // Need to shift all objects on the plot here too
 
-
       /**
        * Targeting decisions happens here (after all orbits propagated and plot updated)
        */
@@ -108,6 +108,8 @@ module.exports = function(App) {
       if(current_target !== undefined && App.pathFinder.data.timestamp > App.pathFinder.data.target.time_selected + current_target.integration_time) { // when will start
         current_target.spect_num++;
         current_target.last_spectroscopy = App.pathFinder.data.timestamp;
+        App.statistics.incrementCounter('exoplanets_scanned');
+        App.statistics.incrementIntegrationTime(current_target.integration_time);
         App.pathFinder.data.target_selected = false;
         App.targeting.discardTarget();
       }
@@ -126,6 +128,7 @@ module.exports = function(App) {
         App.UI.updateIPS(App.pathFinder.data.iteration_reference, App.pathFinder.data.iterations);
         App.pathFinder.data.iterations = 0;
         App.pathFinder.data.iteration_reference = App.UI.currentTimestampMs();
+        App.statistics.updateMissionLifetime();
       }
     },
 
@@ -172,6 +175,8 @@ module.exports = function(App) {
      * Initialize highcharts
      */
     initialize() {
+      App.pathFinder.data.reference_timestamp = JSON.parse(JSON.stringify(App.pathFinder.data.timestamp));
+
       App.pathFinder.chart = highcharts.chart(
         'chart-container',
         App.chartSettings

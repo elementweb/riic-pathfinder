@@ -1,5 +1,9 @@
 module.exports = function(App) {
   App.targeting = {
+    data: {
+      current_target: [0, 0]
+    },
+
     settings: {
       reorientation_speed: 0.45, // deg/sec
       early_warning_speed: 0.01, // deg/s
@@ -146,6 +150,8 @@ module.exports = function(App) {
         return;
       }
 
+      App.targeting.data.current_target = [x, y];
+
       var $horizontal = $('#scope-horizontal'),
           $vertical = $('#scope-vertical');
 
@@ -170,6 +176,11 @@ module.exports = function(App) {
       x = App.arithmetics.constrainToFOV(x, 50);
       y = App.arithmetics.constrainToFOV(y, 50);
 
+      App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenMercatorVectors(
+        App.targeting.data.current_target,
+        [x, y]
+      ));
+
       App.targeting.setTarget(x, y);
       App.pathFinder.data.target.translate = false;
     },
@@ -184,10 +195,14 @@ module.exports = function(App) {
         App.log('Target is out of scope');
         return;
       }
+
+      App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenMercatorVectors(
+        App.targeting.data.current_target,
+        [resolved.x, resolved.y]
+      ));
       
       App.pathFinder.data.target.coordinates = [x, y];
       App.targeting.setTarget(resolved.x, resolved.y);
-
       App.pathFinder.data.target.translate = true;
     },
 

@@ -38,15 +38,13 @@
 
     <div id="pathfinder-debug">
         <fieldset class="debug-controls">
-            <legend>Debug/testing</legend>
+            <legend>Simulation</legend>
 
-            <div class="controls">
-                <button id="debug-select-random">Select random target</button>
+            <div class="setting">
+                Use visualisation: <input type="radio" name="use-plot" value="1" checked> Yes <input type="radio" name="use-plot" value="0"> No (faster data processing)
             </div>
 
-            <div class="items">
-                <div>Last message: <span class="italic" id="debug-last-message">-</span></div>
-            </div>
+            <div class="credits margin-top-10">Source code available on <a href="https://github.com/elementweb/riic-pathfinder" target="_blank"><i class="fa fa-github"></i> GitHub</a></div>
         </fieldset>
     </div>
 
@@ -66,8 +64,8 @@
             <div class="subjects-loaded">
                 <div class="subjects-loaded-heading">Data loaded:</div>
                 <div id="exoplanets-loaded" class="subject-state"><i class="fa fa-times"></i> Exoplanets</div>
-                <div id="neos-loaded" class="subject-state"><i class="fa fa-times"></i> NEOs</div>
-                <div id="objects-loaded" class="subject-state"><i class="fa fa-times"></i> Solar objects</div>
+                <div id="neos-loaded-----" class="subject-state"><i class="fa fa-times"></i> NEOs</div>
+                <div id="objects-loaded-----" class="subject-state"><i class="fa fa-times"></i> Solar objects</div>
             </div>
 
             <div class="controls">
@@ -77,10 +75,10 @@
         </fieldset>
 
         <fieldset class="settings">
-            <legend>Simulations settings</legend>
+            <legend>Settings</legend>
 
             <div class="setting">
-                Use visualisation: <input type="radio" name="use-plot" value="1" checked> Yes <input type="radio" name="use-plot" value="0"> No (~2% faster data processing)
+                Allow multiple spectroscopies on one target: <input type="radio" name="multiple-spectroscopies" value="1" checked> Yes (8 month delay) <input type="radio" name="multiple-spectroscopies" value="0"> No
             </div>
         </fieldset>
 
@@ -90,13 +88,14 @@
             <div class="status"><b>Operation:</b> <span id="operation-status">idling</span></div>
 
             <div class="operations-statistics">
-                <div>Exoplanets scanned: <span id="exoplanets-scanned">159</span> (~<span id="exoplanets-scanned-avg">2.95</span>/day)</div>
-                <div>NEOs scanned: <span id="neos-scanned">339</span> (~<span id="neos-scanned-avg">0.97</span>/day)</div>
-                <div>EW scans performed (L+R): <span id="ew-scan-count">679</span></div>
-                <div>Data transmitted: <span id="data-transmitted">31</span> (~<span id="neos-scanned-avg">0.23</span>/day)</div>
+                <div><span class="statistics-key">Mission lifetime:</span><span id="mission-lifetime">0</span> days</div>
+                <div><span class="statistics-key">Exoplanets in scope:</span><span id="exoplanets-scope">0</span></div>
 
-                <div>AOCS: <span id="aocs-angle-avg">~8.49&deg;/day</span></div>
-                <div>Exoplanets in scope: <span id="exoplanets-scope">0</span></div>
+                <div><span class="statistics-key">Exoplanets scanned:</span><span id="counter-exoplanets_scanned">0</span> (<span id="stats-exoplanets_per_day">0</span> per day)</div>
+                <div><span class="statistics-key">Total integration time:</span><span id="stats-total_integration_time">0</span> hours</div>
+                <div><span class="statistics-key">Total data produced:</span><span id="total-data-produced">unknown yet</span></div>
+
+                <div><span class="statistics-key">Total AOCS:</span><span id="stats-total_aocs_change">0.00</span>&deg; (<span id="stats-avg_aocs_change">0</span>&deg;/day)</div>
             </div>
         </fieldset>
 
@@ -227,7 +226,8 @@
     <script src="<?php echo mix('app.js'); ?>"></script>
 
     <script type="text/javascript">
-        App.pathFinder.data.timestamp = '<?php echo time() ?>';
+        App.pathFinder.data.reference_timestamp = '<?php echo $time = time() ?>' * 1;
+        App.pathFinder.data.timestamp = '<?php echo $time ?>' * 1;
     </script>
 </body>
 </html>

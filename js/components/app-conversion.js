@@ -62,28 +62,38 @@ module.exports = function(App) {
         z: Math.sin(ecliptic.latitude)
       };
 
-      let xy = Math.sqrt(Math.pow(cartesian.x, 2) + Math.pow(cartesian.y, 2)),
-          long = App.arithmetics.wrapTo360(Math.atan2(cartesian.x, cartesian.y) * 180 / Math.PI),
-          lat = Math.acos(xy / Math.sqrt(Math.pow(xy, 2) + Math.pow(cartesian.z, 2))) * 180 / Math.PI;
+      return App.conversion.cartesianToMercator(cartesian.x, cartesian.y, cartesian.z);
+    },
 
-      if (cartesian.z < 0) {
+    cartesianToMercator(x, y, z) {
+      let xy = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)),
+          long = App.arithmetics.wrapTo360(Math.atan2(x, y) * 180 / Math.PI),
+          lat = Math.acos(xy / Math.sqrt(Math.pow(xy, 2) + Math.pow(z, 2))) * 180 / Math.PI;
+
+      if (z < 0) {
         lat = lat * -1;
       }
 
-      return [_.round(long, 2), _.round(lat, 2)];
+      return [_.round(long, 3), _.round(lat, 3)];
+    },
+
+    mercatorToCartesian(mx, my) {
+      return [
+        Math.cos(my * Math.PI / 180) * Math.cos(mx * Math.PI / 180),
+        Math.cos(my * Math.PI / 180) * Math.sin(mx * Math.PI / 180),
+        Math.sin(my * Math.PI / 180),
+      ];
     },
 
     stringPadding(num) {
-      return ("0"+num).slice(-2);
+      return ("0" + num).slice(-2);
     },
 
     secondsToReadableTimeString(secs) {
       var minutes = Math.floor(secs / 60);
-
       secs = secs % 60;
 
       var hours = Math.floor(minutes / 60);
-
       minutes = minutes % 60;
 
       return `${App.conversion.stringPadding(hours)}:${App.conversion.stringPadding(minutes)}:${App.conversion.stringPadding(secs)}`;

@@ -28,6 +28,8 @@ const App = {
 
   cache: require('lockr'),
 
+  math: require('mathjs'),
+
   settings: {}
 };
 
@@ -45,6 +47,7 @@ require('./components/app-debug')(App);
 require('./components/app-spectroscopy')(App);
 require('./components/app-targeting')(App);
 require('./components/app-exoplanets')(App);
+require('./components/app-objects')(App);
 
 App.container.initialize();
 App.statistics.initialize();

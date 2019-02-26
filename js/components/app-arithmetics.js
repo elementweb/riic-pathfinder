@@ -51,7 +51,7 @@ module.exports = function(App) {
     },
 
     isWithinCircle(x, y, r) {
-      return Math.pow(x, 2) + Math.pow(y, 2) < Math.pow(r, 2);
+      return Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r, 2);
     },
 
     isInCollision(ax, ay, bx, by, cx, cy, r) { 
@@ -80,6 +80,18 @@ module.exports = function(App) {
       v = Math.abs(N[0] * P1C[1] - N[1] * P1C[0]);
 
       return v <= R;
-    } 
+    },
+
+    angleBetweenMercatorVectors(reference, position) {
+      reference[0] = reference[0] + 180;
+      position[0] = position[0] + 180;
+
+      // console.log(reference, position);
+
+      reference = App.conversion.mercatorToCartesian(reference[0], reference[1]);
+      position = App.conversion.mercatorToCartesian(position[0], position[1]);
+
+      return Math.acos(App.math.dot(reference, position) / (App.math.norm(reference) * App.math.norm(position))) * 180 / Math.PI;
+    }
   }
 };

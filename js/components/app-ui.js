@@ -54,7 +54,7 @@ module.exports = function(App) {
 
       $('#button-stop').on('click', function(e) {
         App.pathFinder.stop();
-        $('#button-start').html('Continue');
+        $('#button-start').html('Resume');
       });
 
       $('#button-load-data').on('click', function(e) {
@@ -84,11 +84,11 @@ module.exports = function(App) {
       $('body').keyup(function(e){
         if(e.keyCode == 32){
           if(App.pathFinder.data.interval_id === null) {
-            App.pathFinder.start();
+            $('#button-start').trigger('click');
             return;
           }
 
-          App.pathFinder.stop();
+          $('#button-stop').trigger('click');
         }
       });
 
@@ -99,6 +99,10 @@ module.exports = function(App) {
         App.pathFinder.data.visualisation_enabled = this.value == 1;
 
         $('#visualisation-status').toggleClass('hidden', this.value == 1);
+      });
+
+      $('input[type=radio][name=multiple-spectroscopies]').change(function() {
+        App.exoplanets.settings.allow_multiple_spectroscopies = this.value == 1;
       });
     },
 
@@ -136,7 +140,7 @@ module.exports = function(App) {
 
     setDate(date) {
       var date = App.UI.moment(date*1000).format("D MMMM YYYY - HH:mm");
-      $('.highcharts-container .highcharts-subtitle').html(date);
+      $('.highcharts-container .highcharts-subtitle').html('L1 FOV @ ' + date);
     },
 
     loading(condition) {

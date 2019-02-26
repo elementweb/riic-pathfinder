@@ -198,6 +198,9 @@ module.exports = function(App) {
       App.pathFinder.data.exoplanets_in_scope = App.operations.crop(App.pathFinder.data.exoplanets_in_view, 50, 50);
       App.pathFinder.setData('Exoplanets', App.operations.prepareDataForPlot(App.pathFinder.data.exoplanets_in_view));
 
+      // Update UI exoplanet indicator
+      App.UI.updateExoplanetsScope(App.pathFinder.data.exoplanets_in_scope.length);
+
       // Load observation scope
       App.targeting.addObservationRectangle();
       // Load Early Warning scan limits

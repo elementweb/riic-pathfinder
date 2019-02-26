@@ -13,7 +13,7 @@ module.exports = function(App) {
       // of object having optical magnitude (opt_mag)
       
       // return _.round(1.21 * Math.pow(opt_mag, 2) + 10) * 60; // assumption, more realistic
-      return _.round(1.21 * Math.pow(opt_mag, 2) + 10) * 30; // assumption
+      return _.round(1.21 * Math.pow(opt_mag, 2) + 10) * 45; // assumption
       // return _.round(1.21 * Math.pow(opt_mag, 2) + 10) * 360; // assumption
     }
   }
