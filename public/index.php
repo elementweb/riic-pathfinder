@@ -92,10 +92,10 @@
                 <div><span class="statistics-key">Exoplanets in scope:</span><span id="exoplanets-scope">0</span></div>
 
                 <div><span class="statistics-key">Exoplanets scanned:</span><span id="counter-exoplanets_scanned">0</span> (<span id="stats-exoplanets_per_day">0</span> per day)</div>
-                <div><span class="statistics-key">Total integration time:</span><span id="stats-total_integration_time">0</span> hours</div>
-                <div><span class="statistics-key">Total data produced:</span><span id="total-data-produced">unknown yet</span></div>
-
+                <div><span class="statistics-key">Total integration time:</span><span id="stats-total_integration_time">0</span> hours (<span id="stats-avg_int_time">0.00</span>hr per scan, <span id="stats-avg_int_time_day">0.00</span>hr per day)</div>
                 <div><span class="statistics-key">Total AOCS:</span><span id="stats-total_aocs_change">0.00</span>&deg; (<span id="stats-avg_aocs_change">0</span>&deg;/day)</div>
+
+                <div><span class="statistics-key">Total data produced:</span><span id="total-data-produced">unknown yet</span></div>
             </div>
         </fieldset>
 
