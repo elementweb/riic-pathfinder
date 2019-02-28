@@ -12,6 +12,18 @@ module.exports = function(App) {
       return n;
     },
 
+    wrapTo2PI(n) {
+      while (n < 0) {
+        n = n + 2*Math.PI;
+      }
+
+      while (n >= 2*Math.PI) {
+        n = n - 2*Math.PI;
+      }
+
+      return n;
+    },
+
     wrapTo180(n) {
       while (n < -180) {
         n = n + 360;

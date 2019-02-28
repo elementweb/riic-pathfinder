@@ -7,8 +7,11 @@ module.exports = function(App) {
     data: {
       exoplanets: [],
       neos: [],
+      objects: [],
+      object_series: [],
       exoplanet_series: [],
       exoplanets_in_view: [],
+      objects_in_view: [],
       exoplanets_in_scope: [],
       transiting_exoplanets: [],
       temp: [],
@@ -33,7 +36,7 @@ module.exports = function(App) {
         delay: 0,
       },
       translation_counter: 0,
-      refresh_rate: 100,
+      refresh_rate: 10,
       perform_early_warning_scans: true,
       targetting_priorities: {
         neo: 0.7,
@@ -68,12 +71,25 @@ module.exports = function(App) {
       // Update UI exoplanet indicator
       App.UI.updateExoplanetsScope(App.pathFinder.data.exoplanets_in_scope.length);
 
+      // Propagate orbits of Solar planets
+      App.pathFinder.data.object_series = _.map(App.pathFinder.data.object_series, function(object) {
+        let cartesian = App.objects.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp);
+
+        object.mercator = App.objects.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], App.pathFinder.data.offset);
+
+        return object;
+      });
+
       // Shift all data points on the plot
       App.pathFinder.data.translation_counter++;
       if(App.pathFinder.data.translation_counter > App.pathFinder.data.refresh_rate) {
-        App.pathFinder.setData('Exoplanets', App.operations.prepareDataForPlot(App.pathFinder.data.exoplanets_in_view));
-        // Translate telescope pointing (target) if required
+        // Exoplanets
+        App.pathFinder.setData('Exoplanets', App.exoplanets.prepareDataForPlot(App.pathFinder.data.exoplanets_in_view));
         App.targeting.translateTarget(App.pathFinder.data.offset);
+
+        // Solar objects
+        App.pathFinder.setData('Objects', App.objects.prepareDataForPlot(App.pathFinder.data.object_series));
+
         App.pathFinder.data.translation_counter = 0;
       }
 
@@ -84,6 +100,7 @@ module.exports = function(App) {
       // for (i = 1; i <= 9000; i++) { 
       //   App.orbital.position.keplerian(_.round((Math.random() * 10000) / 1000, 3), 0.04839266, 1.30530*(3.14/180), 100.55615*(3.14/180), 14.75385*(3.14/180), 2451545.0, 2458635.5)[0];
       // }
+      // App.orbital.time.dateToJD([2019, 2, 28, 0, 4, 0])
       // for (i = 1; i <= 9000; i++) { 
       //   1+i;
       // }
@@ -222,6 +239,22 @@ module.exports = function(App) {
         animation: { duration: 0 },
         data: [[0, 0]], // Earth's position on the plot (center)
       });
+
+      // Add Earth as a separate series
+      App.pathFinder.chart.addSeries({
+        name: 'Objects',
+        color: 'rgba(0, 78, 236, .5)',
+        dataLabels: {
+          format: "{point.name}",
+          enabled: true,
+          style: {"color": "#276EFF", "fontSize": "10x", "fontFamily": "Calibri", "textOutline": "1px contrast" },
+          padding: 7,
+          allowOverlap: true,
+          overflow: 'crop',
+        },
+        animation: { duration: 0 },
+        data: [[0, 89]], // Some random point at the top of the map
+      });
       
       App.UI.initializePerformanceIndicator();
       App.UI.initialized();
@@ -279,7 +312,6 @@ module.exports = function(App) {
         $.getJSON(requestURL, function(data) {
           App.pathFinder.data.exoplanets = data;
           App.cache.set('exoplanets', data);
-          App.UI.loading(false);
           App.UI.subjectLoaded('exoplanets');
           App.exoplanets.moveExoplanetsIntoPlot();
         });
@@ -289,7 +321,11 @@ module.exports = function(App) {
       App.UI.subjectLoaded('neos');
       
       // Load solar system objects
-      App.UI.subjectLoaded('objects');
+      $.getJSON("data/solar-objects-mjd2000.json", function(data) {
+        App.pathFinder.data.objects = data;
+        App.UI.subjectLoaded('objects');
+        App.objects.moveObjectsIntoPlot();
+      });
 
       // Set flag and disable button
       App.UI.dataLoaded();

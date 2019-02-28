@@ -104,6 +104,21 @@ module.exports = function(App) {
       $('input[type=radio][name=multiple-spectroscopies]').change(function() {
         App.exoplanets.settings.allow_multiple_spectroscopies = this.value == 1;
       });
+
+      _.each(App.spectroscopy.telescopes, function(t) {
+        $('<input>').attr({
+          type: 'radio',
+          id: 'ts' + t.id,
+          name: 'telescope-selection',
+          value: t.id
+        }).prop('checked', t.id == App.spectroscopy.settings.use_telescope).appendTo('#telescope-selection');
+
+        $('<label>').attr({ for: 'ts' + t.id }).html(t.name).appendTo('#telescope-selection');
+      });
+
+      $('input[type=radio][name=telescope-selection]').change(function() {
+        App.spectroscopy.settings.use_telescope = this.value*1;
+      });
     },
 
     initialized() {
@@ -132,6 +147,7 @@ module.exports = function(App) {
     dataLoadingComplete() {
       $('#button-start').removeAttr('disabled');
       App.UI.setStatus('data loaded');
+      App.UI.loading(false);
     },
 
     setStatus(status, classname) {
@@ -212,7 +228,7 @@ module.exports = function(App) {
         name:         target.pl_name || 'unknown',
         host:         target.pl_hostname || 'unknown',
         optmag:       _.round(target.st_optmag, 2),
-        integration:  _.round(target.integration_time / 3600, 2) + ' hours',
+        integration:  target.integration_time > 60 ? _.round(target.integration_time / 60) + ' minutes' : '<1 minute',
         discovery:    target.pl_disc || 'unknown',
         method:       target.pl_discmethod || 'unknown',
         equilibrium:  target.pl_eqt ? target.pl_eqt + 'K (' + _.round(App.conversion.TUC.k2c(target.pl_eqt)) + '&deg;C)' : 'unknown',

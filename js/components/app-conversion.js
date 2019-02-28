@@ -2,6 +2,7 @@ let galactic = require('galactic');
 let mth = require('svgo/plugins/_transforms').mth;
 let cs = require('coordinate-systems');
 let TUC = require('temp-units-conv');
+let keplerEquation = require('orbjs').position.keplerEquation;
 
 module.exports = function(App) {
   App.orbital = require('orbjs');
@@ -115,6 +116,79 @@ module.exports = function(App) {
 
     daysToSeconds(days) {
       return _.round(days * 24 * 3600);
+    },
+
+    keplerianToCartesianTime(a, e, i, Ω, ω, M0, t, t0, μb) {
+      // Gravitational constant for Sun
+      var μ = 1.32712e11; // (km^3 / s^2)
+
+      // If provided, add gravitational constant of the other body
+      if (typeof μb !== 'undefined') {
+        μ = μ + μb;
+      }
+
+      // Mean motion
+      var n = Math.sqrt( μ / Math.pow(a, 3) );
+
+      // Mean angular rate
+      var M = M0 + n * ( t - t0 );
+
+      // Eccentric anomaly
+      var E = keplerEquation(e, M);
+
+      // True anomaly
+      var theta = 2 * Math.atan( Math.sqrt((1 + e) / (1 - e)) * Math.tan(E / 2) );
+
+      // Convert to cartesian and return
+      return App.conversion.keplerianToCartesian(a, e, i, Ω, ω, theta);
+    },
+
+    keplerianToCartesianMean(a, e, i, Ω, ω, M) {
+      // Eccentric anomaly
+      var E = keplerEquation(e, M);
+
+      // True anomaly
+      var theta = 2 * Math.atan( Math.sqrt((1 + e) / (1 - e)) * Math.tan(E / 2) );
+
+      // Convert to cartesian and return
+      return App.conversion.keplerianToCartesian(a, e, i, Ω, ω, theta);
+    },
+
+    keplerianToCartesian(a, e, i, Ω, ω, theta) {
+      // Perigee
+      var p = a * (1 - Math.pow(e, 2));
+
+      // Radius
+      var r = p / (1 + e * Math.cos(theta));
+
+      // Rotation matrix 1
+      R11 = Math.cos(ω) * Math.cos(Ω) - Math.sin(ω) * Math.cos(i) * Math.sin(Ω);
+      R21 = Math.cos(ω) * Math.sin(Ω) + Math.sin(ω) * Math.cos(i) * Math.cos(Ω);
+      R31 = Math.sin(ω) * Math.sin(i);
+
+      // Rotation matrix 2
+      R12 = -Math.sin(ω) * Math.cos(Ω) - Math.cos(ω) * Math.cos(i) * Math.sin(Ω);
+      R22 = -Math.sin(ω) * Math.sin(Ω) + Math.cos(ω) * Math.cos(i) * Math.cos(Ω);
+      R32 = Math.cos(ω) * Math.sin(i);
+
+      // Orbital plane
+      var xp = r * Math.cos(theta);
+      var yp = r * Math.sin(theta);
+
+      // Return processed matrix
+      return [
+        R11 * xp + R12 * yp,
+        R21 * xp + R22 * yp,
+        R31 * xp + R32 * yp
+      ];
+    },
+
+    unitVector(vector) {
+      let norm = App.math.norm(vector);
+
+      return _.map(vector, function(partial) {
+        return partial / norm;
+      });
     }
   }
 };

@@ -71,12 +71,6 @@ module.exports = function(App) {
         return -halfx < entry.mercator[0] && halfx > entry.mercator[0]
             && -halfy < entry.mercator[1] && halfy > entry.mercator[1];
       });
-    },
-
-    prepareDataForPlot(data) {
-      return _.map(data, function(set) {
-        return set.mercator;
-      });
     }
   }
 };

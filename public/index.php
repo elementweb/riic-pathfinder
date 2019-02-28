@@ -64,8 +64,8 @@
             <div class="subjects-loaded">
                 <div class="subjects-loaded-heading">Data loaded:</div>
                 <div id="exoplanets-loaded" class="subject-state"><i class="fa fa-times"></i> Exoplanets</div>
-                <div id="neos-loaded-----" class="subject-state"><i class="fa fa-times"></i> NEOs</div>
-                <div id="objects-loaded-----" class="subject-state"><i class="fa fa-times"></i> Solar objects</div>
+                <div id="neos-loaded" class="subject-state"><i class="fa fa-times"></i> NEOs</div>
+                <div id="objects-loaded" class="subject-state"><i class="fa fa-times"></i> Solar objects</div>
             </div>
 
             <div class="controls">
@@ -78,7 +78,11 @@
             <legend>Settings</legend>
 
             <div class="setting">
-                Allow multiple spectroscopies on one target: <input type="radio" name="multiple-spectroscopies" value="1" checked> Yes (8 month delay) <input type="radio" name="multiple-spectroscopies" value="0"> No
+                Allow multiple spectroscopies on one target: <input type="radio" name="multiple-spectroscopies" id="ms1" value="1" checked> <label for="ms1">Yes (8 month delay)</label> <input type="radio" name="multiple-spectroscopies" id="ms0" value="0"> <label for="ms0">No</label>
+            </div>
+
+            <div class="setting">
+                Telescope diameter: <span id="telescope-selection"></span>
             </div>
         </fieldset>
 
@@ -202,25 +206,13 @@
             </div>
 
             <div id="neo-target-info" class="subject items hidden">
-<!--                 <div><i class="fa fa-bullseye"></i>&nbsp;&nbsp;Target: <span class="italic" id="neo-name">not known</span></div>
-                <div><i class="fa fa-eye"></i>&nbsp;&nbsp;Optical magnitude: <span class="italic" id="neo-optmag">not known</span></div>
-                <div><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Integration time: <span class="italic" id="neo-integration">not known</span></div> -->
+
             </div>
 
             <div id="unknown-target-info" class="subject">
                 No target selected
             </div>
         </fieldset>
-
-<!--         <fieldset class="timing">
-            <legend>Timing</legend>
-
-            <div class="items">
-                <div>Time ratio: 20:<span id="time-ratio">1</span></div>
-                <div>Simulation uptime: <span id="simulation-uptime">2:29</div>
-                <div>Spacecraft uptime: <span id="spacecraft-uptime">29 days</div>
-            </div>
-        </fieldset> -->
     </div>
 
     <script src="<?php echo mix('app.js'); ?>"></script>

@@ -196,7 +196,7 @@ module.exports = function(App) {
 
       App.pathFinder.data.exoplanets_in_view = App.operations.cropX(App.pathFinder.data.exoplanet_series, 50 + 10);
       App.pathFinder.data.exoplanets_in_scope = App.operations.crop(App.pathFinder.data.exoplanets_in_view, 50, 50);
-      App.pathFinder.setData('Exoplanets', App.operations.prepareDataForPlot(App.pathFinder.data.exoplanets_in_view));
+      App.pathFinder.setData('Exoplanets', App.exoplanets.prepareDataForPlot(App.pathFinder.data.exoplanets_in_view));
 
       // Update UI exoplanet indicator
       App.UI.updateExoplanetsScope(App.pathFinder.data.exoplanets_in_scope.length);
@@ -245,6 +245,12 @@ module.exports = function(App) {
         case 3: return 'accepted';
         default: return 'unknown';
       }
+    },
+
+    prepareDataForPlot(data) {
+      return _.map(data, function(set) {
+        return set.mercator;
+      });
     }
   }
 };
