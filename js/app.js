@@ -48,6 +48,9 @@ require('./components/app-spectroscopy')(App);
 require('./components/app-targeting')(App);
 require('./components/app-exoplanets')(App);
 require('./components/app-objects')(App);
+require('./components/app-astrodynamics')(App);
+require('./components/app-dataManager')(App);
+require('./components/app-comms')(App);
 
 App.container.initialize();
 App.statistics.initialize();

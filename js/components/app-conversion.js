@@ -161,34 +161,31 @@ module.exports = function(App) {
       // Radius
       var r = p / (1 + e * Math.cos(theta));
 
-      // Rotation matrix 1
-      R11 = Math.cos(ω) * Math.cos(Ω) - Math.sin(ω) * Math.cos(i) * Math.sin(Ω);
-      R21 = Math.cos(ω) * Math.sin(Ω) + Math.sin(ω) * Math.cos(i) * Math.cos(Ω);
-      R31 = Math.sin(ω) * Math.sin(i);
-
-      // Rotation matrix 2
-      R12 = -Math.sin(ω) * Math.cos(Ω) - Math.cos(ω) * Math.cos(i) * Math.sin(Ω);
-      R22 = -Math.sin(ω) * Math.sin(Ω) + Math.cos(ω) * Math.cos(i) * Math.cos(Ω);
-      R32 = Math.cos(ω) * Math.sin(i);
+      // Rotation matrix
+      var R = [
+        [Math.cos(ω) * Math.cos(Ω) - Math.sin(ω) * Math.cos(i) * Math.sin(Ω), -Math.sin(ω) * Math.cos(Ω) - Math.cos(ω) * Math.cos(i) * Math.sin(Ω)],
+        [Math.cos(ω) * Math.sin(Ω) + Math.sin(ω) * Math.cos(i) * Math.cos(Ω), -Math.sin(ω) * Math.sin(Ω) + Math.cos(ω) * Math.cos(i) * Math.cos(Ω)],
+        [Math.sin(ω) * Math.sin(i), Math.cos(ω) * Math.sin(i)],
+      ];
 
       // Orbital plane
-      var xp = r * Math.cos(theta);
-      var yp = r * Math.sin(theta);
+      var xp = r * Math.cos(theta),
+          yp = r * Math.sin(theta);
 
       // Return processed matrix
       return [
-        R11 * xp + R12 * yp,
-        R21 * xp + R22 * yp,
-        R31 * xp + R32 * yp
+        R[0][0] * xp + R[0][1] * yp,
+        R[1][0] * xp + R[1][1] * yp,
+        R[2][0] * xp + R[2][1] * yp
       ];
     },
 
-    unitVector(vector) {
-      let norm = App.math.norm(vector);
+    cartesianToScopedMercator(x, y, z, offset) {
+      var mercator = App.conversion.cartesianToMercator(x, y, z);
 
-      return _.map(vector, function(partial) {
-        return partial / norm;
-      });
-    }
+      mercator[0] = mercator[0] - 270 + offset;
+
+      return mercator;
+    },
   }
 };

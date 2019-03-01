@@ -35,15 +35,13 @@ module.exports = function(App) {
      */
     nextTransit(trans_ref, period, timestamp) {
       return _.round(_.floor((timestamp - trans_ref) / period) * period + period) + trans_ref;
-      
-      // return timestamp - trans_ref;
     },
 
     /**
      * Compute transit duration of exoplanet passing in front of a star
      */
     transitDuration(period_days, stellar_radius_sr, planet_radius_sr, semimajor_au, impact_param) {
-      let semimajor_sr = App.conversion.AU2SolarRadii(semimajor_au);
+      var semimajor_sr = App.conversion.AU2SolarRadii(semimajor_au);
 
       return _.round((period_days / Math.PI)
        * Math.asin(Math.sqrt(Math.pow(stellar_radius_sr + planet_radius_sr, 2)
@@ -88,8 +86,7 @@ module.exports = function(App) {
       data = _.filter(data, function(object) {
         // We allow multiple spectroscopies
         if(App.exoplanets.settings.allow_multiple_spectroscopies) {
-          return true;
-          return App.pathFinder.data.timestamp > object.last_spectroscopy + App.spectroscopy.min_delay_between_specs;
+          return App.pathFinder.data.timestamp > object.last_spectroscopy + App.spectroscopy.settings.exo_min_delay_between_specs;
         }
 
         // We do not allow multiple exoplanet spectroscopies
@@ -124,6 +121,30 @@ module.exports = function(App) {
       return _.first(data);
     },
 
+    recalculateIntegrationTimes() {
+      _.each(App.pathFinder.data.exoplanet_series, function(object) {
+        return App.exoplanets.transmissionIntegration(object);
+      });
+    },
+
+    transmissionIntegration(object) {
+      object.integration_time = App.spectroscopy.integrationTime(object.st_optmag);
+
+      /**
+       * Transit duration
+       */
+      // Default required transition duration will be the integration time. This is in case there's not enough data provided to compute transition duration 
+      object.transit_duration = object.integration_time;
+      // If enough data is provided, compute the transition duration
+      if(object.pl_orbper !== null && object.st_rad !== null && object.pl_rads !== null && object.pl_orbsmax !== null && object.pl_imppar !== null) {
+        object.transit_duration = App.conversion.daysToSeconds(App.exoplanets.transitDuration(object.pl_orbper, object.st_rad, object.pl_rads, object.pl_orbsmax, object.pl_imppar));
+      } else if(object.pl_trandur !== null) {
+        object.transit_duration = App.conversion.daysToSeconds(object.pl_trandur);
+      }
+
+      return object;
+    },
+
     /**
      * Perform initial processing of exoplanet data
      */
@@ -137,24 +158,13 @@ module.exports = function(App) {
         object.id = ++count;
         object.initial = App.conversion.equatorialToMercator(object.ra, object.dec);
         object.mercator = JSON.parse(JSON.stringify(object.initial));
-        object.integration_time = App.spectroscopy.integrationTime(object.st_optmag);
+
+        object = App.exoplanets.transmissionIntegration(object);
 
         /**
          * Convert transmission time JD → Unix
          */
         object.pl_tranmid = App.conversion.julianToTimestamp(object.pl_tranmid);
-
-        /**
-         * Transit duration
-         */
-        // Default required transition duration will be the integration time. This is in case there's not enough data prvided to compute transition duration 
-        object.transit_duration = object.integration_time;
-        // If enough data is provided, compute the transition duration
-        if(object.pl_orbper !== null && object.st_rad !== null && object.pl_rads !== null && object.pl_orbsmax !== null && object.pl_imppar !== null) {
-          object.transit_duration = App.conversion.daysToSeconds(App.exoplanets.transitDuration(object.pl_orbper, object.st_rad, object.pl_rads, object.pl_orbsmax, object.pl_imppar));
-        } else if(object.pl_trandur !== null) {
-          object.transit_duration = App.conversion.daysToSeconds(object.pl_trandur);
-        }
 
         /**
          * Compute orbital periods in seconds
@@ -181,7 +191,7 @@ module.exports = function(App) {
      */
     moveExoplanetsIntoPlot() {
       // Process exoplanet data
-      App.pathFinder.data.exoplanet_series = App.exoplanets.initialProcessing(App.pathFinder.data.exoplanets, App.pathFinder.data.timestamp);
+      App.pathFinder.data.exoplanet_series = App.exoplanets.initialProcessing(App.dataManager.storage.exoplanets, App.pathFinder.data.timestamp);
 
       // Crop data vertically
       App.pathFinder.data.exoplanet_series = App.operations.cropY(App.pathFinder.data.exoplanet_series, 50+10);
@@ -223,11 +233,6 @@ module.exports = function(App) {
       if(target.length <= 0) {
         return false;
       }
-
-      // if(target.mercator[0] > 25 - App.conversion.secondsToAngle(target.integration_time)) {
-      //   App.log('target during integration will go out of scope');
-      //   return false;
-      // }
 
       App.pathFinder.data.target.id = target.id;
       App.UI.targetSelected('exoplanet', target);

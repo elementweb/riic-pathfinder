@@ -41,7 +41,7 @@
             <legend>Simulation</legend>
 
             <div class="setting">
-                Use visualisation: <input type="radio" name="use-plot" value="1" checked> Yes <input type="radio" name="use-plot" value="0"> No (faster data processing)
+                Use visualisation: <input type="radio" name="use-plot" id="suv1" value="1" checked><label for="suv1">Yes</label><input type="radio" name="use-plot" id="suv0" value="0"><label for="suv0">No (faster data processing)</label>
             </div>
 
             <div class="credits margin-top-10">Source code available on <a href="https://github.com/elementweb/riic-pathfinder" target="_blank"><i class="fa fa-github"></i> GitHub</a></div>
@@ -78,11 +78,11 @@
             <legend>Settings</legend>
 
             <div class="setting">
-                Allow multiple spectroscopies on one target: <input type="radio" name="multiple-spectroscopies" id="ms1" value="1" checked> <label for="ms1">Yes (8 month delay)</label> <input type="radio" name="multiple-spectroscopies" id="ms0" value="0"> <label for="ms0">No</label>
+                Allow multiple spectroscopies on one target: <input type="radio" name="multiple-spectroscopies" id="ms1" value="1" checked><label for="ms1">Yes (8 month delay)</label><input type="radio" name="multiple-spectroscopies" id="ms0" value="0"><label for="ms0">No</label>
             </div>
 
             <div class="setting">
-                Telescope diameter: <span id="telescope-selection"></span>
+                Telescope: <span id="telescope-selection"></span>
             </div>
         </fieldset>
 
@@ -93,10 +93,18 @@
 
             <div class="operations-statistics">
                 <div><span class="statistics-key">Mission lifetime:</span><span id="mission-lifetime">0</span> days</div>
+
+                <div>
+                    <span class="statistics-key">Data storage:</span>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" id="data-storage" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+
                 <div><span class="statistics-key">Exoplanets in scope:</span><span id="exoplanets-scope">0</span></div>
 
                 <div><span class="statistics-key">Exoplanets scanned:</span><span id="counter-exoplanets_scanned">0</span> (<span id="stats-exoplanets_per_day">0</span> per day)</div>
-                <div><span class="statistics-key">Total integration time:</span><span id="stats-total_integration_time">0</span> hours (<span id="stats-avg_int_time">0.00</span>hr per scan, <span id="stats-avg_int_time_day">0.00</span>hr per day)</div>
+                <div><span class="statistics-key">Total integration time:</span><span id="stats-total_integration_time">0.00</span> hours (<span id="stats-avg_int_time">0.00</span>hr per scan, <span id="stats-avg_int_time_day">0.00</span>hr per day)</div>
                 <div><span class="statistics-key">Total AOCS:</span><span id="stats-total_aocs_change">0.00</span>&deg; (<span id="stats-avg_aocs_change">0</span>&deg;/day)</div>
 
                 <div><span class="statistics-key">Total data produced:</span><span id="total-data-produced">unknown yet</span></div>
@@ -141,7 +149,7 @@
                             </div>
 
                             <div class="parameter">
-                                <div class="parameter-header">Integration time</div>
+                                <div class="parameter-header">Est. integration time</div>
                                 <div id="exoplanet-integration" class="parameter-value"></div>
                             </div>
 

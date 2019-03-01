@@ -15,12 +15,25 @@ module.exports = function(App) {
       return App.spectroscopy.telescopes.find(t => t.id === App.spectroscopy.settings.use_telescope).integration(opt_mag);
     },
 
+    /**
+     * Define relationship between integration time and data rate
+     */
+    dataRate(integration) {
+      return App.spectroscopy.telescopes.find(t => t.id === App.spectroscopy.settings.use_telescope).dataRate(integration);
+    },
+
+    /**
+     * Define different telescope specs used in simulation
+     */
     telescopes: [
       {
         id: 1,
         name: "⌀0.3m",
         integration(opt_mag) {
           return 8e-5 * Math.pow(App.math.e, 0.9161 * opt_mag) * 60;
+        },
+        dataRate(integration) {
+          return 2e6 * integration; // 2Mbps
         }
       },
       {
@@ -28,6 +41,9 @@ module.exports = function(App) {
         name: "⌀0.4m",
         integration(opt_mag) {
           return 2e-5 * Math.pow(App.math.e, 0.9161 * opt_mag) * 60;
+        },
+        dataRate(integration) {
+          return 2e6 * integration; // 2Mbps
         }
       },
       {
@@ -35,6 +51,9 @@ module.exports = function(App) {
         name: "⌀0.5m",
         integration(opt_mag) {
           return 1e-5 * Math.pow(App.math.e, 0.9201 * opt_mag) * 60;
+        },
+        dataRate(integration) {
+          return 2e6 * integration; // 2Mbps
         }
       },
     ]

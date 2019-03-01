@@ -128,7 +128,7 @@ module.exports = function(App) {
         cx, cy, rx, ry,
         'stroke-width': 1,
         stroke: 'silver',
-        fill: 'transparent',
+        fill: 'rgba(0, 138, 255, .05)',
         dashstyle: 'dash',
         zIndex: 990
       }).add();

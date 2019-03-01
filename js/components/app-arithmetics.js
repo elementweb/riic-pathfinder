@@ -104,6 +104,6 @@ module.exports = function(App) {
       position = App.conversion.mercatorToCartesian(position[0], position[1]);
 
       return Math.acos(App.math.dot(reference, position) / (App.math.norm(reference) * App.math.norm(position))) * 180 / Math.PI;
-    }
+    },
   }
 };

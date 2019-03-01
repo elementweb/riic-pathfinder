@@ -68,6 +68,10 @@ body#body-layout-main {
         input[type=radio] {
           margin-left: 10px;
         }
+
+        label {
+          margin-left: 5px;
+        }
       }
 
       &:not(:first-child) {
@@ -172,6 +176,19 @@ body#body-layout-main {
       .items, .operations-statistics {
         margin-bottom: 5px;
         font-size: 15px;
+        position: relative;
+
+        .progress {
+          position: absolute;
+          top: 23px;
+          left: 170px;
+          width: 57%;
+          margin-bottom: 0;
+
+          .progress-bar {
+            width: 5%;
+          }
+        }
 
         .statistics-key {
           display: inline-block;
@@ -232,6 +249,14 @@ body#body-layout-main {
       border: 1px solid #686868;
       padding-top: 15px;
       min-height: 80px;
+
+      input[type=radio] {
+        margin-left: 10px;
+      }
+
+      label {
+        margin-left: 5px;
+      }
 
       legend {
         color: #373737;

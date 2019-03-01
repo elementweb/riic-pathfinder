@@ -58,7 +58,7 @@ module.exports = function(App) {
       });
 
       $('#button-load-data').on('click', function(e) {
-        App.pathFinder.loadData();
+        App.dataManager.loadData();
       });
 
       $('#button-flush-cache').on('click', function(e) {
@@ -118,6 +118,7 @@ module.exports = function(App) {
 
       $('input[type=radio][name=telescope-selection]').change(function() {
         App.spectroscopy.settings.use_telescope = this.value*1;
+        App.exoplanets.recalculateIntegrationTimes();
       });
     },
 
@@ -268,6 +269,23 @@ module.exports = function(App) {
       }
       
       $('#debug-last-message').html(message);
+    },
+
+    dataStorage(percent) {
+      percent = _.round(percent);
+
+      var string = percent;
+
+      if(percent > 100) {
+        percent = 100;
+        string = 100;
+      } else if(percent < 5) {
+        percent = 5;
+      }
+
+      $('#data-storage').toggleClass('progress-bar-warning', percent > 60)
+        .toggleClass('progress-bar-danger', percent > 90)
+        .css({ width: percent + '%' }).html(string + '%');
     }
   }
 };

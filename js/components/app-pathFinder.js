@@ -5,16 +5,12 @@ module.exports = function(App) {
     chart: {},
 
     data: {
-      exoplanets: [],
-      neos: [],
-      objects: [],
       object_series: [],
       exoplanet_series: [],
       exoplanets_in_view: [],
       objects_in_view: [],
       exoplanets_in_scope: [],
       transiting_exoplanets: [],
-      temp: [],
       horizontal_obs_angle: 50,
       vertical_obs_angle: 50,
       interval_id: null,
@@ -60,6 +56,9 @@ module.exports = function(App) {
       // Calculate offset
       App.pathFinder.data.offset = App.conversion.timestampToAngle(App.pathFinder.data.timestamp);
 
+      // Propagate L1 (point of reference)
+      App.astrodynamics.propagateL1(App.pathFinder.data.timestamp);
+
       // Shift X-axis
       App.operations.shiftData(App.pathFinder.data.exoplanet_series, App.pathFinder.data.offset);
 
@@ -73,9 +72,9 @@ module.exports = function(App) {
 
       // Propagate orbits of Solar planets
       App.pathFinder.data.object_series = _.map(App.pathFinder.data.object_series, function(object) {
-        let cartesian = App.objects.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp);
+        let cartesian = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp);
 
-        object.mercator = App.objects.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], App.pathFinder.data.offset);
+        object.mercator = App.conversion.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], App.pathFinder.data.offset);
 
         return object;
       });
@@ -127,6 +126,7 @@ module.exports = function(App) {
         current_target.last_spectroscopy = App.pathFinder.data.timestamp;
         App.statistics.incrementCounter('exoplanets_scanned');
         App.statistics.incrementIntegrationTime(current_target.integration_time);
+        App.comms.addData(App.spectroscopy.dataRate(current_target.integration_time));
         App.pathFinder.data.target_selected = false;
         App.targeting.discardTarget();
       }
@@ -147,6 +147,9 @@ module.exports = function(App) {
         App.pathFinder.data.iteration_reference = App.UI.currentTimestampMs();
         App.statistics.updateMissionLifetime();
       }
+
+      // Debug injector
+      App.debug.loop();
     },
 
     /**
@@ -256,79 +259,9 @@ module.exports = function(App) {
         data: [[0, 89]], // Some random point at the top of the map
       });
       
+      // Update UI indicators
       App.UI.initializePerformanceIndicator();
       App.UI.initialized();
     },
-
-    /**
-     * Download data or load from browser localStorage (cache)
-     */
-    loadData() {
-      // Load exoplanets
-      if(typeof App.cache.get('exoplanets') !== 'undefined') {
-        App.pathFinder.data.exoplanets = App.cache.get('exoplanets');
-        App.UI.subjectLoaded('exoplanets');
-        App.exoplanets.moveExoplanetsIntoPlot();
-      } else {
-        App.UI.loading(true);
-        let baseURL = "https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?format=json";
-
-        // Full list of columns available: https://exoplanetarchive.ipac.caltech.edu/docs/API_exoplanet_columns.html
-        let columns = [
-          'pl_hostname',    // Host Star Name - Stellar name most commonly used in the literature
-          'pl_name',        // Planet Name - Planet name most commonly used in the literature
-          'pl_discmethod',  // Discovery Method - Method by which the planet was first identified
-          'pl_orbper',      // Orbital Period (days) - Time the planet takes to make a complete orbit around the host star or system 
-          'ra',             // RA (decimal degrees) - Right Ascension of the planetary system in decimal degrees
-          'dec',            // Dec (decimal degrees) - Declination of the planetary system in decimal degrees
-          'st_optmag',      // Optical Magnitude [mag] - Brightness of the host star as measured using the V (Johnson) or the Kepler-band in units of magnitudes
-          'pl_trandur',     // Transit Duration (days) - The length of time from the moment the planet begins to cross the stellar limb to the moment the planet finishes crossing the stellar limb
-          'pl_tranmid',     // Transit Midpoint (Julian days) - The time given by the average of the time the planet begins to cross the stellar limb and the time the planet finishes crossing the stellar limb
-          'pl_occdep',      // Occultation Depth - Depth of occultation of secondary eclipse
-          'st_rad',         // Stellar Radius (solar radii) - Length of a line segment from the center of the star to its surface, measured in units of radius of the Sun.
-          'pl_rads',        // Planet Radius (solar) - Length of a line segment from the center of the planet to its surface, measured in units of radius of the Sun
-          'pl_imppar',      // Impact Parameter - The sky-projected distance between the center of the stellar disc and the center of the planet disc at conjunction, normalized by the stellar radius
-          'pl_orbsmax',     // Orbit Semi-Major Axis (AU) - The longest radius of an elliptic orbit, or, for exoplanets detected via gravitational microlensing or direct imaging, the projected separation in the plane of the sky
-          'st_dist',        // Distance (pc) - Distance to the planetary system in units of parsecs
-          'pl_eqt',         // Planet Equilibrium Temperature [K] - The equilibrium temperature of the planet as modeled by a black body heated only by its host star
-          'pl_trandep',     // Transit Depth (percentage) - The size of the relative flux decrement caused by the orbiting body transiting in front of the star
-          'pl_disc',        // Year of Discovery - Year the planet was discovered
-          'pl_status',      // Status - Status of the planet (1 = announced, 2 = submitted, 3 = accepted, 0 = retracted)
-          'st_spstr',       // Spectral Type - Classification of the star based on their spectral characteristics following the Morgan-Keenan system
-          'st_spn'          // Number of Spectral Type measurements
-        ];
-
-        let required_columns = [
-          'st_optmag',      // We require optical magnitude to be provided so we know integration times required
-          'pl_tranflag',    // Exoplanet must be transiting so we are able to observe it
-          'pl_tranmid'      // We must know when the transit is going to happen
-        ];
-
-        let requestURL = baseURL
-          + "&table=exoplanets&select=" + columns.join(',')
-          + "&where=" + required_columns.join('%3E0%20and%20')
-          + "%3E0" + "%20and%20pl_ttvflag=0";
-
-        $.getJSON(requestURL, function(data) {
-          App.pathFinder.data.exoplanets = data;
-          App.cache.set('exoplanets', data);
-          App.UI.subjectLoaded('exoplanets');
-          App.exoplanets.moveExoplanetsIntoPlot();
-        });
-      }
-
-      // Load NEOS
-      App.UI.subjectLoaded('neos');
-      
-      // Load solar system objects
-      $.getJSON("data/solar-objects-mjd2000.json", function(data) {
-        App.pathFinder.data.objects = data;
-        App.UI.subjectLoaded('objects');
-        App.objects.moveObjectsIntoPlot();
-      });
-
-      // Set flag and disable button
-      App.UI.dataLoaded();
-    }
   }
 };
