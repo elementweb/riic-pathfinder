@@ -21,7 +21,7 @@ module.exports = function(App) {
     legend: { enabled: false },
     credits: { enabled: true, text: 'Data source: NASA Exoplanet Archive' },
     title: {
-      text: 'RIIC Pathfinder v2.1.0',
+      text: 'RIIC Pathfinder v3.0.1',
       style: {"color": "#000000", "fontSize": "18px", "fontFamily": "Arial"}
     },
     subtitle: {

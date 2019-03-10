@@ -3,6 +3,7 @@ module.exports = function(App) {
     storage: {
       exoplanets: [],
       objects: [],
+      neos: [],
     },
 
     /**
@@ -65,9 +66,16 @@ module.exports = function(App) {
       }
 
       /**
-       * Load NEOS
+       * Load NEOs
        */
-      App.UI.subjectLoaded('neos');
+      // var neos_url = "data/neos-10-mar-2019-ceres.json";
+      // var neos_url = "data/neos-10-mar-2019.json";
+      var neos_url = "data/neos-10-mar-2019-test-sample.json";
+      $.getJSON(neos_url, function(data) {
+        App.dataManager.storage.neos = data;
+        App.UI.subjectLoaded('neos');
+        App.neos.moveNEOsIntoPlot();
+      });
       
       /**
        * Load solar system objects

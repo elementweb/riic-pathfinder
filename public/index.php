@@ -226,8 +226,13 @@
     <script src="<?php echo mix('app.js'); ?>"></script>
 
     <script type="text/javascript">
-        App.pathFinder.data.reference_timestamp = '<?php echo $time = time() ?>' * 1;
-        App.pathFinder.data.timestamp = '<?php echo $time ?>' * 1;
+<?php
+$time = strtotime("12-Jul-2019");
+// $time = strtotime("21-Dec-2019");
+// $time = time();
+?>
+        App.pathFinder.data.reference_timestamp = <?php echo $time ?>*1;
+        App.pathFinder.data.timestamp = <?php echo $time ?>*1;
     </script>
 </body>
 </html>

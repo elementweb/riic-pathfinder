@@ -1,0 +1,22 @@
+[
+  {
+    "id": "crs",
+    "pdes": "CRS CERES",
+    "spkid": 10000455,
+    "full_name": "CERES",
+    "name": "Ceres",
+    "albedo": "",
+    "pha": "",
+    "H": "",
+    "spec_B": "",
+    "spec_T": "",
+    "a": 2.769,
+    "e": 0.0760,
+    "i": 10.59,
+    "om": 80.31,
+    "w": 73.60,
+    "ma": 77.37,
+    "epoch_mjd": 58600,
+    "GM": ""
+  }
+]

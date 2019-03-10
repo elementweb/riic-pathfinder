@@ -12,10 +12,19 @@ module.exports = function(App) {
       equinox_2019: 1553119080, // 20-Mar-2019 21:58:00
       // angle: 0,
       seconds_year: 365.24225 * 24 * 3600,
-      unix_julian: 2440587.5
+      unix_julian: 2440587.5,
+      unix_mjd: 40587,
     },
 
     TUC,
+
+    deg2rad(deg) {
+        return deg * Math.PI / 180;
+    },
+
+    rad2deg(rad) {
+        return rad * 180 / Math.PI;
+    },
 
     pc2ly(pc) {
       return pc * 3.26156;
@@ -53,8 +62,8 @@ module.exports = function(App) {
 
     equatorialToMercator(ra, dec) {
       var ecliptic = galactic.coord.equatorialToEcliptic({
-        rightAscension: mth.rad(ra),
-        declination: mth.rad(dec)
+        rightAscension: App.conversion.deg2rad(ra),
+        declination: App.conversion.deg2rad(dec),
       });
 
       var cartesian = {
@@ -104,14 +113,16 @@ module.exports = function(App) {
       return _.round(214.9394693836 * AU, 5);
     },
 
-    timestampToJulian(timestamp)
-    {
-      return (timestamp / 86400.0) + App.conversion.data.unix_julian;
+    timestampToJulian(timestamp) {
+      return (timestamp / 86400) + App.conversion.data.unix_julian;
     },
 
-    julianToTimestamp(julian)
-    {
-      return _.round(86400.0 * (julian - App.conversion.data.unix_julian));
+    julianToTimestamp(julian) {
+      return _.round(86400 * (julian - App.conversion.data.unix_julian));
+    },
+
+    MJD2Timestamp(mjd) {
+      return _.round(86400 * (mjd - App.conversion.data.unix_mjd));
     },
 
     daysToSeconds(days) {
@@ -183,7 +194,7 @@ module.exports = function(App) {
     cartesianToScopedMercator(x, y, z, offset) {
       var mercator = App.conversion.cartesianToMercator(x, y, z);
 
-      mercator[0] = mercator[0] - 270 + offset;
+      mercator[0] = App.arithmetics.wrapTo180(mercator[0] - 270 + offset);
 
       return mercator;
     },

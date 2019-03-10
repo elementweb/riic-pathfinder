@@ -7,8 +7,10 @@ module.exports = function(App) {
     data: {
       object_series: [],
       exoplanet_series: [],
+      neos_series: [],
       exoplanets_in_view: [],
       objects_in_view: [],
+      neos_in_view: [],
       exoplanets_in_scope: [],
       transiting_exoplanets: [],
       horizontal_obs_angle: 50,
@@ -28,11 +30,11 @@ module.exports = function(App) {
         time_selected: null
       },
       simulation: {
-        timestep_sec: 60,
+        timestep_sec: 3600*2,
         delay: 0,
       },
       translation_counter: 0,
-      refresh_rate: 10,
+      refresh_rate: 1,
       perform_early_warning_scans: true,
       targetting_priorities: {
         neo: 0.7,
@@ -53,11 +55,11 @@ module.exports = function(App) {
       // Set date at the top of the plot
       App.UI.setDate(App.pathFinder.data.timestamp);
 
-      // Calculate offset
-      App.pathFinder.data.offset = App.conversion.timestampToAngle(App.pathFinder.data.timestamp);
-
       // Propagate L1 (point of reference)
       App.astrodynamics.propagateL1(App.pathFinder.data.timestamp);
+
+      // Calculate offset
+      App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
 
       // Shift X-axis
       App.operations.shiftData(App.pathFinder.data.exoplanet_series, App.pathFinder.data.offset);
@@ -72,9 +74,25 @@ module.exports = function(App) {
 
       // Propagate orbits of Solar planets
       App.pathFinder.data.object_series = _.map(App.pathFinder.data.object_series, function(object) {
-        let cartesian = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp);
+        var cartesian = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp, App.astrodynamics.constants.timestamp_mjd2000);
 
         object.mercator = App.conversion.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], App.pathFinder.data.offset);
+
+        return object;
+      });
+
+      // Propagate orbits of NEOs
+      App.pathFinder.data.neos_series = _.map(App.pathFinder.data.neos_series, function(object) {
+        object.schedule = object.schedule - 1;
+        
+        if(object.schedule >= 1) {
+          return object;
+        }
+
+        var cartesian = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp, object.reference);
+
+        object.mercator = App.conversion.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], App.pathFinder.data.offset);
+        object.schedule = App.neos.propagationScheduler(cartesian);
 
         return object;
       });
@@ -88,6 +106,10 @@ module.exports = function(App) {
 
         // Solar objects
         App.pathFinder.setData('Objects', App.objects.prepareDataForPlot(App.pathFinder.data.object_series));
+
+        // NEOs
+        App.pathFinder.data.neos_in_view = App.operations.cropX(App.pathFinder.data.neos_series, 50 + 10);
+        App.pathFinder.setData('NEOs', App.neos.prepareDataForPlot(App.pathFinder.data.neos_in_view));
 
         App.pathFinder.data.translation_counter = 0;
       }
@@ -148,8 +170,8 @@ module.exports = function(App) {
         App.statistics.updateMissionLifetime();
       }
 
-      // Debug injector
-      App.debug.loop();
+      // Debug
+      App.debug.loopInjection();
     },
 
     /**
@@ -228,22 +250,32 @@ module.exports = function(App) {
       // Add exoplanet series
       App.pathFinder.chart.addSeries({
         name: 'Exoplanets',
-        color: 'rgba(223, 0, 0, .2)',
+        color: 'rgba(0, 174, 0, .2)',
         animation: { duration: 0 },
         // If the following was left unset while initializing, this would break the plot later (weird)
         // So setting to some random value instead that will later be overriden by the actual data 
         data: [[104.23, 82.75]], // Sun's North pole (Z-axis) pointing
+        zIndex: 930,
       });
 
       // Add Earth as a separate series
       App.pathFinder.chart.addSeries({
         name: 'Stationary',
-        color: 'rgba(64, 132, 255, 1)',
+        color: 'rgba(0, 78, 236, .5)',
         animation: { duration: 0 },
-        data: [[0, 0]], // Earth's position on the plot (center)
+        data: [{ name: 'Earth', x: 0, y: 0 }], // Earth's position on the plot (center)
+        dataLabels: {
+          format: "{point.name}",
+          enabled: true,
+          style: {"color": "#276EFF", "fontSize": "10x", "fontFamily": "Calibri", "textOutline": "1px contrast" },
+          padding: 7,
+          allowOverlap: true,
+          overflow: 'crop',
+        },
+        zIndex: 950,
       });
 
-      // Add Earth as a separate series
+      // Add Solar system planets
       App.pathFinder.chart.addSeries({
         name: 'Objects',
         color: 'rgba(0, 78, 236, .5)',
@@ -257,6 +289,20 @@ module.exports = function(App) {
         },
         animation: { duration: 0 },
         data: [[0, 89]], // Some random point at the top of the map
+        zIndex: 940,
+      });
+
+      // Add NEO series
+      App.pathFinder.chart.addSeries({
+        name: 'NEOs',
+        color: 'rgba(120, 120, 120, .5)',
+        animation: { duration: 0 },
+        marker: {
+          radius: 2,
+          symbol: 'circle',
+        },
+        data: [[0, 89]], // Some random point at the top of the map
+        zIndex: 945,
       });
       
       // Update UI indicators

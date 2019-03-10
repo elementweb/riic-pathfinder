@@ -7,7 +7,8 @@ module.exports = function(App) {
       var count = 0;
 
       return _.map(objects, function(object, key) {
-        let cartesian = App.astrodynamics.L1cartesianAtUnix(object, timestamp);
+        var reference = App.astrodynamics.constants.timestamp_mjd2000,
+            cartesian = App.astrodynamics.L1cartesianAtUnix(object, timestamp, reference);
 
         return {
           id: ++count,
@@ -15,6 +16,7 @@ module.exports = function(App) {
           title: _.startCase(key),
           kepler: object,
           mercator: App.conversion.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], offset),
+          schedule: 1,
         };
       });
     },

@@ -240,7 +240,7 @@ module.exports = function(App) {
         App.log('Target is out of scope');
         App.targeting.discardTarget();
         // App.targeting.setScopedTarget(25, y); // or debug
-        App.debug.selectRandomTargetInScope(); // debug
+        // App.debug.selectRandomTargetInScope(); // debug
         return;
       }
 

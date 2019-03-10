@@ -201,7 +201,8 @@ module.exports = function(App) {
 
       // Shift data into position
       App.UI.setDate(App.pathFinder.data.timestamp);
-      App.pathFinder.data.offset = App.conversion.timestampToAngle(App.pathFinder.data.timestamp);
+      App.astrodynamics.propagateL1(App.pathFinder.data.timestamp);
+      App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
       App.operations.shiftData(App.pathFinder.data.exoplanet_series, App.pathFinder.data.offset);
 
       App.pathFinder.data.exoplanets_in_view = App.operations.cropX(App.pathFinder.data.exoplanet_series, 50 + 10);

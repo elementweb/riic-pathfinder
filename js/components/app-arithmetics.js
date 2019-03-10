@@ -98,11 +98,13 @@ module.exports = function(App) {
       reference[0] = reference[0] + 180;
       position[0] = position[0] + 180;
 
-      // console.log(reference, position);
-
       reference = App.conversion.mercatorToCartesian(reference[0], reference[1]);
       position = App.conversion.mercatorToCartesian(position[0], position[1]);
 
+      return App.arithmetics.angleBetweenCartesianVectors(reference, position);
+    },
+
+    angleBetweenCartesianVectors(reference, position) {
       return Math.acos(App.math.dot(reference, position) / (App.math.norm(reference) * App.math.norm(position))) * 180 / Math.PI;
     },
   }
