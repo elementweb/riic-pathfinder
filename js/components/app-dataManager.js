@@ -11,6 +11,22 @@ module.exports = function(App) {
      */
     loadData() {
       /**
+       * Set date, propagate current L1 position and compute offset
+       */
+      App.UI.setDate(App.pathFinder.data.timestamp);
+      App.astrodynamics.propagateL1(App.pathFinder.data.timestamp, true);
+      App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
+
+      /**
+       * Load solar system objects
+       */
+      $.getJSON("data/solar-objects-mjd2000.json", function(data) {
+        App.dataManager.storage.objects = data;
+        App.UI.subjectLoaded('objects');
+        App.objects.moveObjectsIntoPlot();
+      });
+
+      /**
        * Load exoplanets
        */
       if(typeof App.cache.get('exoplanets') !== 'undefined') {
@@ -75,15 +91,6 @@ module.exports = function(App) {
         App.dataManager.storage.neos = data;
         App.UI.subjectLoaded('neos');
         App.neos.moveNEOsIntoPlot();
-      });
-      
-      /**
-       * Load solar system objects
-       */
-      $.getJSON("data/solar-objects-mjd2000.json", function(data) {
-        App.dataManager.storage.objects = data;
-        App.UI.subjectLoaded('objects');
-        App.objects.moveObjectsIntoPlot();
       });
 
       /**

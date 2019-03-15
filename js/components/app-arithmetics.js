@@ -95,13 +95,13 @@ module.exports = function(App) {
     },
 
     angleBetweenMercatorVectors(reference, position) {
-      reference[0] = reference[0] + 180;
-      position[0] = position[0] + 180;
+      var ref = [reference[0] + 180, reference[1]],
+          pos = [position[0] + 180, position[1]];
 
-      reference = App.conversion.mercatorToCartesian(reference[0], reference[1]);
-      position = App.conversion.mercatorToCartesian(position[0], position[1]);
+      ref = App.conversion.mercatorToCartesian(ref[0], ref[1]);
+      pos = App.conversion.mercatorToCartesian(pos[0], pos[1]);
 
-      return App.arithmetics.angleBetweenCartesianVectors(reference, position);
+      return App.arithmetics.angleBetweenCartesianVectors(ref, pos);
     },
 
     angleBetweenCartesianVectors(reference, position) {

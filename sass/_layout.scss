@@ -1,7 +1,7 @@
 body#body-layout-main {
   font-family: calibri;
   position: relative;
-  min-width: 1075px;
+  min-width: 1275px;
 
   #chart-container {
     display: inline-block;
@@ -57,22 +57,73 @@ body#body-layout-main {
     top: 20px;
     right: 25px;
 
-    .simulation-controls, .operations, .timing, .targeting, .settings {
+    .settings-panel {
+      .nav-tabs {
+        border-bottom: 1px solid #686868;
+        padding-left: 5px;
+
+        li {
+          a {
+            border-radius: 0;
+            padding: 2px 8px;
+            font-size: 15px;
+            color: #000000;
+            border: 0;
+            border-bottom: 1px solid #686868;
+            background: #F2F2F2;
+
+            &.tab-warning {
+              background: #FFCCCC;
+            }
+
+            &:focus {
+              border: 0;
+              border-bottom: 1px solid #686868;
+              background: #F2F2F2;
+            }
+
+            &.active {
+              background: #C7C7C7;
+            }
+          }
+        }
+      }
+
+      .tab-content {
+        border: 1px solid #686868;
+        border-top: 0;
+
+        padding: 10px 15px;
+        min-height: 132px;
+
+        .setting {
+          margin-bottom: 5px;
+
+          input[type=radio] {
+            margin-left: 10px;
+          }
+
+          input[type=number] {
+            font-size: 14px;
+            padding: 0px;
+            line-height: 14px;
+          }
+
+          label {
+            margin-left: 5px;
+          }
+
+          .label-warning {
+            color: #ED0000;
+          }
+        }
+      }
+    }
+
+    .simulation-controls, .operations, .timing, .targeting {
       position: relative;
       border: 1px solid #686868;
       padding: 10px 15px;
-
-      .setting {
-        margin-bottom: 5px;
-
-        input[type=radio] {
-          margin-left: 10px;
-        }
-
-        label {
-          margin-left: 5px;
-        }
-      }
 
       &:not(:first-child) {
         margin-top: 15px;
@@ -95,6 +146,7 @@ body#body-layout-main {
       .status {
         margin-bottom: 10px;
         font-size: 15px;
+        display: inline-block;
 
         #status {
           padding: 2px 7px;
@@ -126,6 +178,14 @@ body#body-layout-main {
           &.comms {
             background: #F3B1FF;
           }
+
+          &.cooldown {
+            background: #EAFFB1;
+          }
+
+          &.ew {
+            background: #FFB5B1;
+          }
         }
       }
 
@@ -134,25 +194,10 @@ body#body-layout-main {
         top: 20px;
         font-size: 15px;
         margin-bottom: 10px;
+        position: absolute;
 
         > div {
-          display: inline-block;
-
-          &.subject-state {
-            margin-left: 10px;
-          }
-        }
-
-        @media (min-width: 1170px) {
-          position: absolute;
-          
-          > div {
-            display: block;
-
-            &.subject-state {
-              margin-left: 0;
-            }
-          }
+          display: block;
         }
 
         .subjects-loaded-heading {
@@ -178,7 +223,19 @@ body#body-layout-main {
         font-size: 15px;
         position: relative;
 
-        .progress {
+        .mission-lifetime-progress {
+          position: absolute;
+          top: 0;
+          left: 170px;
+          width: 57%;
+          margin-bottom: 0;
+
+          .progress-bar {
+            min-width: 7%;
+          }
+        }
+
+        .data-storage-progress {
           position: absolute;
           top: 23px;
           left: 170px;
@@ -186,7 +243,7 @@ body#body-layout-main {
           margin-bottom: 0;
 
           .progress-bar {
-            width: 5%;
+            min-width: 7%;
           }
         }
 
@@ -221,7 +278,7 @@ body#body-layout-main {
                 font-style: italic;
                 font-size: 16px;
 
-                &#exoplanet-id {
+                &#exoplanet-id, &#neo-id {
                   font-size: 12px;
                   color: #616161;
                 }
@@ -240,35 +297,98 @@ body#body-layout-main {
     }
   }
 
-  #pathfinder-debug {
+  #pathfinder-output {
     width: 570px;
     margin: 8px 25px 10px;
 
-    .debug-controls {
-      position: relative;
-      border: 1px solid #686868;
-      padding-top: 15px;
-      min-height: 80px;
+    // .debug-controls {
+    //   position: relative;
+    //   border: 1px solid #686868;
+    //   padding-top: 15px;
+    //   min-height: 80px;
 
-      input[type=radio] {
-        margin-left: 10px;
+    //   input[type=radio] {
+    //     margin-left: 10px;
+    //   }
+
+    //   label {
+    //     margin-left: 5px;
+    //   }
+
+    //   legend {
+    //     color: #373737;
+    //     font-weight: bold;
+    //     font-size: 16px;
+    //   }
+
+    //   .controls {
+    //     margin-bottom: 10px;
+
+    //     button:disabled {
+    //       opacity: 0.5;
+    //     }
+    //   }
+    // }
+
+    .output-panel {
+      .nav-tabs {
+        border-bottom: 1px solid #686868;
+        padding-left: 5px;
+
+        li {
+          a {
+            border-radius: 0;
+            padding: 2px 8px;
+            font-size: 15px;
+            color: #000000;
+            border: 0;
+            border-bottom: 1px solid #686868;
+            background: #F2F2F2;
+
+            &.tab-warning {
+              background: #FFCCCC;
+            }
+
+            &:focus {
+              border: 0;
+              border-bottom: 1px solid #686868;
+              background: #F2F2F2;
+            }
+
+            &.active {
+              background: #C7C7C7;
+            }
+          }
+        }
       }
 
-      label {
-        margin-left: 5px;
-      }
+      .tab-content {
+        border: 1px solid #686868;
+        border-top: 0;
 
-      legend {
-        color: #373737;
-        font-weight: bold;
-        font-size: 16px;
-      }
+        padding: 10px 15px;
+        min-height: 210px;
 
-      .controls {
-        margin-bottom: 10px;
+        .setting {
+          margin-bottom: 5px;
 
-        button:disabled {
-          opacity: 0.5;
+          input[type=radio] {
+            margin-left: 10px;
+          }
+
+          input[type=number] {
+            font-size: 14px;
+            padding: 0px;
+            line-height: 14px;
+          }
+
+          label {
+            margin-left: 5px;
+          }
+
+          .label-warning {
+            color: #ED0000;
+          }
         }
       }
     }

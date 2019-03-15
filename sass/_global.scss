@@ -70,7 +70,7 @@ a {
   font-weight: bold;
 }
 
-.hidden, [hidden] {
+.hidden, [hidden], [v-cloak] {
   display: none !important;
 }
 

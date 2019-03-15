@@ -4,11 +4,20 @@ module.exports = function(App) {
      * Exoplanet object class settings
      */
     settings: {
+      scan_enabled: true,
+
       // Transit must start in one hour for target to be "feasible" and not waste time on waiting
       allow_time_before_transit: 3600, // seconds
 
-      // Allow spectroscopy to be performed for single target more than once?
-      allow_multiple_spectroscopies: true,
+      // // Allow spectroscopy to be performed for single target more than once?
+      // allow_multiple_spectroscopies: true,
+
+      // // Minimum delay between exoplanet spectroscopies in seconds.
+      // min_delay_between_specs: 20736000, // 8 months = 8*30*24*3600
+      
+      scan_method: 1, // 1 - delay between scans, 2 - scan only once
+
+      scan_delay: 60, // days
     },
 
     /**
@@ -85,8 +94,8 @@ module.exports = function(App) {
       // Do we allow multiple exoplanet spectroscopies?
       data = _.filter(data, function(object) {
         // We allow multiple spectroscopies
-        if(App.exoplanets.settings.allow_multiple_spectroscopies) {
-          return App.pathFinder.data.timestamp > object.last_spectroscopy + App.spectroscopy.settings.exo_min_delay_between_specs;
+        if(App.exoplanets.settings.scan_method == 1) {
+          return timestamp > object.last_spectroscopy + App.exoplanets.settings.scan_delay*24*3600;
         }
 
         // We do not allow multiple exoplanet spectroscopies
@@ -94,9 +103,9 @@ module.exports = function(App) {
       });
 
       // If we do allow multiple exoplanet spectroscopies, let's bring those with least measurements to the front
-      if(App.exoplanets.settings.allow_multiple_spectroscopies) {
+      if(App.exoplanets.settings.scan_method == 1) {
         data = _.filter(data, function(object) {
-          return App.pathFinder.data.timestamp > object.last_spectroscopy + App.spectroscopy.settings.exo_min_delay_between_specs;
+          return timestamp > object.last_spectroscopy + App.exoplanets.settings.scan_delay*24*3600;
         });
 
         data = _.orderBy(data, function(object) {
@@ -111,6 +120,11 @@ module.exports = function(App) {
       // Do we need to wait longer than `allow_time_before_transit`? If yes, do not consider those planets as targets yet and move on
       data = _.filter(data, function(object) {
         return timestamp > object.next_transit_start - App.exoplanets.settings.allow_time_before_transit
+      });
+
+      // Filter out objects that we don't have any more data storage left to scan
+      data = _.filter(data, function(object) {
+        return App.comms.approveIntegrationTime(object.integration_time);
       });
 
       if(data.length <= 0) {
@@ -181,6 +195,11 @@ module.exports = function(App) {
          */
         object.spect_num = 0;
         object.last_spectroscopy = 0;
+
+        /**
+         * Setup slew rate object
+         */
+        object.slew = App.exoplanets.slewDefault();
         
         return object;
       });
@@ -200,9 +219,9 @@ module.exports = function(App) {
       App.operations.zeroData(App.pathFinder.data.exoplanet_series);
 
       // Shift data into position
-      App.UI.setDate(App.pathFinder.data.timestamp);
-      App.astrodynamics.propagateL1(App.pathFinder.data.timestamp);
-      App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
+      // App.UI.setDate(App.pathFinder.data.timestamp);
+      // App.astrodynamics.propagateL1(App.pathFinder.data.timestamp, true);
+      // App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
       App.operations.shiftData(App.pathFinder.data.exoplanet_series, App.pathFinder.data.offset);
 
       App.pathFinder.data.exoplanets_in_view = App.operations.cropX(App.pathFinder.data.exoplanet_series, 50 + 10);
@@ -225,20 +244,29 @@ module.exports = function(App) {
       App.targeting.loadEarthExclusionIndicator();
     },
 
+    getTarget(id) {
+      return App.pathFinder.data.exoplanet_series.find(el => el.id === id);
+    },
+
     /**
      * Select exoplanet by given ID
      */
     selectExoplanetTargetById(id) {
-      var target = App.targeting.getTarget(id);
+      var target = App.exoplanets.getTarget(id);
 
       if(target.length <= 0) {
         return false;
       }
 
+      App.pathFinder.data.target_type = App.targeting.target_types.exoplanet;
       App.pathFinder.data.target.id = target.id;
       App.UI.targetSelected('exoplanet', target);
       App.targeting.setCelestialTarget(target.initial[0], target.initial[1]);
       App.pathFinder.data.target.time_selected = App.pathFinder.data.timestamp;
+      App.pathFinder.data.target_selected = true;
+
+      target.slew.initial_time = App.pathFinder.data.timestamp;
+      target.slew.initial_position = JSON.parse(JSON.stringify(target.mercator));
 
       return true;
     },
@@ -257,6 +285,67 @@ module.exports = function(App) {
       return _.map(data, function(set) {
         return set.mercator;
       });
-    }
+    },
+
+    attemptNewTargetSelection() {
+      if(!App.exoplanets.settings.scan_enabled || App.pathFinder.isSpacecraftInCooldownMode() || App.pathFinder.data.target_selected) {
+        return;
+      }
+
+      var exoplanet_target = App.exoplanets.feasibleTargetSelector(App.pathFinder.data.exoplanets_in_scope, App.pathFinder.data.timestamp);
+
+      return exoplanet_target ? App.exoplanets.selectExoplanetTargetById(exoplanet_target.id) : false;
+    },
+
+    attemptTargetDeselection() {
+      // Checking if currently selected exoplanet has exceeded integration time
+      var current_target = App.exoplanets.getTarget(App.pathFinder.data.target.id);
+
+      if(!current_target) {
+        return;
+      }
+
+      var condition = App.pathFinder.data.timestamp > App.pathFinder.data.target.time_selected + current_target.integration_time;
+
+      if(condition) {
+        current_target.spect_num++;
+        current_target.last_spectroscopy = App.pathFinder.data.timestamp;
+
+        var total_angle_change = App.arithmetics.angleBetweenMercatorVectors(
+          current_target.slew.initial_position,
+          current_target.mercator,
+        );
+
+        App.statistics.angleChangeAOCS(total_angle_change);
+
+        App.output.operationCompleted(
+          App.targeting.target_types.exoplanet,
+          App.pathFinder.data.target.time_selected,
+          App.pathFinder.data.timestamp,
+          current_target,
+        );
+
+        var time_delta = (App.pathFinder.data.timestamp - current_target.slew.initial_time) / 3600,
+            slew_rate = total_angle_change / time_delta;
+
+        App.statistics.determineMaxSlewRate(slew_rate);
+
+        current_target.slew = App.neos.slewDefault();
+
+        App.statistics.incrementCounter('exoplanets_scanned');
+        App.statistics.incrementIntegrationTime(current_target.integration_time);
+        App.comms.addData(App.spectroscopy.dataProduced(current_target.integration_time));
+        App.targeting.discardTarget();
+
+        App.spectroscopy.enterCooldownPeriod();
+      }
+    },
+
+    slewDefault() {
+      return JSON.parse(JSON.stringify({
+        initial_time: 0,
+        initial_position: [],
+      }));
+    },
   }
 };

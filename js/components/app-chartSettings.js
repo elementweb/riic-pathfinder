@@ -19,9 +19,9 @@ module.exports = function(App) {
     exporting: { buttons: { contextButton: { enabled: false }}},
     tooltip: { enabled: false, animation: false },
     legend: { enabled: false },
-    credits: { enabled: true, text: 'Data source: NASA Exoplanet Archive' },
+    credits: { enabled: true, text: 'Data source: NASA Exoplanet Archive, JPL Small-Body Database' },
     title: {
-      text: 'RIIC Pathfinder v3.0.1',
+      text: 'RIIC Pathfinder v4.0.1',
       style: {"color": "#000000", "fontSize": "18px", "fontFamily": "Arial"}
     },
     subtitle: {
@@ -90,7 +90,7 @@ module.exports = function(App) {
         },
         tooltip: {
           headerFormat: '<b>{series.name}</b><br>',
-          pointFormat: '{point.x} cm, {point.y} kg'
+          pointFormat: '{point.x}, {point.y}'
         }
       }
     },

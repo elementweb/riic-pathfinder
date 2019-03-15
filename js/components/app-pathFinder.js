@@ -6,12 +6,13 @@ module.exports = function(App) {
 
     data: {
       object_series: [],
-      exoplanet_series: [],
-      neos_series: [],
-      exoplanets_in_view: [],
       objects_in_view: [],
-      neos_in_view: [],
+      exoplanet_series: [],
+      exoplanets_in_view: [],
       exoplanets_in_scope: [],
+      neos_series: [],
+      neos_in_view: [],
+      neos_in_scope: [],
       transiting_exoplanets: [],
       horizontal_obs_angle: 50,
       vertical_obs_angle: 50,
@@ -23,6 +24,7 @@ module.exports = function(App) {
       scope_loaded: false,
       scope_size: [3, 3],
       target_selected: false,
+      target_type: 0, // 0 - none, 1 - exoplanet, 2 - neo
       target: {
         id: null,
         coordinates: [0, 0],
@@ -30,9 +32,12 @@ module.exports = function(App) {
         time_selected: null
       },
       simulation: {
-        timestep_sec: 3600*2,
+        timestep_sec: 360,
         delay: 0,
       },
+      scan_cooldown: false,
+      cooms_cooldown: false,
+      ew_cooldown: false,
       translation_counter: 0,
       refresh_rate: 1,
       perform_early_warning_scans: true,
@@ -43,6 +48,9 @@ module.exports = function(App) {
       iterations: 0,
       iteration_reference: 0,
       visualisation_enabled: true,
+      lifetime_days: 30,
+      stop_at_the_end: true,
+      lifetime_exceeded: false,
     },
 
     /**
@@ -73,15 +81,11 @@ module.exports = function(App) {
       App.UI.updateExoplanetsScope(App.pathFinder.data.exoplanets_in_scope.length);
 
       // Propagate orbits of Solar planets
-      App.pathFinder.data.object_series = _.map(App.pathFinder.data.object_series, function(object) {
-        var cartesian = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp, App.astrodynamics.constants.timestamp_mjd2000);
+      App.pathFinder.data.object_series = App.objects.propagate(App.pathFinder.data.object_series);
 
-        object.mercator = App.conversion.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], App.pathFinder.data.offset);
-
-        return object;
-      });
-
-      // Propagate orbits of NEOs
+      /**
+       * Propagate orbits of NEOs
+       */
       App.pathFinder.data.neos_series = _.map(App.pathFinder.data.neos_series, function(object) {
         object.schedule = object.schedule - 1;
         
@@ -89,89 +93,143 @@ module.exports = function(App) {
           return object;
         }
 
-        var cartesian = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp, object.reference);
+        var [cartesian, sun_ref_cartesian, mL1B, mSB] = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp, object.reference);
 
         object.mercator = App.conversion.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], App.pathFinder.data.offset);
-        object.schedule = App.neos.propagationScheduler(cartesian);
+        object.schedule = App.neos.propagationScheduler(sun_ref_cartesian);
+        object.obs2ast = mL1B;
+        object.sun2ast = mSB;
+
+        // if(object.data.nid == 'a0000001') {
+        //   console.log(object.mercator, App.pathFinder.data.timestamp, App.pathFinder.data.offset);
+        // }
+
+        if(App.pathFinder.data.target_type == App.targeting.target_types.neo && object.id == App.pathFinder.data.target.id) {
+          if(_.isEmpty(object.slew.initial_position)) {
+            object.slew.initial_position = cartesian;
+            object.slew.last_position = cartesian;
+            object.slew.initial_time = App.pathFinder.data.timestamp;
+            object.slew.last_time = App.pathFinder.data.timestamp;
+          }
+
+          var time_delta = (App.pathFinder.data.timestamp - object.slew.initial_time) / 3600;
+
+          // Current
+          object.slew.current = App.arithmetics.angleBetweenCartesianVectors(object.slew.initial_position, cartesian) / time_delta;
+
+          // Compute max
+          if(!isFinite(object.slew.max) || object.slew.current > object.slew.max) {
+            object.slew.max = object.slew.current;
+          }
+
+          object.slew.last_position = cartesian;
+          object.slew.last_time = App.pathFinder.data.timestamp;
+        }
 
         return object;
       });
-
-      // Shift all data points on the plot
-      App.pathFinder.data.translation_counter++;
-      if(App.pathFinder.data.translation_counter > App.pathFinder.data.refresh_rate) {
-        // Exoplanets
-        App.pathFinder.setData('Exoplanets', App.exoplanets.prepareDataForPlot(App.pathFinder.data.exoplanets_in_view));
-        App.targeting.translateTarget(App.pathFinder.data.offset);
-
-        // Solar objects
-        App.pathFinder.setData('Objects', App.objects.prepareDataForPlot(App.pathFinder.data.object_series));
-
-        // NEOs
-        App.pathFinder.data.neos_in_view = App.operations.cropX(App.pathFinder.data.neos_series, 50 + 10);
-        App.pathFinder.setData('NEOs', App.neos.prepareDataForPlot(App.pathFinder.data.neos_in_view));
-
-        App.pathFinder.data.translation_counter = 0;
-      }
+      App.pathFinder.data.neos_in_view = App.operations.crop(App.pathFinder.data.neos_series, 50+10, 50+10);
+      App.pathFinder.data.neos_in_scope = App.operations.crop(App.pathFinder.data.neos_in_view, 50, 50);
+      App.pathFinder.data.neos_in_scope = App.neos.computeIntegrationTimes(App.pathFinder.data.neos_in_scope, App.pathFinder.data.timestamp);
 
       /**
-       * NEO orbit propagation
+       * Shift all data points on the plot
        */
-      // App.orbital.position.keplerian(5.20336301, 0.04839266, 1.30530*(3.14/180), 100.55615*(3.14/180), 14.75385*(3.14/180), 2451545.0, 2458635.5)[0]; // Jupiter
-      // for (i = 1; i <= 9000; i++) { 
-      //   App.orbital.position.keplerian(_.round((Math.random() * 10000) / 1000, 3), 0.04839266, 1.30530*(3.14/180), 100.55615*(3.14/180), 14.75385*(3.14/180), 2451545.0, 2458635.5)[0];
-      // }
-      // App.orbital.time.dateToJD([2019, 2, 28, 0, 4, 0])
-      // for (i = 1; i <= 9000; i++) { 
-      //   1+i;
-      // }
-      // Need to shift all objects on the plot here too
+      App.pathFinder.updatePlot();
 
       /**
        * Targeting decisions happens here (after all orbits propagated and plot updated)
        */
       if(!App.pathFinder.data.target_selected) {
-        // Can we select exoplanet
-        var next_target = App.exoplanets.feasibleTargetSelector(App.pathFinder.data.exoplanets_in_scope, App.pathFinder.data.timestamp);
-        if(next_target) {
-          App.pathFinder.data.target_selected = true;
-          App.exoplanets.selectExoplanetTargetById(next_target.id);
+        // Let's check if we need to make contact with Earth already
+        App.comms.shallWeEnterCommsMode();
+
+        // Should we now perform Early-Warning scan?
+        App.earlyWarning.shallWeScanNow();
+
+        // Can we select NEO for scan?
+        App.neos.attemptNewTargetSelection();
+
+        // Can we select exoplanet for scan?
+        App.exoplanets.attemptNewTargetSelection();
+      }
+
+      /**
+       * However, if we have selected target, find out when do we have to stop tracking the target
+       */
+      if(App.pathFinder.data.target_selected) {
+        if(App.pathFinder.data.target_type == App.targeting.target_types.earth_comms) {
+          // Here we check if we have been in this operation mode long enough
+          App.comms.canWeNowExitCommsMode();
+        }
+
+        if(App.pathFinder.data.target_type == App.targeting.target_types.early_warning_scan) {
+          // Here we check if we have been performing early warning long enough
+          App.earlyWarning.canWeNowStopScanning();
+        }
+
+        if(App.pathFinder.data.target_type == App.targeting.target_types.neo) {
+          // Can we stop observing NEO now?
+          App.neos.attemptTargetDeselection();
+        }
+
+        if(App.pathFinder.data.target_type == App.targeting.target_types.exoplanet) {
+          // Can we stop observing exoplanet now?
+          App.exoplanets.attemptTargetDeselection();
         }
       }
 
       /**
-       * Checking if currently selected exoplanet has exceeded integration time
+       * If we still have the target selected
        */
-      var current_target = App.targeting.getTarget(App.pathFinder.data.target.id);
-      if(current_target !== undefined && App.pathFinder.data.timestamp > App.pathFinder.data.target.time_selected + current_target.integration_time) { // when will start
-        current_target.spect_num++;
-        current_target.last_spectroscopy = App.pathFinder.data.timestamp;
-        App.statistics.incrementCounter('exoplanets_scanned');
-        App.statistics.incrementIntegrationTime(current_target.integration_time);
-        App.comms.addData(App.spectroscopy.dataRate(current_target.integration_time));
-        App.pathFinder.data.target_selected = false;
-        App.targeting.discardTarget();
+      if(App.pathFinder.data.target_selected) {
+        if(App.pathFinder.data.target_type != App.targeting.target_types.earth_comms && App.pathFinder.data.target_type != App.targeting.target_types.early_warning_scan) {
+          // Update target coordinates
+          App.pathFinder.data.target.coordinates = App.targeting.getCurrentTarget().mercator;
+          
+          // Translate target
+          App.targeting.translateTarget();
+
+          // Is NEO being targeted?
+          if(App.pathFinder.data.target_type == App.targeting.target_types.neo) {
+            // Update UI NEO data
+            App.UI.updateNEODetails(App.neos.getTarget(App.pathFinder.data.target.id));
+          }
+        }
       }
 
+      /**
+       * Performance indicator
+       */
+      App.UI.performanceCounter();
 
-
-
-
-
-
-
-
-      // Lastly update performance counter
-      App.pathFinder.data.iterations++;
-      if(App.pathFinder.data.iterations > 200) {
-        App.UI.updateIPS(App.pathFinder.data.iteration_reference, App.pathFinder.data.iterations);
-        App.pathFinder.data.iterations = 0;
-        App.pathFinder.data.iteration_reference = App.UI.currentTimestampMs();
-        App.statistics.updateMissionLifetime();
-      }
-
-      // Debug
+      /**
+       * Debug
+       */
       App.debug.loopInjection();
+    },
+
+    isSpacecraftInCooldownMode() {
+      return App.spectroscopy.isInCooldown() || App.comms.isInCooldown() || App.earlyWarning.isInCooldown();
+    },
+
+    updatePlot() {
+      // Increment refresh counter
+      App.pathFinder.data.translation_counter++;
+
+      if(App.pathFinder.data.translation_counter > App.pathFinder.data.refresh_rate) {
+        // Update Exoplanets
+        App.pathFinder.setData('Exoplanets', App.exoplanets.prepareDataForPlot(App.pathFinder.data.exoplanets_in_view));
+
+        // Update Solar object positions
+        App.pathFinder.setData('Objects', App.objects.prepareDataForPlot(App.pathFinder.data.object_series));
+
+        // Update NEOs
+        App.pathFinder.setData('NEOs', App.neos.prepareDataForPlot(App.pathFinder.data.neos_in_view));
+
+        // Update counter
+        App.pathFinder.data.translation_counter = 0;
+      }
     },
 
     /**
@@ -214,15 +272,53 @@ module.exports = function(App) {
     },
 
     /**
-     * Initialize highcharts
+     * Initialize RIIC Pathfinder
      */
     initialize() {
       App.pathFinder.data.reference_timestamp = JSON.parse(JSON.stringify(App.pathFinder.data.timestamp));
+
+      // $("#simulation-start-date").datepicker("setDate", App.pathFinder.data.reference_timestamp);
+      // $("#simulation-start-date").datepicker("getDate");
+
+      // App.UI.setDate(App.pathFinder.data.timestamp);
+      // App.astrodynamics.propagateL1(App.pathFinder.data.timestamp);
+      // App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
+
+      // App.neos.initialize();
+
+      // // Resolve timestamp
+      // App.pathFinder.data.timestamp = App.pathFinder.data.timestamp*1;
+
+      // // Set date at the top of the plot
+      // App.UI.setDate(App.pathFinder.data.timestamp);
+
+      // // Propagate L1 (point of reference)
+      // App.astrodynamics.propagateL1(App.pathFinder.data.timestamp, true);
+
+      // // Calculate offset
+      // App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
 
       App.pathFinder.chart = highcharts.chart(
         'chart-container',
         App.chartSettings
       );
+
+      // $("#simulation-start-date").val(App.UI.moment(App.pathFinder.data.reference_timestamp*1000).format("D-MMM-YYYY"));
+
+      $("#simulation-start-date").datepicker({
+        dateFormat: 'd MM yy',
+        firstDay: 1,
+        onSelect: function(date) {
+          var timestamp = App.UI.moment(date, "D MMM YYYY").unix();
+
+          App.pathFinder.data.reference_timestamp = timestamp;
+          App.pathFinder.data.timestamp = timestamp;
+        }
+      });
+
+      // $("#simulation-start-date").datepicker('setDate', App.UI.moment(App.pathFinder.data.reference_timestamp*1000).toDate());
+
+      // $("#simulation-start-date").datepicker("setDate", App.UI.moment(App.pathFinder.data.reference_timestamp*1000).toDate());
     },
 
     /**
@@ -301,6 +397,14 @@ module.exports = function(App) {
           radius: 2,
           symbol: 'circle',
         },
+        // dataLabels: {
+        //   format: "{point.name}",
+        //   enabled: true,
+        //   style: {"color": "#999999", "fontSize": "10x", "fontFamily": "Calibri", "textOutline": "1px contrast" },
+        //   padding: 7,
+        //   allowOverlap: true,
+        //   overflow: 'crop',
+        // },
         data: [[0, 89]], // Some random point at the top of the map
         zIndex: 945,
       });

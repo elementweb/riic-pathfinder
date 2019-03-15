@@ -6,13 +6,21 @@ module.exports = function(App) {
         exoplanets: false,
         neos: false,
         objects: false
-      }
+      },
+      last_highlight: 0,
     },
 
     moment: require('moment'),
     
     humanizeDuration(seconds) {
-      return _.round(seconds / (30.43 * 24 * 3600)) + ' months ago';
+      var days = _.round(seconds / (24 * 3600)),
+          avg_days_in_month = 30.43;
+
+      if(days < avg_days_in_month) {
+        return _.round(days) + ' days ago';
+      }
+
+      return _.round(days / avg_days_in_month) + ' month(s) ago';
     },
 
     currentTimestamp() {
@@ -31,6 +39,10 @@ module.exports = function(App) {
 
     updateIPS(reference, iterations) {
      $('#performance-itps').html(_.round(iterations * 1000 / (App.UI.currentTimestampMs() - reference), 1).toFixed(1));
+    },
+
+    updateTimestep(timestep) {
+     $('#performance-timestep').html(timestep);
     },
 
     initialize() {
@@ -59,6 +71,8 @@ module.exports = function(App) {
 
       $('#button-load-data').on('click', function(e) {
         App.dataManager.loadData();
+        $("#simulation-start-date").datepicker('disable');
+        App.settings.$emit("simulation-initialized");
       });
 
       $('#button-flush-cache').on('click', function(e) {
@@ -95,31 +109,31 @@ module.exports = function(App) {
       /**
        * Initialize settings
        */
-      $('input[type=radio][name=use-plot]').change(function() {
-        App.pathFinder.data.visualisation_enabled = this.value == 1;
+      // $('input[type=radio][name=use-plot]').change(function() {
+      //   App.pathFinder.data.visualisation_enabled = this.value == 1;
 
-        $('#visualisation-status').toggleClass('hidden', this.value == 1);
-      });
+      //   $('#visualisation-status').toggleClass('hidden', this.value == 1);
+      // });
 
-      $('input[type=radio][name=multiple-spectroscopies]').change(function() {
-        App.exoplanets.settings.allow_multiple_spectroscopies = this.value == 1;
-      });
+      // $('input[type=radio][name=multiple-spectroscopies]').change(function() {
+      //   App.exoplanets.settings.allow_multiple_spectroscopies = this.value == 1;
+      // });
 
-      _.each(App.spectroscopy.telescopes, function(t) {
-        $('<input>').attr({
-          type: 'radio',
-          id: 'ts' + t.id,
-          name: 'telescope-selection',
-          value: t.id
-        }).prop('checked', t.id == App.spectroscopy.settings.use_telescope).appendTo('#telescope-selection');
+      // _.each(App.spectroscopy.telescopes, function(t) {
+      //   $('<input>').attr({
+      //     type: 'radio',
+      //     id: 'ts' + t.id,
+      //     name: 'telescope-selection',
+      //     value: t.id
+      //   }).prop('checked', t.id == App.spectroscopy.settings.use_telescope).appendTo('#telescope-selection');
 
-        $('<label>').attr({ for: 'ts' + t.id }).html(t.name).appendTo('#telescope-selection');
-      });
+      //   $('<label>').attr({ for: 'ts' + t.id }).html(t.name).appendTo('#telescope-selection');
+      // });
 
-      $('input[type=radio][name=telescope-selection]').change(function() {
-        App.spectroscopy.settings.use_telescope = this.value*1;
-        App.exoplanets.recalculateIntegrationTimes();
-      });
+      // $('input[type=radio][name=telescope-selection]').change(function() {
+      //   App.spectroscopy.settings.use_telescope = this.value*1;
+      //   App.exoplanets.recalculateIntegrationTimes();
+      // });
     },
 
     initialized() {
@@ -175,7 +189,7 @@ module.exports = function(App) {
 
     refreshLoadedSubjects() {
       _.each(App.UI.data.loaded_subjects, function(flag, subject){
-        $('#' + subject + '-loaded > i').attr('class', flag ? 'fa fa-check' : 'fa fa-times');
+        $('#' + subject + '-loaded > i').attr('class', flag ? 'fa fa-check' : 'fa fa-circle-o-notch fa-spin');
       });
 
       if(App.UI.allSubjectsLoaded()) {
@@ -184,9 +198,19 @@ module.exports = function(App) {
     },
 
     highlightTargetArea() {
+      return;
+      
+      let highlight_duration = 500;
+
+      if(App.UI.currentTimestampMs() - App.UI.data.last_highlight < highlight_duration) {
+        return;
+      }
+
+      App.UI.data.last_highlight = App.UI.currentTimestampMs();
+
       $('#exoplanet-target-info').effect("highlight", {
         color: '#D8FFDA'
-      }, 500);
+      }, highlight_duration);
     },
 
     targetSelected(subject, data) {
@@ -200,7 +224,12 @@ module.exports = function(App) {
       }
 
       if(subject == 'comms') {
-        App.UI.updateOperation('sending data to Earth', 'comms');
+        App.UI.updateOperation('comms (transmit/receive data)', 'comms');
+        return;
+      }
+
+      if(subject == 'ew') {
+        App.UI.updateOperation('early warning scan', 'ew');
         return;
       }
 
@@ -215,7 +244,7 @@ module.exports = function(App) {
       if(subject == 'neo') {
         $('.targeting > .subject').addClass('hidden');
         $('#neo-target-info').removeClass('hidden');
-        App.UI.updateOperation(data.name + ' spectroscopy', 'neo-spectroscopy'); ////
+        App.UI.updateOperation(data.data.full_name + ' spectroscopy', 'neo-spectroscopy'); ////
         App.UI.setNEODetails(data);
         return;
       }
@@ -250,9 +279,46 @@ module.exports = function(App) {
     },
 
     setNEODetails(target) {
+      _.each({
+        id:           target.id ? '#' + target.id : '-',
+        name:         target.data.full_name || 'unknown',
+        mag:          _.round(target.data.mag, 2),
+        vmag:         _.round(target.data.vmag, 2),
+        integration:  target.data.integration_time > 60 ? _.round(target.data.integration_time / 60) + ' minutes' : '<1 minute',
+        spectnum:     target.spect_num > 0 ? (target.spect_num + ' (' + App.UI.humanizeDuration(App.pathFinder.data.timestamp - target.last_spectroscopy) + ')') : 'none yet',
+        pdes:         target.data.pdes || 'unknown',
+        nid:          target.data.nid || 'unknown',
+        spkid:        target.data.spkid || 'unknown',
+        obs2ast:      _.round(App.astrodynamics.km2AU(target.obs2ast), 2) + ' AU',
+        obs2astL1E:   _.round(App.astrodynamics.km2L1E(target.obs2ast), 2) + ' L1E',
+        sun2ast:      _.round(App.astrodynamics.km2AU(target.sun2ast), 2) + ' AU',
+        smass:        target.data.smass || 'no data',
+        tholen:       target.data.tholen || 'no data',
+        a:            _.round(target.kepler[0], 2) + ' AU',
+        e:            _.round(target.kepler[1], 3),
+        i:            _.round(App.conversion.rad2deg(target.kepler[2]), 1) + '&deg;',
+        slew_current: _.round(!_.isNaN(target.slew.current) ? target.slew.current : 0, 2).toFixed(2) + '&deg;/hr',
+        slew_max:     _.round(!_.isNaN(target.slew.max) ? target.slew.max : 0, 2).toFixed(2) + '&deg;/hr',
+      }, function(value, key) {
+        $('#neo-' + key).html(value);
+      });
+      
       App.UI.highlightTargetArea();
+    },
 
-      return;
+    updateNEODetails(target) {
+      _.each({
+        vmag:         _.round(target.data.vmag, 2).toFixed(2),
+        obs2ast:      _.round(App.astrodynamics.km2AU(target.obs2ast), 2).toFixed(2) + ' AU',
+        obs2astL1E:   _.round(App.astrodynamics.km2L1E(target.obs2ast), 2).toFixed(2) + ' L1E',
+        sun2ast:      _.round(App.astrodynamics.km2AU(target.sun2ast), 2).toFixed(2) + ' AU',
+        slew_current: _.round(!_.isNaN(target.slew.current) ? target.slew.current : 0, 2).toFixed(2) + '&deg;/hr',
+        slew_max:     _.round(!_.isNaN(target.slew.max) ? target.slew.max : 0, 2).toFixed(2) + '&deg;/hr',
+      }, function(value, key) {
+        $('#neo-' + key).html(value);
+      });
+      
+      App.UI.highlightTargetArea();
     },
 
     updateOperation(operation, classname) {
@@ -286,6 +352,21 @@ module.exports = function(App) {
       $('#data-storage').toggleClass('progress-bar-warning', percent > 60)
         .toggleClass('progress-bar-danger', percent > 90)
         .css({ width: percent + '%' }).html(string + '%');
-    }
+    },
+
+    performanceCounter() {
+      App.pathFinder.data.iterations++;
+
+      if(App.pathFinder.data.iterations > 200) {
+        App.UI.updateIPS(App.pathFinder.data.iteration_reference, App.pathFinder.data.iterations);
+
+        App.pathFinder.data.iterations = 0;
+        App.pathFinder.data.iteration_reference = App.UI.currentTimestampMs();
+
+      }
+
+      App.statistics.updateMissionLifetime();
+      App.statistics.stopAtTheEnd();
+    },
   }
 };

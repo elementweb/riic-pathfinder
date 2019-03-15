@@ -1,5 +1,13 @@
 module.exports = function(App) {
   App.targeting = {
+    target_types: {
+      none: 0,
+      exoplanet: 1,
+      neo: 2,
+      earth_comms: 3,
+      early_warning_scan: 4,
+    },
+
     data: {
       current_target: [0, 0]
     },
@@ -12,10 +20,6 @@ module.exports = function(App) {
 
     timeRequired(angle) {
       return _.round(angle / App.targeting.data.reorientation_speed);
-    },
-
-    getTarget(id) {
-      return App.pathFinder.data.exoplanet_series.find(el => el.id === id);
     },
 
     /**
@@ -115,6 +119,10 @@ module.exports = function(App) {
     },
 
     loadEarthExclusionIndicator() {
+      if($('#earth-exclusion-indicator').length) {
+        $('#earth-exclusion-indicator').remove();
+      }
+
       let $chart = App.pathFinder.chart,
           xAxis = $chart.xAxis[0],
           yAxis = $chart.yAxis[0],
@@ -125,6 +133,7 @@ module.exports = function(App) {
           ry = yAxis.toPixels(0) - yAxis.toPixels(size);
 
       $chart.renderer.createElement('ellipse').attr({
+        id: 'earth-exclusion-indicator',
         cx, cy, rx, ry,
         'stroke-width': 1,
         stroke: 'silver',
@@ -141,6 +150,8 @@ module.exports = function(App) {
       if(!App.pathFinder.data.visualisation_enabled) {
         return;
       }
+
+      // console.log(x, y);
       
       let $target = $('#scope-target'),
           $chart = App.pathFinder.chart,
@@ -155,7 +166,9 @@ module.exports = function(App) {
       var $horizontal = $('#scope-horizontal'),
           $vertical = $('#scope-vertical');
 
-      x = App.arithmetics.wrapTo180(x);
+      // console.log(App.targeting.data.current_target);
+
+      // x = App.arithmetics.wrapTo180(x);
 
       var px = $chart.xAxis[0].toPixels(-size[0] + x),
           py = $chart.yAxis[0].toPixels(size[1] + y),
@@ -172,9 +185,11 @@ module.exports = function(App) {
     /**
      * Set target within observation scope and do not translate i.e. keep the pointing stable
      */
-    setScopedTarget(x, y) {
-      x = App.arithmetics.constrainToFOV(x, 50);
-      y = App.arithmetics.constrainToFOV(y, 50);
+    setScopedTarget(x, y, constrain = true) {
+      if(constrain) {
+        x = App.arithmetics.constrainToFOV(x, 50);
+        y = App.arithmetics.constrainToFOV(y, 50);
+      }
 
       App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenMercatorVectors(
         App.targeting.data.current_target,
@@ -192,7 +207,8 @@ module.exports = function(App) {
       var resolved = App.targeting.resolveCelestialTarget(x, y);
 
       if(resolved.x < -25 || resolved.x > 25) {
-        App.log('Target is out of scope');
+        // App.log('Target is out of scope (1)');
+        App.targeting.discardTarget();
         return;
       }
 
@@ -207,11 +223,42 @@ module.exports = function(App) {
     },
 
     /**
+     * Set NEO as target
+     */
+    setNEOTarget(target) {
+      App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenMercatorVectors(
+        App.targeting.data.current_target,
+        target.mercator
+      ));
+
+      App.pathFinder.data.target.coordinates = target.mercator;
+
+      App.targeting.setTarget(target.mercator[0], target.mercator[1]);
+      App.pathFinder.data.target.translate = true;
+    },
+
+    /**
      * Point spacecraft towards Earth
      */
     setTargetEarth() {
       App.targeting.setScopedTarget(0, 0);
       App.UI.targetSelected('earth');
+    },
+
+    /**
+     * Communications mode - point towards Earth
+     */
+    commsMode() {
+      App.targeting.setScopedTarget(0, 0);
+      App.UI.targetSelected('comms');
+    },
+
+    /**
+     * Early Warning Scan mode - point away from the scope
+     */
+    earlyWarningScanMode() {
+      App.targeting.setScopedTarget(0, 60, false);
+      App.UI.targetSelected('ew');
     },
 
     /**
@@ -225,37 +272,55 @@ module.exports = function(App) {
     },
 
     /**
-     * Track target and move target scope along
+     * Get current target
      */
-    translateTarget(offset) {
+    getCurrentTarget() {
+      var id = App.pathFinder.data.target.id;
+
+      if(App.pathFinder.data.target_type == App.targeting.target_types.neo) {
+        return App.neos.getTarget(id);
+      }
+
+      return App.exoplanets.getTarget(id);
+    },
+    
+    /**
+     * Translate target
+     */
+    translateTarget() {
       if(!App.pathFinder.data.target.translate) {
         return;
       }
 
       [x, y] = App.pathFinder.data.target.coordinates;
 
-      var resolved = App.targeting.resolveCelestialTarget(x, y);
+      // console.log(x, y);
 
-      if(resolved.x > 25) {
-        App.log('Target is out of scope');
-        App.targeting.discardTarget();
-        // App.targeting.setScopedTarget(25, y); // or debug
-        // App.debug.selectRandomTargetInScope(); // debug
-        return;
-      }
+      // if(!App.targeting.isWithinScope([x, y])) {
+      //   App.targeting.discardTarget();
 
-      App.targeting.setTarget(resolved.x, resolved.y);
+      //   return;
+      // }
+
+      App.targeting.setTarget(x, y);
     },
 
     /**
      * Stop tracking target and keep the pointing stable
      */
     discardTarget() {
+      App.pathFinder.data.target_selected = false;
+      App.pathFinder.data.target_type = App.targeting.target_types.none;
       App.pathFinder.data.target.id = null;
       App.pathFinder.data.target.translate = false;
       App.pathFinder.data.target.coordinates = [0, 0];
       App.pathFinder.data.target.time_selected = null;
       App.UI.targetSelected(false);
-    }
+    },
+
+    isWithinScope(mercator) {
+      return App.math.abs(mercator[0]) <= 25
+          && App.math.abs(mercator[1]) <= 25;
+    },
   }
 };
