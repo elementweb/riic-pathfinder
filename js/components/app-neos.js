@@ -13,7 +13,7 @@ module.exports = function(App) {
 
       limiting_by: 1, // 1 - integration time, 2 - visual magnitude
       vmag_limit: 20,
-      int_time_limit: 5*3600, // seconds
+      int_time_limit: 800*60, // seconds
 
       // Allow spectroscopy to be performed for single target more than once?
       // allow_multiple_spectroscopies: true,
