@@ -81,6 +81,10 @@ module.exports = function(App) {
           day_end = App.math.ceil((end - reference) / ADAY),
           width = App.main.secondsToPixels(end - start);
 
+      if(width < 1) {
+        width = 1;
+      }
+
       let seconds_start = App.math.mod(start - reference, ADAY),
           position = App.main.secondsToPixels(seconds_start);
 
