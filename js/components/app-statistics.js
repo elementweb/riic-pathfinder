@@ -15,7 +15,15 @@ module.exports = function(App) {
       storage_capacity: {
         exceeded: false,
         amount: 0,
-      }
+      },
+      integrations: {
+        neo_scans: [],
+        exoplanet_scans: [],
+      },
+      operations: {
+        neo_scans: [],
+        exoplanet_scans: [],
+      },
     },
 
     data: {
@@ -138,6 +146,10 @@ module.exports = function(App) {
     },
 
     dataTransmitted(amount) {
+      return;
+    },
+
+    dataProduced(amount) {
       if(!isFinite(amount)) {
         return;
       }
@@ -169,6 +181,47 @@ module.exports = function(App) {
       }
 
       App.settings.$emit("capacity-exceeded", App.comms.storageRecommendationGb(App.statistics.stats.storage_capacity.amount));
+    },
+
+    logOperationTime(type, time) {
+      if(type == App.targeting.target_types.neo) {
+        App.statistics.stats.operations.neo_scans.push(_.round(time));
+        return;
+      }
+
+      App.statistics.stats.operations.exoplanet_scans.push(_.round(time));
+    },
+
+    logIntegrationTime(type, time) {
+      if(type == App.targeting.target_types.neo) {
+        App.statistics.stats.integrations.neo_scans.push(_.round(time));
+        return;
+      }
+
+      App.statistics.stats.integrations.exoplanet_scans.push(_.round(time));
+    },
+  
+    scanningOperationTimeBreakdown() {
+      var exoplanets_scanning_total = App.math.sum(App.statistics.stats.operations.exoplanet_scans),
+          neos_scanning_total = App.math.sum(App.statistics.stats.operations.neo_scans),
+          total_time = App.pathFinder.data.timestamp - App.pathFinder.data.reference_timestamp;
+
+      let exoplanets_scan_percent = _.round(exoplanets_scanning_total * 100 / total_time, 1),
+          neos_scan_percent = _.round(neos_scanning_total * 100 / total_time, 1),
+          idle_percent = _.round(100 - exoplanets_scan_percent - neos_scan_percent, 1);
+
+      return [
+        exoplanets_scan_percent,
+        neos_scan_percent,
+        idle_percent,
+      ];
+    },
+
+    averageScanningTime() {
+      return [
+        _.round(App.math.mean(App.statistics.stats.integrations.exoplanet_scans)),
+        _.round(App.math.mean(App.statistics.stats.integrations.neo_scans)),
+      ];
     },
   }
 };

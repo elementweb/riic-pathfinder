@@ -2,7 +2,7 @@ module.exports = function(App) {
   App.spectroscopy = {
     settings: {
       // Set the id of default telescope
-      use_telescope: 3,
+      use_telescope: 1,
 
       // Spectrograph produced data rate
       data_rate_mbps: 2,
@@ -18,7 +18,14 @@ module.exports = function(App) {
      * Define relationship between optical magnitude and integration time (seconds)
      */
     integrationTime(opt_mag) {
-      return App.spectroscopy.telescopes.find(t => t.id === App.spectroscopy.settings.use_telescope).integration(opt_mag);
+      return App.spectroscopy.getCurrentTelescope().integration(opt_mag);
+    },
+
+    /**
+     * Get telescope data that's currently being used
+     */
+    getCurrentTelescope() {
+      return App.spectroscopy.telescopes.find(t => t.id === App.spectroscopy.settings.use_telescope);
     },
 
     /**

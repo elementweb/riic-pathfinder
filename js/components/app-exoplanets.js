@@ -1,22 +1,9 @@
 module.exports = function(App) {
   App.exoplanets = {
-    /**
-     * Exoplanet object class settings
-     */
     settings: {
       scan_enabled: true,
-
-      // Transit must start in one hour for target to be "feasible" and not waste time on waiting
       allow_time_before_transit: 3600, // seconds
-
-      // // Allow spectroscopy to be performed for single target more than once?
-      // allow_multiple_spectroscopies: true,
-
-      // // Minimum delay between exoplanet spectroscopies in seconds.
-      // min_delay_between_specs: 20736000, // 8 months = 8*30*24*3600
-      
-      scan_method: 1, // 1 - delay between scans, 2 - scan only once
-
+      scan_method: 2, // 1 - delay between scans, 2 - scan only once
       scan_delay: 60, // days
     },
 
@@ -322,19 +309,24 @@ module.exports = function(App) {
           App.targeting.target_types.exoplanet,
           App.pathFinder.data.target.time_selected,
           App.pathFinder.data.timestamp,
-          current_target,
+          App.exoplanets.prepareForOutput(current_target),
         );
 
+        App.statistics.logOperationTime(App.targeting.target_types.exoplanet, App.pathFinder.data.timestamp - App.pathFinder.data.target.time_selected);
+        App.statistics.logIntegrationTime(App.targeting.target_types.exoplanet, current_target.integration_time);
+
         var time_delta = (App.pathFinder.data.timestamp - current_target.slew.initial_time) / 3600,
-            slew_rate = total_angle_change / time_delta;
+            slew_rate = total_angle_change / time_delta,
+            data_produced = App.spectroscopy.dataProduced(current_target.integration_time);
 
         App.statistics.determineMaxSlewRate(slew_rate);
+        App.statistics.dataProduced(data_produced);
 
         current_target.slew = App.neos.slewDefault();
 
         App.statistics.incrementCounter('exoplanets_scanned');
         App.statistics.incrementIntegrationTime(current_target.integration_time);
-        App.comms.addData(App.spectroscopy.dataProduced(current_target.integration_time));
+        App.comms.addData(data_produced);
         App.targeting.discardTarget();
 
         App.spectroscopy.enterCooldownPeriod();
@@ -346,6 +338,17 @@ module.exports = function(App) {
         initial_time: 0,
         initial_position: [],
       }));
+    },
+
+    prepareForOutput(exoplanet) {
+      return {
+        name: exoplanet.pl_name,
+        host: exoplanet.pl_hostname,
+        period: exoplanet.period,
+        transit_duration: exoplanet.transit_duration,
+        optmag: exoplanet.st_optmag,
+        spect_num: exoplanet.spect_num,
+      };
     },
   }
 };

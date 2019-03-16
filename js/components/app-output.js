@@ -46,8 +46,35 @@ module.exports = function(App) {
       });
     },
 
+    prepareOperationsForExport() {
+      var neo_limiting_integration = _.round(App.neos.settings.int_time_limit / 60),
+          neo_limiting_vmag = _.round(App.neos.settings.vmag_limit, 2),
+          time_breakdown = App.statistics.scanningOperationTimeBreakdown(),
+          avg_scan_time = App.statistics.averageScanningTime();
+
+      return {
+        started: App.pathFinder.data.reference_timestamp,
+        ended: App.pathFinder.data.timestamp,
+        timestep: App.pathFinder.data.simulation.timestep_sec,
+        telescope: App.spectroscopy.getCurrentTelescope().name,
+        neos_scanned: App.statistics.counters.neos_scanned,
+        exoplanets_scanned: App.statistics.counters.exoplanets_scanned,
+        max_slew_rate: _.round(App.statistics.stats.slew.max_rate, 2),
+        operations: App.output.data.operations,
+        earth_exclusion: _.round(App.targeting.settings.earth_exclusion_deg * 2, 1),
+        exoplanet_spectroscopy_limiting: 'not limited',
+        neo_spectroscopy_limiting: App.neos.settings.limiting_by == 1 ? (neo_limiting_integration + ' minutes integration time') : ('visual magnitude ' + neo_limiting_vmag),
+        exoplanet_avg_scan_time: _.round(avg_scan_time[0]),
+        neo_avg_scan_time: _.round(avg_scan_time[1]),
+        time_exoplanet_scans: _.round(time_breakdown[0], 1).toFixed(1),
+        time_neo_scans: _.round(time_breakdown[1], 1).toFixed(1),
+        time_idle: _.round(time_breakdown[2], 1).toFixed(1),
+        total_data_produced_tb: _.round(App.statistics.stats.total_data_produced / 1e12, 2),
+      };
+    },
+
     exportOperationLog() {
-      App.export.save(App.output.data.operations);
+      App.export.save(App.output.prepareOperationsForExport(), 'scan-data-export.json');
     },
   }
 };

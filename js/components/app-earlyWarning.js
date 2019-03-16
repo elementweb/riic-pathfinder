@@ -1,11 +1,13 @@
 module.exports = function(App) {
   App.earlyWarning = {
     settings: {
-      enabled: true,
+      enabled: false,
+      
       scan_frequency: {
         times: 1,
         timeframe_hours: 24,
       },
+
       scan_length: 120, // minutes
 
       // Spectrograph produced data rate
@@ -67,15 +69,10 @@ module.exports = function(App) {
     },
 
     end() {
-      let data = {
-        scanned: 1111,
-      };
-
       App.output.operationCompleted(
         App.targeting.target_types.early_warning_scan,
         App.pathFinder.data.target.time_selected,
         App.pathFinder.data.timestamp,
-        data,
       );
 
       App.targeting.discardTarget();

@@ -1,6 +1,7 @@
 module.exports = function(App) {
   App.comms = {
     settings: {
+      enabled: false,
       data_capacity: 500, // Gb
       transmission_rate: 10, // Mbps
       transmission_rate_fluct: 1, // Mbps
@@ -18,6 +19,7 @@ module.exports = function(App) {
       storage: 0, // bits
       last_contact: 0, // timestamp
       contact_time_required: 0, // seconds
+      transmission_rate_current: 0, // mbps
     },
 
     bits2Gigabits(bits) {
@@ -39,6 +41,10 @@ module.exports = function(App) {
     },
 
     approveIntegrationTime(integration) {
+      if(!App.comms.settings.enabled) {
+        return true;
+      }
+
       var required = App.spectroscopy.dataProduced(integration),
           remaining = App.comms.settings.data_capacity * 1e9 - App.comms.data.storage;
 
@@ -52,15 +58,14 @@ module.exports = function(App) {
     },
 
     end() {
-      let data = {
-        transmitted: App.comms.data.storage,
-      };
-
       App.output.operationCompleted(
         App.targeting.target_types.earth_comms,
         App.pathFinder.data.target.time_selected,
         App.pathFinder.data.timestamp,
-        data,
+        App.comms.prepareForOutput({
+          data: App.comms.data.storage,
+          rate_mbps: App.comms.data.transmission_rate_current,
+        }),
       );
 
       App.targeting.discardTarget();
@@ -69,6 +74,10 @@ module.exports = function(App) {
     },
 
     shallWeEnterCommsMode() {
+      if(!App.comms.settings.enabled) {
+        return false;
+      }
+
       if(App.pathFinder.data.target_selected || App.pathFinder.isSpacecraftInCooldownMode()) {
         return false;
       }
@@ -84,6 +93,10 @@ module.exports = function(App) {
     },
 
     canWeNowExitCommsMode() {
+      if(!App.comms.settings.enabled) {
+        return false;
+      }
+
       if(App.pathFinder.data.timestamp - App.pathFinder.data.target.time_selected >= App.comms.data.contact_time_required) {
         App.comms.data.last_contact = App.pathFinder.data.target.time_selected;  
         App.comms.end();
@@ -102,8 +115,12 @@ module.exports = function(App) {
         fluctuations = -rate; // data rate will essentialy become zero
       }
 
+      App.comms.data.transmission_rate_current = rate + fluctuations;
+
+      var real_rate = App.comms.data.transmission_rate_current * 1e6;
+
       return _.max([
-        data_capacity / ((rate + fluctuations) * 1e6),
+        data_capacity / real_rate,
         App.comms.settings.min_contact_time * 60,
       ]);
     },
@@ -123,10 +140,18 @@ module.exports = function(App) {
     },
 
     updateStorageIndicator() {
+      if(!App.comms.settings.enabled) {
+        return false;
+      }
+
       App.UI.dataStorage((App.comms.data.storage / (App.comms.settings.data_capacity * 1e9)) * 100);
     },
 
     addData(data) {
+      if(!App.comms.settings.enabled) {
+        return false;
+      }
+
       App.comms.data.storage = App.comms.data.storage + data;
 
       App.comms.updateStorageIndicator();
@@ -164,6 +189,13 @@ module.exports = function(App) {
     exitCooldown() {
       App.pathFinder.data.cooms_cooldown = false;
       App.UI.updateOperation('idling');
+    },
+
+    prepareForOutput(transmission) {
+      return {
+        data_mb: _.round(transmission.data / 1e6),
+        rate_mbps: _.round(transmission.rate_mbps, 2),
+      };
     },
   }
 };

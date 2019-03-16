@@ -13,7 +13,7 @@ module.exports = function(App) {
 
       limiting_by: 1, // 1 - integration time, 2 - visual magnitude
       vmag_limit: 20,
-      int_time_limit: 800*60, // seconds
+      int_time_limit: 180*60, // seconds
 
       // Allow spectroscopy to be performed for single target more than once?
       // allow_multiple_spectroscopies: true,
@@ -21,7 +21,7 @@ module.exports = function(App) {
       // Minimum delay between NEO spectroscopies in seconds.
       // min_delay_between_specs: 10368000, // 4 months = 4*30*24*3600
 
-      scan_method: 1, // 1 - delay between scans, 2 - scan only once
+      scan_method: 2, // 1 - delay between scans, 2 - scan only once
 
       scan_delay: 30, // days
     },
@@ -83,16 +83,22 @@ module.exports = function(App) {
           App.targeting.target_types.neo,
           App.pathFinder.data.target.time_selected,
           App.pathFinder.data.timestamp,
-          current_target,
+          App.neos.prepareForOutput(current_target),
         );
 
+        App.statistics.logOperationTime(App.targeting.target_types.neo, App.pathFinder.data.timestamp - App.pathFinder.data.target.time_selected);
+        App.statistics.logIntegrationTime(App.targeting.target_types.neo, current_target.data.integration_time);
+
+        var data_produced = App.spectroscopy.dataProduced(current_target.data.integration_time);
+
         App.statistics.determineMaxSlewRate(current_target.slew.max);
+        App.statistics.dataProduced(data_produced);
 
         current_target.slew = App.neos.slewDefault();
 
         App.statistics.incrementCounter('neos_scanned');
         App.statistics.incrementIntegrationTime(current_target.data.integration_time);
-        App.comms.addData(App.spectroscopy.dataProduced(current_target.data.integration_time));
+        App.comms.addData(data_produced);
         App.targeting.discardTarget();
 
         App.spectroscopy.enterCooldownPeriod();
@@ -315,7 +321,19 @@ module.exports = function(App) {
 
     prepareForOutput(neo) {
       return {
-        id: neo.data.nid,
+        nid: neo.data.nid,
+        spkid: neo.data.spkid,
+        designation: neo.data.pdes,
+        name: neo.data.name,
+        full_name: neo.data.full_name,
+        integration_time: _.round(neo.data.integration_time),
+        mag: _.round(neo.data.mag, 3),
+        vmag: _.round(neo.data.vmag, 3),
+        pha: neo.data.pha,
+        smass: neo.data.smass,
+        tholen: neo.data.tholen,
+        spect_num: neo.data.spect_num,
+        slew_max: _.round(neo.slew.max, 2),
       };
     },
   }

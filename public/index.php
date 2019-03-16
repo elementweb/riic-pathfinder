@@ -42,7 +42,7 @@
             <ul class="nav nav-tabs">
                 <li><a data-toggle="tab" href="#panel-simulation" class="active">Simulation settings</a></li>
                 <li><a data-toggle="tab" href="#panel-export">Data export</a></li>
-                <li><a data-toggle="tab" href="#panel-other">Other</a></li>
+                <li><a data-toggle="tab" href="#panel-about">About</a></li>
             </ul>
 
             <div class="tab-content">
@@ -70,12 +70,16 @@
                 </div>
 
                 <div id="panel-export" class="tab-pane">
-                    data export<br>
-                    JSON<br>
-                    CSV
+                    <button id="scan-data-json-export">Export as JSON</button>
+
+                    <button id="scan-data-visualize">Visualise</button>
+
+                    <form action="action.php" method="post" target="_blank">
+                        <input type="hidden" name="something" value="some value">
+                    </form>
                 </div>
 
-                <div id="panel-other" class="tab-pane">
+                <div id="panel-about" class="tab-pane">
                     <div class="credits">Source code available on <a href="https://github.com/elementweb/riic-pathfinder" target="_blank"><i class="fa fa-github"></i> GitHub</a></div>
                 </div>
             </div>
@@ -94,7 +98,8 @@
             </div>
 
             <div class="status"><b>Simulation:</b> &nbsp;&nbsp;<span id="status">waiting</span></div>
-            <div class="status"><b>Operation:</b> <span id="operation-status">idling</span></div>
+            &nbsp;&nbsp;
+            <div class="status"><b>Operation:</b> &nbsp;&nbsp;<span id="operation-status">idling</span></div>
 
             <div class="subjects-loaded">
                 <div class="subjects-loaded-heading">Data loaded:</div>
@@ -112,12 +117,11 @@
         <div class="settings-panel" id="pathfinder-settings" v-cloak>
             <ul class="nav nav-tabs">
                 <li><a data-toggle="tab" href="#panel-general" class="active">General</a></li>
-                <li><a data-toggle="tab" href="#panel-operations">Operations</a></li>
                 <li><a data-toggle="tab" href="#panel-spectroscopy">Spectroscopy</a></li>
-                <li><a data-toggle="tab" href="#panel-ew">Early-warning</a></li>
                 <li><a data-toggle="tab" href="#panel-neos">NEOs</a></li>
                 <li><a data-toggle="tab" href="#panel-exoplanets">Exoplanets</a></li>
-                <li><a data-toggle="tab" href="#panel-comms" :class="capacity_recommendation > 0 ? 'tab-warning' : ''">Data & comms</a></li>
+                <li><a hidden data-toggle="tab" href="#panel-ew">Early-warning</a></li>
+                <li><a hidden data-toggle="tab" href="#panel-comms" :class="capacity_recommendation > 0 ? 'tab-warning' : ''">Data & comms</a></li>
             </ul>
 
             <div class="tab-content">
@@ -138,18 +142,6 @@
                         Automatically stop at the end:
 
                         <input type="checkbox" v-model="general.stop_at_the_end" :disabled="lifetime_exceeded">
-                    </div>
-                </div>
-
-                <div id="panel-operations" class="tab-pane">
-                    <div class="setting">
-                        Communication rate:
-
-                        <input style="width: 30px;" type="number" v-model="operations.freq_times" min="1" step="1">
-
-                        time(s) per
-
-                        <input style="width: 35px;" type="number" v-model="operations.freq_timeframe_hours" min="6" step="1"> hours
                     </div>
                 </div>
 
@@ -237,14 +229,8 @@
                     <div class="setting">
                         Limit scans by:
 
-                        <input type="radio" id="neosl2" v-model="neos.limiting_by" value="2"><label for="neosl2">Visual magnitude</label>
                         <input type="radio" id="neosl1" v-model="neos.limiting_by" value="1"><label for="neosl1">Integration time</label>
-                    </div>
-
-                    <div class="setting">
-                        Limiting visual magnitude:
-
-                        <input style="width: 50px;" type="number" v-model="neos.limiting_vmag" min="0.1" max="40" step="0.1" :disabled="neos.limiting_by == 1">
+                        <input type="radio" id="neosl2" v-model="neos.limiting_by" value="2"><label for="neosl2">Visual magnitude</label>
                     </div>
 
                     <div class="setting">
@@ -254,13 +240,19 @@
                     </div>
 
                     <div class="setting">
+                        Limiting visual magnitude:
+
+                        <input style="width: 50px;" type="number" v-model="neos.limiting_vmag" min="0.1" max="40" step="0.1" :disabled="neos.limiting_by == 1">
+                    </div>
+
+                    <div class="setting">
                         Scanning:
+
+                        <input type="radio" id="neosd2" v-model="neos.scan_method" value="2"><label for="neosd2">scan each only once</label>
 
                         <input type="radio" id="neosd1" v-model="neos.scan_method" value="1"><label for="neosd1">delay between single target scans</label>
 
                         <input style="width: 50px;" type="number" v-model="neos.scan_delay" min="1" step="1" :disabled="neos.scan_method == 2"> days
-
-                        <input type="radio" id="neosd2" v-model="neos.scan_method" value="2"><label for="neosd2">scan each only once</label>
                     </div>
                 </div>
 
@@ -274,15 +266,31 @@
                     <div class="setting">
                         Scanning:
 
+                        <input type="radio" id="exosd2" v-model="exoplanets.scan_method" value="2"><label for="exosd2">scan each only once</label>
+
                         <input type="radio" id="exosd1" v-model="exoplanets.scan_method" value="1"><label for="exosd1">delay between single target scans</label>
 
                         <input style="width: 50px;" type="number" v-model="exoplanets.scan_delay" min="1" step="1" :disabled="exoplanets.scan_method == 2"> days
-
-                        <input type="radio" id="exosd2" v-model="exoplanets.scan_method" value="2"><label for="exosd2">scan each only once</label>
                     </div>
                 </div>
 
                 <div id="panel-comms" class="tab-pane">
+                    <div class="setting">
+                        Simulate comms:
+
+                        <input type="checkbox" v-model="comms.enabled">
+                    </div>
+
+                    <div class="setting">
+                        Communication rate:
+
+                        <input style="width: 30px;" type="number" v-model="comms.freq_times" min="1" step="1">
+
+                        time(s) per
+
+                        <input style="width: 35px;" type="number" v-model="comms.freq_timeframe_hours" min="6" step="1"> hours
+                    </div>
+
                     <div class="setting">
                         Data storage capacity (Gb):
 
@@ -328,7 +336,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div hidden>
                     <span class="statistics-key">Data storage:</span>
                     <div class="progress data-storage-progress">
                         <div class="progress-bar progress-bar-striped active" role="progressbar" id="data-storage" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
@@ -337,14 +345,14 @@
 
                 <div><span class="statistics-key">Exoplanets in scope:</span><span id="exoplanets-scope">0</span></div>
 
-                <div><span class="statistics-key">Exoplanets scans:</span><span id="counter-exoplanets_scanned">0</span> (<span id="stats-exoplanets_per_day">0</span> per day)</div>
                 <div><span class="statistics-key">NEO scans:</span><span id="counter-neos_scanned">0</span> (<span id="stats-neos_per_day">0</span> per day)</div>
+                <div><span class="statistics-key">Exoplanets scans:</span><span id="counter-exoplanets_scanned">0</span> (<span id="stats-exoplanets_per_day">0</span> per day)</div>
 
-                <div><span class="statistics-key">Total integration time:</span><span id="stats-total_integration_time">0.00</span> hours (<span id="stats-avg_int_time">0.00</span>hr per scan, <span id="stats-avg_int_time_day">0.00</span>hr per day)</div>
-                <div><span class="statistics-key">Total AOCS:</span><span id="stats-total_aocs_change">0.00</span>&deg; (<span id="stats-avg_aocs_change">0</span>&deg;/day)</div>
+                <div hidden><span class="statistics-key">Total integration time:</span><span id="stats-total_integration_time">0.00</span> hours (<span id="stats-avg_int_time">0.00</span>hr per scan, <span id="stats-avg_int_time_day">0.00</span>hr per day)</div>
+                <div hidden><span class="statistics-key">Total AOCS:</span><span id="stats-total_aocs_change">0.00</span>&deg; (<span id="stats-avg_aocs_change">0</span>&deg;/day)</div>
                 <div><span class="statistics-key">Max slew rate:</span><span id="stats-max_slew_rate">0.00</span>&deg;/hr</div>
 
-                <div><span class="statistics-key">Total data transmitted:</span><span id="stats-total_data_produced">0.00</span> Tb</div>
+                <div><span class="statistics-key">Total data generated:</span><span id="stats-total_data_produced">0.00</span> Tb</div>
             </div>
         </fieldset>
 

@@ -32,7 +32,7 @@ module.exports = function(App) {
         time_selected: null
       },
       simulation: {
-        timestep_sec: 360,
+        timestep_sec: 60,
         delay: 0,
       },
       scan_cooldown: false,
@@ -277,33 +277,10 @@ module.exports = function(App) {
     initialize() {
       App.pathFinder.data.reference_timestamp = JSON.parse(JSON.stringify(App.pathFinder.data.timestamp));
 
-      // $("#simulation-start-date").datepicker("setDate", App.pathFinder.data.reference_timestamp);
-      // $("#simulation-start-date").datepicker("getDate");
-
-      // App.UI.setDate(App.pathFinder.data.timestamp);
-      // App.astrodynamics.propagateL1(App.pathFinder.data.timestamp);
-      // App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
-
-      // App.neos.initialize();
-
-      // // Resolve timestamp
-      // App.pathFinder.data.timestamp = App.pathFinder.data.timestamp*1;
-
-      // // Set date at the top of the plot
-      // App.UI.setDate(App.pathFinder.data.timestamp);
-
-      // // Propagate L1 (point of reference)
-      // App.astrodynamics.propagateL1(App.pathFinder.data.timestamp, true);
-
-      // // Calculate offset
-      // App.pathFinder.data.offset = App.astrodynamics.propagatedSL1Offset();
-
       App.pathFinder.chart = highcharts.chart(
         'chart-container',
         App.chartSettings
       );
-
-      // $("#simulation-start-date").val(App.UI.moment(App.pathFinder.data.reference_timestamp*1000).format("D-MMM-YYYY"));
 
       $("#simulation-start-date").datepicker({
         dateFormat: 'd MM yy',
@@ -316,9 +293,7 @@ module.exports = function(App) {
         }
       });
 
-      // $("#simulation-start-date").datepicker('setDate', App.UI.moment(App.pathFinder.data.reference_timestamp*1000).toDate());
-
-      // $("#simulation-start-date").datepicker("setDate", App.UI.moment(App.pathFinder.data.reference_timestamp*1000).toDate());
+      App.cache.set('scan-data-export', null);
     },
 
     /**
@@ -397,14 +372,6 @@ module.exports = function(App) {
           radius: 2,
           symbol: 'circle',
         },
-        // dataLabels: {
-        //   format: "{point.name}",
-        //   enabled: true,
-        //   style: {"color": "#999999", "fontSize": "10x", "fontFamily": "Calibri", "textOutline": "1px contrast" },
-        //   padding: 7,
-        //   allowOverlap: true,
-        //   overflow: 'crop',
-        // },
         data: [[0, 89]], // Some random point at the top of the map
         zIndex: 945,
       });

@@ -17,11 +17,6 @@ module.exports = function(App) {
         stop_at_the_end: App.pathFinder.data.stop_at_the_end,
       },
 
-      operations: {
-        freq_times: App.comms.settings.transmission_frequency.times,
-        freq_timeframe_hours: App.comms.settings.transmission_frequency.timeframe_hours,
-      },
-
       spectroscopy: {
         telescope: App.spectroscopy.settings.use_telescope,
         data_rate: _.round(App.spectroscopy.settings.data_rate_mbps, 1),
@@ -56,6 +51,9 @@ module.exports = function(App) {
       },
 
       comms: {
+        enabled: App.comms.settings.enabled,
+        freq_times: App.comms.settings.transmission_frequency.times,
+        freq_timeframe_hours: App.comms.settings.transmission_frequency.timeframe_hours,
         data_capacity: _.round(App.comms.settings.data_capacity),
         transmission_rate: _.round(App.comms.settings.transmission_rate, 1),
         transmission_rate_fluct: _.round(App.comms.settings.transmission_rate_fluct, 2),
@@ -71,16 +69,6 @@ module.exports = function(App) {
 
       'general.stop_at_the_end': value => {
         App.pathFinder.data.stop_at_the_end = value;
-      },
-
-      'operations.freq_times': value => {
-        App.comms.settings.transmission_frequency.times = parseInt(value);
-        this.capacity_recommendation = 0;
-      },
-
-      'operations.freq_timeframe_hours': value => {
-        App.comms.settings.transmission_frequency.timeframe_hours = parseInt(value);
-        this.capacity_recommendation = 0;
       },
 
       'spectroscopy.telescope': value => {
@@ -167,6 +155,20 @@ module.exports = function(App) {
 
       'exoplanets.scan_delay': value => {
         App.exoplanets.settings.scan_delay = _.round(value);
+      },
+
+      'comms.enabled': value => {
+        App.comms.settings.enabled = value;
+      },
+
+      'comms.freq_times': value => {
+        App.comms.settings.transmission_frequency.times = parseInt(value);
+        this.capacity_recommendation = 0;
+      },
+
+      'comms.freq_timeframe_hours': value => {
+        App.comms.settings.transmission_frequency.timeframe_hours = parseInt(value);
+        this.capacity_recommendation = 0;
       },
 
       'comms.data_capacity': function(value) {

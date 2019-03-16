@@ -9,10 +9,8 @@ module.exports = function(App) {
       animation: false,
       events: {
         redraw: function() {
-          // App.targeting.addObservationRectangle(this);
         },
         load: function() {
-          // App.targeting.addObservationRectangle(this);
         }
       }
     },
@@ -21,7 +19,7 @@ module.exports = function(App) {
     legend: { enabled: false },
     credits: { enabled: true, text: 'Data source: NASA Exoplanet Archive, JPL Small-Body Database' },
     title: {
-      text: 'RIIC Pathfinder v4.0.1',
+      text: 'RIIC Pathfinder v4.0.2',
       style: {"color": "#000000", "fontSize": "18px", "fontFamily": "Arial"}
     },
     subtitle: {

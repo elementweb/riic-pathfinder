@@ -1,0 +1,77 @@
+body#body-layout-main {
+  $width: 600px;
+  $line-height: 8px;
+  $background: #F2F2F2;
+  $exoplanet: #00D71C;
+  $neo: #A3A9D6;
+
+  font-family: monospace;
+  position: relative;
+
+  #visualisation-container {
+    display: block;
+
+    &.hidden {
+      display: none;
+    }
+
+    .statistics {
+      margin-top: 10px;
+
+      .statistics-table {
+        .statistics-parameter {
+          text-align: right;
+          width: 255px;
+        }
+
+        .statistics-value {
+          padding-left: 10px;
+
+          #neos-indicator {
+            display: inline-block;
+            width: 30px;
+            height: $line-height;
+            background: $neo;
+          }
+
+          #exoplanets-indicator {
+            display: inline-block;
+            width: 30px;
+            height: $line-height;
+            background: $exoplanet;
+          }
+        }
+      }
+    }
+
+    .operations {
+      margin-top: 20px;
+
+      .day-operation {
+        .operation-bar {
+          display: block;
+          width: $width;
+          height: $line-height;
+          background: $background;
+          position: relative;
+          overflow-x: hidden;
+          margin: 0;
+
+          .exoplanet-scan {
+            position: absolute;
+            display: block;
+            background: $exoplanet;
+            height: $line-height;
+          }
+
+          .neo-scan {
+            position: absolute;
+            display: block;
+            background: $neo;
+            height: $line-height;
+          }
+        }
+      }
+    }
+  }
+}

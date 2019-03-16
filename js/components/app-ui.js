@@ -97,6 +97,8 @@ module.exports = function(App) {
        */
       $('body').keyup(function(e){
         if(e.keyCode == 32){
+          e.preventDefault();
+
           if(App.pathFinder.data.interval_id === null) {
             $('#button-start').trigger('click');
             return;
@@ -105,35 +107,16 @@ module.exports = function(App) {
           $('#button-stop').trigger('click');
         }
       });
-
-      /**
-       * Initialize settings
-       */
-      // $('input[type=radio][name=use-plot]').change(function() {
-      //   App.pathFinder.data.visualisation_enabled = this.value == 1;
-
-      //   $('#visualisation-status').toggleClass('hidden', this.value == 1);
-      // });
-
-      // $('input[type=radio][name=multiple-spectroscopies]').change(function() {
-      //   App.exoplanets.settings.allow_multiple_spectroscopies = this.value == 1;
-      // });
-
-      // _.each(App.spectroscopy.telescopes, function(t) {
-      //   $('<input>').attr({
-      //     type: 'radio',
-      //     id: 'ts' + t.id,
-      //     name: 'telescope-selection',
-      //     value: t.id
-      //   }).prop('checked', t.id == App.spectroscopy.settings.use_telescope).appendTo('#telescope-selection');
-
-      //   $('<label>').attr({ for: 'ts' + t.id }).html(t.name).appendTo('#telescope-selection');
-      // });
-
-      // $('input[type=radio][name=telescope-selection]').change(function() {
-      //   App.spectroscopy.settings.use_telescope = this.value*1;
-      //   App.exoplanets.recalculateIntegrationTimes();
-      // });
+      
+      $('#scan-data-json-export').on('click', function(e){
+        App.output.exportOperationLog();
+      });
+      
+      $('#scan-data-visualize').on('click', function(e){
+        App.cache.set('scan-data-export', App.output.prepareOperationsForExport());
+        
+        window.open('visualise.php', 'formpopup', 'width=1000,height=700,resizeable,scrollbars');
+      });
     },
 
     initialized() {
