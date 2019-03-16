@@ -87,9 +87,9 @@ module.exports = function(App) {
       App.main.addOperationBar(day_start, type, position, width);
       
       if(day_end > day_start) {
-        position = (position + width) - App.main.settings.line_width;
+        cut = App.main.settings.line_width - position;
 
-        App.main.addOperationBar(day_end, type, -position, width);
+        App.main.addOperationBar(day_end, type, -cut, width);
       }
     },
 
