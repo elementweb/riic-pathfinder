@@ -218,9 +218,11 @@ module.exports = function(App) {
     },
 
     averageScanningTime() {
+      var integrations = App.statistics.stats.integrations;
+
       return [
-        _.round(App.math.mean(App.statistics.stats.integrations.exoplanet_scans)),
-        _.round(App.math.mean(App.statistics.stats.integrations.neo_scans)),
+        _.round(App.math.mean(!_.isEmpty(integrations.exoplanet_scans) ? integrations.exoplanet_scans : [0])),
+        _.round(App.math.mean(!_.isEmpty(integrations.neo_scans) ? integrations.neo_scans : [0])),
       ];
     },
   }
