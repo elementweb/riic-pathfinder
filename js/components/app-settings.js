@@ -73,6 +73,7 @@ module.exports = function(App) {
 
       'spectroscopy.telescope': value => {
         App.spectroscopy.settings.use_telescope = parseInt(value);
+        App.exoplanets.recalculateIntegrationTimes();
         App.targeting.discardTarget();
       },
 

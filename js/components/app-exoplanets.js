@@ -123,6 +123,7 @@ module.exports = function(App) {
     },
 
     recalculateIntegrationTimes() {
+      console.log('running');
       _.each(App.pathFinder.data.exoplanet_series, function(object) {
         return App.exoplanets.transmissionIntegration(object);
       });

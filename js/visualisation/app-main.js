@@ -24,7 +24,7 @@ module.exports = function(App) {
     loadStatistics() {
       var started = App.moment.unix(App.main.data.started).format("MMMM D, YYYY HH:mm:ss"),
           ended = App.moment.unix(App.main.data.ended).format("MMMM D, YYYY HH:mm:ss"),
-          duration = _.round((App.main.data.ended - App.main.data.started) / (24*3600));
+          duration = _.round((App.main.data.ended - App.main.data.started) / (24 * 3600));
 
       $('#simulation-started').html(started);
       $('#simulation-ended').html(ended);
@@ -97,7 +97,18 @@ module.exports = function(App) {
       }
     },
 
+    loadDays() {
+      var days = _.ceil((App.main.data.ended - App.main.data.started) / (24 * 3600));
+
+      for (var day = 1; day <= days; day++) {
+        App.main.selectDay(day);
+      }
+    },
+
     loadOperations() {
+      // Load all days
+      App.main.loadDays();
+
       _.each(App.main.data.operations, function(operation) {
         var type;
 
