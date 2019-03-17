@@ -6,6 +6,10 @@ module.exports = function(App) {
       line_width: 600, // px
     },
 
+    injectJSONData(json) {
+      App.cache.set('scan-data-export', JSON.parse(json));
+    },
+
     load() {
       if(_.isEmpty(App.main.data)) {
         return;
@@ -19,6 +23,7 @@ module.exports = function(App) {
 
       // Un-hide the screen
       $('#visualisation-container').removeClass('hidden');
+      $('#data-import-container').addClass('hidden');
     },
 
     loadStatistics() {
