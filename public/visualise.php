@@ -88,12 +88,12 @@
 
                     <tr>
                         <td class="statistics-parameter">NEO spectroscopy limiting:</td>
-                        <td class="statistics-value"><span id="neo-spectroscopy-limiting"></span></td>
+                        <td class="statistics-value"><span id="neo-spectroscopy-limiting"></span>, <span id="neo-spectroscopy-methodology"></span></td>
                     </tr>
 
                     <tr>
                         <td class="statistics-parameter">Exoplanet spectroscopy limiting:</td>
-                        <td class="statistics-value"><span id="exoplanet-spectroscopy-limiting"></span></td>
+                        <td class="statistics-value"><span id="exoplanet-spectroscopy-limiting"></span>, <span id="exoplanet-spectroscopy-methodology"></span></td>
                     </tr>
 
                     <tr>

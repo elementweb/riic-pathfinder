@@ -67,6 +67,9 @@ module.exports = function(App) {
       $('#exoplanet-spectroscopy-limiting').html(App.main.data().exoplanet_spectroscopy_limiting);
       $('#neo-spectroscopy-limiting').html(App.main.data().neo_spectroscopy_limiting);
 
+      $('#neo-spectroscopy-methodology').html(App.main.data().neo_spectroscopy_methodology);
+      $('#exoplanet-spectroscopy-methodology').html(App.main.data().exoplanet_spectroscopy_methodology);
+
       $('#total-data-produced').html(App.main.data().total_data_produced_tb);
       $('#data-rate-mbps').html(_.round(App.main.data().data_rate_mbps, 1).toFixed(1));
       $('#data-rate-fluct-mbps').html(_.round(App.main.data().data_rate_fluct_mbps, 2).toFixed(2));
