@@ -55,8 +55,8 @@ module.exports = function(App) {
       $('#exoplanet-avg-scan-time').html(_.round(App.main.data().exoplanet_avg_scan_time / 60));
       $('#neo-avg-scan-time').html(_.round(App.main.data().neo_avg_scan_time / 60));
 
-      $('#neos-per-day').html(_.round(App.main.data().neos_scanned / duration).toFixed(1));
-      $('#exoplanets-per-day').html(_.round(App.main.data().exoplanets_scanned / duration).toFixed(1));
+      $('#neos-per-day').html(_.round(App.main.data().neos_scanned / duration, 1).toFixed(1));
+      $('#exoplanets-per-day').html(_.round(App.main.data().exoplanets_scanned / duration, 1).toFixed(1));
       
       $('#time-neo-scans').html(App.main.data().time_neo_scans);
       $('#time-exoplanet-scans').html(App.main.data().time_exoplanet_scans);
