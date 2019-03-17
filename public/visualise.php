@@ -53,12 +53,12 @@
 
                     <tr>
                         <td class="statistics-parameter">NEOs scanned:</td>
-                        <td class="statistics-value"><span id="neos-indicator"></span> <span id="neos-scanned"></span> (~<span id="neo-avg-scan-time"></span> min/scan)</td>
+                        <td class="statistics-value"><span id="neos-indicator"></span> <span id="neos-scanned"></span> (~<span id="neo-avg-scan-time"></span> min/scan) ~<span id="neos-per-day">/day</td>
                     </tr>
 
                     <tr>
                         <td class="statistics-parameter">Exoplanets scanned:</td>
-                        <td class="statistics-value"><span id="exoplanets-indicator"></span> <span id="exoplanets-scanned"></span> (~<span id="exoplanet-avg-scan-time"></span> min/scan)</td>
+                        <td class="statistics-value"><span id="exoplanets-indicator"></span> <span id="exoplanets-scanned"></span> (~<span id="exoplanet-avg-scan-time"></span> min/scan) ~<span id="exoplanets-per-day">/day</td>
                     </tr>
 
                     <tr>
