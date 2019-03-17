@@ -8,6 +8,8 @@ module.exports = function(App) {
 
     injectJSONData(json) {
       App.cache.set('scan-data-export', JSON.parse(json));
+
+      window.location.reload();
     },
 
     load() {
