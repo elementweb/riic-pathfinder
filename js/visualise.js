@@ -28,4 +28,3 @@ window.App = App;
 require('./visualisation/app-main')(App);
 
 App.container.initialize();
-App.main.load();

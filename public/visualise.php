@@ -98,15 +98,15 @@
     </div>
 
     <script src="<?php echo mix('visualise.js'); ?>"></script>
+    <script type="text/javascript">
+        <?php
+        if (isset($_GET['preset']) && file_exists('presets/' . basename($_GET['preset']))) {
+            $json = file_get_contents('presets/' . basename($_GET['preset']));
 
-<?php
-if (isset($_GET['preset']) && file_exists('presets/' . basename($_GET['preset']))) {
-    $json = file_get_contents('presets/' . basename($_GET['preset']));
-
-    echo '<script type="text/javascript">';
-    echo 'App.main.preset = JSON.parse(\'' . $json . '\')';
-    echo '</script>';
-}
-?>
+            echo 'App.main.preset = JSON.parse(\'' . $json . '\');';
+        }
+        ?>
+        App.main.load();
+    </script>
 </body>
 </html>

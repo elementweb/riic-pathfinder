@@ -1,14 +1,14 @@
 module.exports = function(App) {
   App.main = {
-    data: App.cache.get('scan-data-export'),
+    default: App.cache.get('scan-data-export'),
     preset: null,
 
     data() {
-      if(_.isEmpty(App.main.preset)) {
+      if(!_.isEmpty(App.main.preset)) {
         return App.main.preset;
       }
 
-      return App.main.data;
+      return App.main.default;
     },
 
     settings: {
@@ -24,6 +24,7 @@ module.exports = function(App) {
 
     load() {
       if(_.isEmpty(App.main.data())) {
+        console.log('data is empty!');
         return;
       }
 
