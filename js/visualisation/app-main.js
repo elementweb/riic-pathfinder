@@ -1,9 +1,19 @@
 module.exports = function(App) {
   App.main = {
     data: App.cache.get('scan-data-export'),
+    preset: null,
+
+    data() {
+      if(_.isEmpty(App.main.preset)) {
+        return App.main.preset;
+      }
+
+      return App.main.data;
+    },
 
     settings: {
       line_width: 600, // px
+      min_bar_width: 2, // px
     },
 
     injectJSONData(json) {
@@ -13,7 +23,7 @@ module.exports = function(App) {
     },
 
     load() {
-      if(_.isEmpty(App.main.data)) {
+      if(_.isEmpty(App.main.data())) {
         return;
       }
 
@@ -29,31 +39,31 @@ module.exports = function(App) {
     },
 
     loadStatistics() {
-      var started = App.moment.unix(App.main.data.started).format("MMMM D, YYYY HH:mm:ss"),
-          ended = App.moment.unix(App.main.data.ended).format("MMMM D, YYYY HH:mm:ss"),
-          duration = _.round((App.main.data.ended - App.main.data.started) / (24 * 3600));
+      var started = App.moment.unix(App.main.data().started).format("MMMM D, YYYY HH:mm:ss"),
+          ended = App.moment.unix(App.main.data().ended).format("MMMM D, YYYY HH:mm:ss"),
+          duration = _.round((App.main.data().ended - App.main.data().started) / (24 * 3600));
 
       $('#simulation-started').html(started);
       $('#simulation-ended').html(ended);
       $('#duration').html(duration);
-      $('#simulation-timestep').html(App.main.data.timestep);
-      $('#telescope-size').html(App.main.data.telescope);
+      $('#simulation-timestep').html(App.main.data().timestep);
+      $('#telescope-size').html(App.main.data().telescope);
       
-      $('#neos-scanned').html(App.main.data.neos_scanned);
-      $('#exoplanets-scanned').html(App.main.data.exoplanets_scanned);
-      $('#exoplanet-avg-scan-time').html(_.round(App.main.data.exoplanet_avg_scan_time / 60));
-      $('#neo-avg-scan-time').html(_.round(App.main.data.neo_avg_scan_time / 60));
+      $('#neos-scanned').html(App.main.data().neos_scanned);
+      $('#exoplanets-scanned').html(App.main.data().exoplanets_scanned);
+      $('#exoplanet-avg-scan-time').html(_.round(App.main.data().exoplanet_avg_scan_time / 60));
+      $('#neo-avg-scan-time').html(_.round(App.main.data().neo_avg_scan_time / 60));
       
-      $('#time-neo-scans').html(App.main.data.time_neo_scans);
-      $('#time-exoplanet-scans').html(App.main.data.time_exoplanet_scans);
-      $('#time-idle').html(App.main.data.time_idle);
+      $('#time-neo-scans').html(App.main.data().time_neo_scans);
+      $('#time-exoplanet-scans').html(App.main.data().time_exoplanet_scans);
+      $('#time-idle').html(App.main.data().time_idle);
 
-      $('#max-slew-rate').html(App.main.data.max_slew_rate);
-      $('#earth-exclusion').html(App.main.data.earth_exclusion);
-      $('#exoplanet-spectroscopy-limiting').html(App.main.data.exoplanet_spectroscopy_limiting);
-      $('#neo-spectroscopy-limiting').html(App.main.data.neo_spectroscopy_limiting);
+      $('#max-slew-rate').html(App.main.data().max_slew_rate);
+      $('#earth-exclusion').html(App.main.data().earth_exclusion);
+      $('#exoplanet-spectroscopy-limiting').html(App.main.data().exoplanet_spectroscopy_limiting);
+      $('#neo-spectroscopy-limiting').html(App.main.data().neo_spectroscopy_limiting);
 
-      $('#total-data-produced').html(App.main.data.total_data_produced_tb);
+      $('#total-data-produced').html(App.main.data().total_data_produced_tb);
     },
 
     selectDay(day) {
@@ -81,15 +91,15 @@ module.exports = function(App) {
     },
 
     addOperation(start, end, type) {
-      var reference = App.main.data.started,
+      var reference = App.main.data().started,
           ADAY = 24 * 3600; // seconds
 
       let day_start = App.math.ceil((start - reference) / ADAY),
           day_end = App.math.ceil((end - reference) / ADAY),
           width = App.main.secondsToPixels(end - start);
 
-      if(width < 2) {
-        width = 2;
+      if(width < App.main.settings.min_bar_width) {
+        width = App.main.settings.min_bar_width;
       }
 
       let seconds_start = App.math.mod(start - reference, ADAY),
@@ -105,7 +115,7 @@ module.exports = function(App) {
     },
 
     loadDays() {
-      var days = _.ceil((App.main.data.ended - App.main.data.started) / (24 * 3600));
+      var days = _.ceil((App.main.data().ended - App.main.data().started) / (24 * 3600));
 
       for (var day = 1; day <= days; day++) {
         App.main.selectDay(day);
@@ -116,7 +126,7 @@ module.exports = function(App) {
       // Load all days
       App.main.loadDays();
 
-      _.each(App.main.data.operations, function(operation) {
+      _.each(App.main.data().operations, function(operation) {
         var type;
 
         if(operation.type == 1) {
