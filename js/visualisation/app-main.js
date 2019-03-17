@@ -42,11 +42,11 @@ module.exports = function(App) {
     loadStatistics() {
       var started = App.moment.unix(App.main.data().started).format("MMMM D, YYYY HH:mm:ss"),
           ended = App.moment.unix(App.main.data().ended).format("MMMM D, YYYY HH:mm:ss"),
-          duration = _.round((App.main.data().ended - App.main.data().started) / (24 * 3600));
+          duration = (App.main.data().ended - App.main.data().started) / (24 * 3600);
 
       $('#simulation-started').html(started);
       $('#simulation-ended').html(ended);
-      $('#duration').html(duration);
+      $('#duration').html(_.round(duration));
       $('#simulation-timestep').html(App.main.data().timestep);
       $('#telescope-size').html(App.main.data().telescope);
       
@@ -68,6 +68,14 @@ module.exports = function(App) {
       $('#neo-spectroscopy-limiting').html(App.main.data().neo_spectroscopy_limiting);
 
       $('#total-data-produced').html(App.main.data().total_data_produced_tb);
+      $('#data-rate-mbps').html(_.round(App.main.data().data_rate_mbps, 1).toFixed(1));
+      $('#data-rate-fluct-mbps').html(_.round(App.main.data().data_rate_fluct_mbps, 2).toFixed(2));
+
+      $('#exoplanet-count').html(App.main.data().exoplanet_count);
+      $('#observable-exoplanet-count').html(App.main.data().observable_exoplanet_count);
+      $('#neo-count').html(App.main.data().neo_count);
+
+      $('#ecliptic-scope, #ecliptic-scope-2').html(App.main.data().ecliptic_scope);
     },
 
     selectDay(day) {

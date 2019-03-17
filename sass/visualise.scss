@@ -10,6 +10,7 @@ body#body-layout-main {
 
   #visualisation-container {
     display: block;
+    width: $width;
 
     &.hidden {
       display: none;
@@ -17,6 +18,7 @@ body#body-layout-main {
 
     .statistics {
       margin-top: 10px;
+      margin-bottom: 20px;
 
       .statistics-table {
         .statistics-parameter {
@@ -45,8 +47,6 @@ body#body-layout-main {
     }
 
     .operations {
-      margin-top: 20px;
-
       .day-operation {
         .operation-bar {
           display: block;

@@ -62,6 +62,16 @@
                     </tr>
 
                     <tr>
+                        <td class="statistics-parameter">NEO population:</td>
+                        <td class="statistics-value"><span id="neo-count"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="statistics-parameter">Exoplanet population:</td>
+                        <td class="statistics-value"><span id="exoplanet-count"></span> (<span id="observable-exoplanet-count"></span> observable at <span id="ecliptic-scope-2"></span>)</td>
+                    </tr>
+
+                    <tr>
                         <td class="statistics-parameter">Scanning time breakdown:</td>
                         <td class="statistics-value">NEOs: <span id="time-neo-scans">0</span>%; exoplanets: <span id="time-exoplanet-scans">0</span>%; idle: <span id="time-idle">0</span>%</td>
                     </tr>
@@ -72,8 +82,8 @@
                     </tr>
 
                     <tr>
-                        <td class="statistics-parameter">Earth exclusion zone:</td>
-                        <td class="statistics-value"><span id="earth-exclusion"></span>&deg;</td>
+                        <td class="statistics-parameter">Ecliptic scope; Earth excl. zone:</td>
+                        <td class="statistics-value"><span id="ecliptic-scope"></span>; <span id="earth-exclusion"></span>&deg;</td>
                     </tr>
 
                     <tr>
@@ -88,7 +98,7 @@
 
                     <tr>
                         <td class="statistics-parameter">Total data produced:</td>
-                        <td class="statistics-value"><span id="total-data-produced"></span> Tb</td>
+                        <td class="statistics-value"><span id="total-data-produced"></span> Tb (<span id="data-rate-mbps"></span>±<span id="data-rate-fluct-mbps"></span> Mbps)</td>
                     </tr>
                 </table>
             </div>

@@ -70,6 +70,12 @@ module.exports = function(App) {
         time_neo_scans: _.round(time_breakdown[1], 1).toFixed(1),
         time_idle: _.round(time_breakdown[2], 1).toFixed(1),
         total_data_produced_tb: _.round(App.statistics.stats.total_data_produced / 1e12, 2),
+        data_rate_mbps: _.round(App.spectroscopy.settings.data_rate_mbps, 1),
+        data_rate_fluct_mbps: _.round(App.spectroscopy.settings.data_rate_fluct_mbps, 2),
+        exoplanet_count: App.dataManager.storage.exoplanets.length,
+        observable_exoplanet_count: App.operations.cropY(App.pathFinder.data.exoplanet_series, 50).length,
+        neo_count: App.dataManager.storage.neos.length,
+        ecliptic_scope: '50°x50°',
       };
     },
 
