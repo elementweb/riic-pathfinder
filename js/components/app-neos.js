@@ -12,11 +12,12 @@ module.exports = function(App) {
       scan_enabled: true,
       limiting_by: 1, // 1 - integration time, 2 - visual magnitude
       vmag_limit: 20,
-      int_time_limit: 120 * 60, // seconds
+      int_time_limit: 180 * 60, // seconds
       scan_method: 2, // 1 - delay between scans, 2 - scan only once
       scan_delay: 30, // days
-      limiting_frequency: 6, // times
+      limiting_frequency: 1, // times
       limiting_timeframe: 24, // hours
+      limiting_enabled: false,
     },
 
     /**
@@ -47,6 +48,21 @@ module.exports = function(App) {
     },
 
     /**
+     * Limit scans
+     */
+    scanningLimiting() {
+      if(!App.neos.settings.limiting_enabled) {
+        return false;
+      }
+
+      if(App.pathFinder.data.timestamp - App.neos.data.last_scan <= App.neos.scanningFrequencySeconds()) {
+        return true;
+      }
+
+      return false;
+    },
+
+    /**
      * Attempt new target selection - called from the main loop
      */
     attemptNewTargetSelection() {
@@ -54,7 +70,7 @@ module.exports = function(App) {
         return;
       }
 
-      if(App.pathFinder.data.timestamp - App.neos.data.last_scan <= App.neos.scanningFrequencySeconds()) {
+      if(App.neos.scanningLimiting()) {
         return;
       }
 
@@ -79,8 +95,6 @@ module.exports = function(App) {
       if(condition) {
         current_target.spect_num++;
         current_target.last_spectroscopy = App.pathFinder.data.timestamp;
-
-        App.neos.data.last_scan = App.pathFinder.data.timestamp;
 
         App.output.operationCompleted(
           App.targeting.target_types.neo,
@@ -122,6 +136,8 @@ module.exports = function(App) {
       App.targeting.setNEOTarget(target);
       App.pathFinder.data.target.time_selected = App.pathFinder.data.timestamp;
       App.pathFinder.data.target_selected = true;
+
+      App.neos.data.last_scan = App.pathFinder.data.timestamp;
 
       return true;
     },

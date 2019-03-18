@@ -179,8 +179,8 @@
                     <div class="setting">
                         Limit scanning to:
 
-                        <input type="radio" v-model="spectroscopy.limiting" id="s2ll" value="2"><label for="s2ll">Outside Sun exclusion zone</label>
-                        <input type="radio" v-model="spectroscopy.limiting" id="sl11" value="1"><label for="sl11">Scope 50&deg;x50&deg;</label>
+                        <input type="radio" v-model="spectroscopy.limiting" id="s2ll" value="2"><label for="s2ll">outside Sun exclusion zone</label>
+                        <input type="radio" v-model="spectroscopy.limiting" id="sl11" value="1"><label for="sl11">scope 50&deg;x50&deg;</label>
                     </div>
 
                     <div class="setting">
@@ -200,8 +200,12 @@
                     <div class="setting">
                         Scanning frequency limiting:
 
-                        <input style="width: 50px;" type="number" v-model="neos.limiting_frequency" min="1" max="10" step="1"> times per
-                        <input style="width: 50px;" type="number" v-model="neos.limiting_timeframe" min="1" step="1"> hours
+                        &nbsp;&nbsp;Enabled: <input type="checkbox" v-model="neos.limiting_enabled">
+
+                        &nbsp;&nbsp;
+
+                        <input style="width: 50px;" type="number" v-model="neos.limiting_frequency" min="1" max="10" step="1" :disabled="!neos.limiting_enabled"> times per
+                        <input style="width: 50px;" type="number" v-model="neos.limiting_timeframe" min="1" step="1" :disabled="!neos.limiting_enabled"> hours
                     </div>
 
                     <div class="setting">
@@ -244,8 +248,12 @@
                     <div class="setting">
                         Scanning frequency limiting:
 
-                        <input style="width: 50px;" type="number" v-model="exoplanets.limiting_frequency" min="1" max="10" step="1"> times per
-                        <input style="width: 50px;" type="number" v-model="exoplanets.limiting_timeframe" min="1" step="1"> hours
+                        &nbsp;&nbsp;Enabled: <input type="checkbox" v-model="exoplanets.limiting_enabled">
+
+                        &nbsp;&nbsp;
+
+                        <input style="width: 50px;" type="number" v-model="exoplanets.limiting_frequency" min="1" max="10" step="1" :disabled="!exoplanets.limiting_enabled"> times per
+                        <input style="width: 50px;" type="number" v-model="exoplanets.limiting_timeframe" min="1" step="1" :disabled="!exoplanets.limiting_enabled"> hours
                     </div>
 
                     <div class="setting">

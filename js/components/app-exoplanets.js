@@ -8,8 +8,9 @@ module.exports = function(App) {
       allow_time_before_transit: 3600, // seconds
       scan_method: 2, // 1 - delay between scans, 2 - scan only once
       scan_delay: 60, // days
-      limiting_frequency: 6, // times
+      limiting_frequency: 1, // times
       limiting_timeframe: 24, // hours
+      limiting_enabled: false,
     },
 
     /**
@@ -267,6 +268,8 @@ module.exports = function(App) {
       target.slew.initial_time = App.pathFinder.data.timestamp;
       target.slew.initial_position = JSON.parse(JSON.stringify(target.mercator));
 
+      App.exoplanets.data.last_scan = App.pathFinder.data.timestamp;
+
       return true;
     },
 
@@ -294,6 +297,21 @@ module.exports = function(App) {
     },
 
     /**
+     * Limit scans
+     */
+    scanningLimiting() {
+      if(!App.exoplanets.settings.limiting_enabled) {
+        return false;
+      }
+
+      if(App.pathFinder.data.timestamp - App.exoplanets.data.last_scan <= App.exoplanets.scanningFrequencySeconds()) {
+        return true;
+      }
+
+      return false;
+    },
+
+    /**
      * Attempt new target selection - called from the main loop
      */
     attemptNewTargetSelection() {
@@ -301,7 +319,7 @@ module.exports = function(App) {
         return;
       }
 
-      if(App.pathFinder.data.timestamp - App.exoplanets.data.last_scan <= App.exoplanets.scanningFrequencySeconds()) {
+      if(App.exoplanets.scanningLimiting()) {
         return;
       }
 
@@ -331,8 +349,6 @@ module.exports = function(App) {
           current_target.slew.initial_position,
           current_target.mercator,
         );
-
-        App.exoplanets.data.last_scan = App.pathFinder.data.timestamp;
 
         App.output.operationCompleted(
           App.targeting.target_types.exoplanet,

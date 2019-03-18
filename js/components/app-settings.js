@@ -35,6 +35,7 @@ module.exports = function(App) {
         scan_delay: _.round(App.neos.settings.scan_delay),
         limiting_frequency: App.neos.settings.limiting_frequency,
         limiting_timeframe: App.neos.settings.limiting_timeframe,
+        limiting_enabled: App.neos.settings.limiting_enabled,
       },
 
       exoplanets: {
@@ -43,6 +44,7 @@ module.exports = function(App) {
         scan_delay: _.round(App.exoplanets.settings.scan_delay),
         limiting_frequency: App.exoplanets.settings.limiting_frequency,
         limiting_timeframe: App.exoplanets.settings.limiting_timeframe,
+        limiting_enabled: App.exoplanets.settings.limiting_enabled,
       },
     },
 
