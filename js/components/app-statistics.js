@@ -169,20 +169,6 @@ module.exports = function(App) {
       }
     },
 
-    storageCapacityExceeded(amount) {
-      if(!isFinite(amount)) {
-        return;
-      }
-
-      App.statistics.stats.storage_capacity.exceeded = true;
-
-      if(amount > App.statistics.stats.storage_capacity.amount) {
-        App.statistics.stats.storage_capacity.amount = amount;
-      }
-
-      App.settings.$emit("capacity-exceeded", App.comms.storageRecommendationGb(App.statistics.stats.storage_capacity.amount));
-    },
-
     logOperationTime(type, time) {
       if(type == App.targeting.target_types.neo) {
         App.statistics.stats.operations.neo_scans.push(_.round(time));

@@ -10,7 +10,6 @@ module.exports = function(App) {
     data: {
       lifetime_exceeded: false,
       simulation_initialized: false,
-      capacity_recommendation: 0,
 
       general: {
         lifetime_days: _.round(App.pathFinder.data.lifetime_days),
@@ -23,17 +22,8 @@ module.exports = function(App) {
         data_rate_fluct: _.round(App.spectroscopy.settings.data_rate_fluct_mbps, 2),
         cool_down_minutes: _.round(App.spectroscopy.settings.cool_down_minutes),
         earth_exclusion_deg: _.round(App.targeting.settings.earth_exclusion_deg * 2, 1),
+        limiting: App.targeting.settings.limiting,
         sun_exclusion_deg: _.round(App.targeting.settings.sun_exclusion_deg * 2, 1),
-      },
-
-      ew: {
-        enabled: App.earlyWarning.settings.enabled,
-        freq_times: App.earlyWarning.settings.scan_frequency.times,
-        freq_timeframe_hours: App.earlyWarning.settings.scan_frequency.timeframe_hours,
-        scan_length: App.earlyWarning.settings.scan_length,
-        data_rate: _.round(App.earlyWarning.settings.data_rate_mbps, 1),
-        data_rate_fluct: _.round(App.earlyWarning.settings.data_rate_fluct_mbps, 2),
-        cool_down_minutes: _.round(App.earlyWarning.settings.cool_down_minutes),
       },
 
       neos: {
@@ -43,23 +33,16 @@ module.exports = function(App) {
         limiting_integration: _.round(App.neos.settings.int_time_limit / 60),
         scan_method: App.neos.settings.scan_method,
         scan_delay: _.round(App.neos.settings.scan_delay),
+        limiting_frequency: App.neos.settings.limiting_frequency,
+        limiting_timeframe: App.neos.settings.limiting_timeframe,
       },
 
       exoplanets: {
         scan: App.exoplanets.settings.scan_enabled,
         scan_method: App.exoplanets.settings.scan_method,
         scan_delay: _.round(App.exoplanets.settings.scan_delay),
-      },
-
-      comms: {
-        enabled: App.comms.settings.enabled,
-        freq_times: App.comms.settings.transmission_frequency.times,
-        freq_timeframe_hours: App.comms.settings.transmission_frequency.timeframe_hours,
-        data_capacity: _.round(App.comms.settings.data_capacity),
-        transmission_rate: _.round(App.comms.settings.transmission_rate, 1),
-        transmission_rate_fluct: _.round(App.comms.settings.transmission_rate_fluct, 2),
-        transmission_min_contact: _.round(App.comms.settings.min_contact_time),
-        cool_down_minutes: _.round(App.comms.settings.cool_down_minutes),
+        limiting_frequency: App.exoplanets.settings.limiting_frequency,
+        limiting_timeframe: App.exoplanets.settings.limiting_timeframe,
       },
     },
 
@@ -95,32 +78,13 @@ module.exports = function(App) {
         App.targeting.loadEarthExclusionIndicator();
       },
 
-      'ew.enabled': value => {
-        App.earlyWarning.settings.enabled = value;
+      'spectroscopy.limiting': value => {
+        App.targeting.settings.limiting = parseInt(value);
+        App.targeting.discardTarget();
       },
 
-      'ew.freq_times': value => {
-        App.earlyWarning.settings.scan_frequency.times = parseInt(value);
-      },
-
-      'ew.freq_timeframe_hours': value => {
-        App.earlyWarning.settings.scan_frequency.timeframe_hours = parseInt(value);
-      },
-
-      'ew.scan_length': value => {
-        App.earlyWarning.settings.scan_length = parseInt(value);
-      },
-
-      'ew.data_rate': value => {
-        App.earlyWarning.settings.data_rate_mbps = _.round(value, 1);
-      },
-
-      'ew.data_rate_fluct': value => {
-        App.earlyWarning.settings.data_rate_fluct_mbps = _.round(value, 2);
-      },
-
-      'ew.cool_down_minutes': value => {
-        App.earlyWarning.settings.cool_down_minutes = _.round(value);
+      'spectroscopy.sun_exclusion_deg': value => {
+        App.targeting.settings.sun_exclusion_deg = _.round(value / 2, 1);
       },
 
       'neos.scan': value => {
@@ -147,6 +111,14 @@ module.exports = function(App) {
         App.neos.settings.scan_delay = _.round(value);
       },
 
+      'neos.limiting_frequency': value => {
+        App.neos.settings.limiting_frequency = parseInt(value);
+      },
+
+      'neos.limiting_timeframe': value => {
+        App.neos.settings.limiting_timeframe = parseInt(value);
+      },
+
       'exoplanets.scan': value => {
         App.exoplanets.settings.scan_enabled = value;
       },
@@ -159,50 +131,16 @@ module.exports = function(App) {
         App.exoplanets.settings.scan_delay = _.round(value);
       },
 
-      'comms.enabled': value => {
-        App.comms.settings.enabled = value;
+      'exoplanets.limiting_frequency': value => {
+        App.exoplanets.settings.limiting_frequency = parseInt(value);
       },
 
-      'comms.freq_times': value => {
-        App.comms.settings.transmission_frequency.times = parseInt(value);
-        this.capacity_recommendation = 0;
-      },
-
-      'comms.freq_timeframe_hours': value => {
-        App.comms.settings.transmission_frequency.timeframe_hours = parseInt(value);
-        this.capacity_recommendation = 0;
-      },
-
-      'comms.data_capacity': function(value) {
-        App.comms.settings.data_capacity = _.round(value);
-
-        if(App.comms.settings.data_capacity >= this.capacity_recommendation) {
-          this.capacity_recommendation = 0;
-        }
-      },
-
-      'comms.transmission_rate': value => {
-        App.comms.settings.transmission_rate = _.round(value, 1);
-      },
-
-      'comms.transmission_rate_fluct': value => {
-        App.comms.settings.transmission_rate_fluct = _.round(value, 2);
-      },
-
-      'comms.transmission_min_contact': value => {
-        App.comms.settings.min_contact_time = _.round(value);
-      },
-
-      'comms.cool_down_minutes': value => {
-        App.comms.settings.cool_down_minutes = _.round(value);
+      'exoplanets.limiting_timeframe': value => {
+        App.exoplanets.settings.limiting_timeframe = parseInt(value);
       },
     },
 
     methods: {
-      capacityExceeded(amount) {
-        this.capacity_recommendation = amount;
-      },
-
       simulationInitialized() {
         this.simulation_initialized = true;
       },
@@ -213,7 +151,6 @@ module.exports = function(App) {
     },
 
     created() {
-      this.$on('capacity-exceeded', this.capacityExceeded);
       this.$on('simulation-initialized', this.simulationInitialized);
       this.$on('lifetime-exceeded', this.lifetimeExceeded);
     },

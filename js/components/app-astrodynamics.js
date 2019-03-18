@@ -11,6 +11,7 @@ module.exports = function(App) {
 
     data: {
       SL1: [],
+      L1E: [],
       propagation_reference: 0,
     },
 
@@ -51,6 +52,7 @@ module.exports = function(App) {
           mEL1 = mSE * App.math.nthRoot(App.astrodynamics.constants.mass_earth / (3 * App.astrodynamics.constants.mass_sun), 3);
 
       App.astrodynamics.data.SL1 = App.math.multiply(App.math.matrix(SE), (mSE - mEL1) / mSE);
+      App.astrodynamics.data.L1E = App.math.subtract(SE, App.astrodynamics.data.SL1);
     },
 
     L1cartesianAtUnix(data, timestamp, reference) {

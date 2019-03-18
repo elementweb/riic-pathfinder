@@ -4,8 +4,6 @@ module.exports = function(App) {
       none: 0,
       exoplanet: 1,
       neo: 2,
-      earth_comms: 3,
-      early_warning_scan: 4,
     },
 
     data: {
@@ -15,7 +13,11 @@ module.exports = function(App) {
     settings: {
       reorientation_speed: 0.45, // deg/sec
       early_warning_speed: 0.01, // deg/s
-      earth_exclusion_deg: 5 // radius in degrees
+      earth_exclusion_deg: 5, // radius in degrees
+
+      limiting: 2, // 1 - 50°x50° scope, 2 - outside Sun exclusion zone
+
+      sun_exclusion_deg: 50, // radius in degrees
     },
 
     timeRequired(angle) {
@@ -166,8 +168,6 @@ module.exports = function(App) {
       var $horizontal = $('#scope-horizontal'),
           $vertical = $('#scope-vertical');
 
-      // console.log(App.targeting.data.current_target);
-
       // x = App.arithmetics.wrapTo180(x);
 
       var px = $chart.xAxis[0].toPixels(-size[0] + x),
@@ -201,16 +201,31 @@ module.exports = function(App) {
     },
 
     /**
+     * Check whether given NEO vector is outside Earth and Sun exclusion zones
+     */
+    isNEOOutsideExclusionZones(L1B) {
+      var L1E = App.astrodynamics.data.L1E,
+          angle = App.arithmetics.angleBetweenCartesianVectors(L1E, L1B);
+
+      return angle > App.targeting.settings.earth_exclusion_deg && angle < (180 - App.targeting.settings.sun_exclusion_deg);
+    },
+
+    /**
+     * Check whether given NEO vector is outside Earth and Sun exclusion zones
+     */
+    isExoplanetOutsideExclusionZones(primary) {
+      var primary_angle = App.arithmetics.angleBetweenMercatorVectors(primary, [0, 0]),
+          earth_exclusion = App.targeting.settings.earth_exclusion_deg,
+          sun_exclusion = 180 - App.targeting.settings.sun_exclusion_deg;
+
+      return primary_angle > earth_exclusion && primary_angle < sun_exclusion;
+    },
+
+    /**
      * Target celestial object 0-360deg
      */
     setCelestialTarget(x, y) {
       var resolved = App.targeting.resolveCelestialTarget(x, y);
-
-      if(resolved.x < -25 || resolved.x > 25) {
-        // App.log('Target is out of scope (1)');
-        App.targeting.discardTarget();
-        return;
-      }
 
       App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenMercatorVectors(
         App.targeting.data.current_target,
@@ -243,22 +258,6 @@ module.exports = function(App) {
     setTargetEarth() {
       App.targeting.setScopedTarget(0, 0);
       App.UI.targetSelected('earth');
-    },
-
-    /**
-     * Communications mode - point towards Earth
-     */
-    commsMode() {
-      App.targeting.setScopedTarget(0, 0);
-      App.UI.targetSelected('comms');
-    },
-
-    /**
-     * Early Warning Scan mode - point away from the scope
-     */
-    earlyWarningScanMode() {
-      App.targeting.setScopedTarget(0, 60, false);
-      App.UI.targetSelected('ew');
     },
 
     /**

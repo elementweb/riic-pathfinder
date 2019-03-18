@@ -75,10 +75,9 @@ module.exports = function(App) {
       $('#data-rate-fluct-mbps').html(_.round(App.main.data().data_rate_fluct_mbps, 2).toFixed(2));
 
       $('#exoplanet-count').html(App.main.data().exoplanet_count);
-      $('#observable-exoplanet-count').html(App.main.data().observable_exoplanet_count);
       $('#neo-count').html(App.main.data().neo_count);
 
-      $('#ecliptic-scope, #ecliptic-scope-2').html(App.main.data().ecliptic_scope);
+      $('#ecliptic-scope').html(App.main.data().ecliptic_scope);
     },
 
     selectDay(day) {

@@ -68,7 +68,7 @@
 
                     <tr>
                         <td class="statistics-parameter">Exoplanet population:</td>
-                        <td class="statistics-value"><span id="exoplanet-count"></span> (<span id="observable-exoplanet-count"></span> observable at <span id="ecliptic-scope-2"></span>)</td>
+                        <td class="statistics-value"><span id="exoplanet-count"></span></td>
                     </tr>
 
                     <tr>
@@ -98,7 +98,7 @@
 
                     <tr>
                         <td class="statistics-parameter">Total data produced:</td>
-                        <td class="statistics-value"><span id="total-data-produced"></span> Tb (<span id="data-rate-mbps"></span>±<span id="data-rate-fluct-mbps"></span> Mbps)</td>
+                        <td class="statistics-value"><span id="total-data-produced"></span> Tb (@ <span id="data-rate-mbps"></span>±<span id="data-rate-fluct-mbps"></span> Mbps)</td>
                     </tr>
                 </table>
             </div>

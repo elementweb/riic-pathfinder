@@ -36,7 +36,9 @@ module.exports = function(App) {
           fluctuations = App.math.random(-App.spectroscopy.settings.data_rate_fluct_mbps, App.spectroscopy.settings.data_rate_fluct_mbps);
 
       if(rate + fluctuations < 0) {
-        fluctuations = -rate; // data rate will essentialy become zero
+        // data rate will essentialy become zero if this happens
+        // it is up to a user to set a sensible fluctuation limit
+        fluctuations = -rate;
       }
 
       return (rate * integration + fluctuations) * 1e6;

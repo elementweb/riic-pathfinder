@@ -80,7 +80,7 @@
                 </div>
 
                 <div id="panel-about" class="tab-pane">
-                    <div class="credits">Source code available on <a href="https://github.com/elementweb/riic-pathfinder" target="_blank"><i class="fa fa-github"></i> GitHub</a></div>
+                    <div class="credits">Source code available on <a href="https://github.com/elementweb/riic-pathfinder/tree/sun-exclusion-cone" target="_blank"><i class="fa fa-github"></i> GitHub</a></div>
                 </div>
             </div>
         </div>
@@ -120,8 +120,6 @@
                 <li><a data-toggle="tab" href="#panel-spectroscopy">Spectroscopy</a></li>
                 <li><a data-toggle="tab" href="#panel-neos">NEOs</a></li>
                 <li><a data-toggle="tab" href="#panel-exoplanets">Exoplanets</a></li>
-                <li><a hidden data-toggle="tab" href="#panel-ew">Early-warning</a></li>
-                <li><a hidden data-toggle="tab" href="#panel-comms" :class="capacity_recommendation > 0 ? 'tab-warning' : ''">Data & comms</a></li>
             </ul>
 
             <div class="tab-content">
@@ -175,47 +173,20 @@
                     <div class="setting">
                         Earth exclusion zone (&deg;):
 
-                        <input style="width: 50px;" type="number" v-model="spectroscopy.earth_exclusion_deg" min="0" max="40" step="1">
-                    </div>
-                </div>
-
-                <div id="panel-ew" class="tab-pane">
-                    <div class="setting">
-                        Enable EW scans:
-
-                        <input type="checkbox" v-model="ew.enabled">
+                        <input style="width: 50px;" type="number" v-model="spectroscopy.earth_exclusion_deg" min="1" max="40" step="1">
                     </div>
 
                     <div class="setting">
-                        Scan rate:
+                        Limit scanning to:
 
-                        <input style="width: 30px;" type="number" v-model="ew.freq_times" min="1" step="1">
-
-                        time(s) per
-
-                        <input style="width: 35px;" type="number" v-model="ew.freq_timeframe_hours" min="6" step="1"> hours
+                        <input type="radio" v-model="spectroscopy.limiting" id="s2ll" value="2"><label for="s2ll">Outside Sun exclusion zone</label>
+                        <input type="radio" v-model="spectroscopy.limiting" id="sl11" value="1"><label for="sl11">Scope 50&deg;x50&deg;</label>
                     </div>
 
                     <div class="setting">
-                        Scan length:
+                        Sun exclusion zone (&deg;):
 
-                        <input style="width: 50px;" type="number" v-model="ew.scan_length" min="1" step="1"> minutes
-                    </div>
-
-                    <div class="setting">
-                        Data rate (Mbps):
-
-                        <input style="width: 50px;" type="number" v-model="ew.data_rate" min="0.1" max="20" step="0.1">
-
-                        with fluctuation (&plusmn;Mbps):
-
-                        <input type="number" v-model="ew.data_rate_fluct" min="0" max="10" step="0.01" style="width: 45px;">
-                    </div>
-
-                    <div class="setting">
-                        Scan cool-down period (min):
-
-                        <input style="width: 50px;" type="number" v-model="ew.cool_down_minutes" min="0" max="360" step="1">
+                        <input style="width: 50px;" type="number" v-model="spectroscopy.sun_exclusion_deg" min="1" step="1" :disabled="spectroscopy.limiting == 1">
                     </div>
                 </div>
 
@@ -224,6 +195,13 @@
                         Scan NEOs:
 
                         <input type="checkbox" v-model="neos.scan">
+                    </div>
+
+                    <div class="setting">
+                        Scanning frequency limiting:
+
+                        <input style="width: 50px;" type="number" v-model="neos.limiting_frequency" min="1" max="10" step="1"> times per
+                        <input style="width: 50px;" type="number" v-model="neos.limiting_timeframe" min="1" step="1"> hours
                     </div>
 
                     <div class="setting">
@@ -264,6 +242,13 @@
                     </div>
 
                     <div class="setting">
+                        Scanning frequency limiting:
+
+                        <input style="width: 50px;" type="number" v-model="exoplanets.limiting_frequency" min="1" max="10" step="1"> times per
+                        <input style="width: 50px;" type="number" v-model="exoplanets.limiting_timeframe" min="1" step="1"> hours
+                    </div>
+
+                    <div class="setting">
                         Scanning:
 
                         <input type="radio" id="exosd2" v-model="exoplanets.scan_method" value="2"><label for="exosd2">scan each only once</label>
@@ -271,54 +256,6 @@
                         <input type="radio" id="exosd1" v-model="exoplanets.scan_method" value="1"><label for="exosd1">delay between single target scans</label>
 
                         <input style="width: 50px;" type="number" v-model="exoplanets.scan_delay" min="1" step="1" :disabled="exoplanets.scan_method == 2"> days
-                    </div>
-                </div>
-
-                <div id="panel-comms" class="tab-pane">
-                    <div class="setting">
-                        Simulate comms:
-
-                        <input type="checkbox" v-model="comms.enabled">
-                    </div>
-
-                    <div class="setting">
-                        Communication rate:
-
-                        <input style="width: 30px;" type="number" v-model="comms.freq_times" min="1" step="1">
-
-                        time(s) per
-
-                        <input style="width: 35px;" type="number" v-model="comms.freq_timeframe_hours" min="6" step="1"> hours
-                    </div>
-
-                    <div class="setting">
-                        Data storage capacity (Gb):
-
-                        <input type="number" v-model="comms.data_capacity" min="10" max="10000" step="10" style="width: 55px;">
-
-                        <span class="label-warning" v-if="capacity_recommendation > 0">storage capacity exceeded, increase to at least <span>{{ capacity_recommendation }}</span>Gb</span>
-                    </div>
-
-                    <div class="setting">
-                        Data transmission speed (Mbps):
-
-                        <input type="number" v-model="comms.transmission_rate" min="0.1" max="100" step="0.1" style="width: 45px;">
-
-                        with fluctuation (&plusmn;Mbps):
-
-                        <input type="number" v-model="comms.transmission_rate_fluct" min="0" max="10" step="0.01" style="width: 45px;">
-                    </div>
-
-                    <div class="setting">
-                        Min contact time:
-
-                        <input type="number" v-model="comms.transmission_min_contact" min="1" max="60" step="1" style="width: 35px;"> minutes
-                    </div>
-
-                    <div class="setting">
-                        Cool-down period (min):
-
-                        <input style="width: 50px;" type="number" v-model="comms.cool_down_minutes" min="0" max="360" step="1">
                     </div>
                 </div>
             </div>
@@ -336,22 +273,10 @@
                     </div>
                 </div>
 
-                <div hidden>
-                    <span class="statistics-key">Data storage:</span>
-                    <div class="progress data-storage-progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar" id="data-storage" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                    </div>
-                </div>
-
                 <div><span class="statistics-key">Exoplanets in scope:</span><span id="exoplanets-scope">0</span></div>
-
                 <div><span class="statistics-key">NEO scans:</span><span id="counter-neos_scanned">0</span> (<span id="stats-neos_per_day">0</span> per day)</div>
                 <div><span class="statistics-key">Exoplanets scans:</span><span id="counter-exoplanets_scanned">0</span> (<span id="stats-exoplanets_per_day">0</span> per day)</div>
-
-                <div hidden><span class="statistics-key">Total integration time:</span><span id="stats-total_integration_time">0.00</span> hours (<span id="stats-avg_int_time">0.00</span>hr per scan, <span id="stats-avg_int_time_day">0.00</span>hr per day)</div>
-                <div hidden><span class="statistics-key">Total AOCS:</span><span id="stats-total_aocs_change">0.00</span>&deg; (<span id="stats-avg_aocs_change">0</span>&deg;/day)</div>
                 <div><span class="statistics-key">Max slew rate:</span><span id="stats-max_slew_rate">0.00</span>&deg;/hr</div>
-
                 <div><span class="statistics-key">Total data generated:</span><span id="stats-total_data_produced">0.00</span> Tb</div>
             </div>
         </fieldset>

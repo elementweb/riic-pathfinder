@@ -60,19 +60,17 @@ module.exports = function(App) {
       return _.round(App.arithmetics.wrapTo360(angle_delta), 2);
     },
 
-    equatorialToMercator(ra, dec) {
+    equatorialToCartesian(ra, dec) {
       var ecliptic = galactic.coord.equatorialToEcliptic({
         rightAscension: App.conversion.deg2rad(ra),
         declination: App.conversion.deg2rad(dec),
       });
 
-      var cartesian = {
-        x: Math.cos(ecliptic.latitude) * Math.cos(ecliptic.longitude),
-        y: Math.cos(ecliptic.latitude) * Math.sin(ecliptic.longitude),
-        z: Math.sin(ecliptic.latitude)
-      };
-
-      return App.conversion.cartesianToMercator(cartesian.x, cartesian.y, cartesian.z);
+      return [
+        Math.cos(ecliptic.latitude) * Math.cos(ecliptic.longitude),
+        Math.cos(ecliptic.latitude) * Math.sin(ecliptic.longitude),
+        Math.sin(ecliptic.latitude)
+      ];
     },
 
     cartesianToMercator(x, y, z) {
@@ -197,6 +195,18 @@ module.exports = function(App) {
       mercator[0] = App.arithmetics.wrapTo180(mercator[0] - 270 + offset);
 
       return mercator;
+    },
+
+    bits2Terabits(bits) {
+      return bits / 1e12;
+    },
+
+    bits2Gigabits(bits) {
+      return bits / 1e9;
+    },
+
+    bits2Megabits(bits) {
+      return bits / 1e6;
     },
   }
 };

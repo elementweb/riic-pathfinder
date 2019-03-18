@@ -24,6 +24,14 @@ module.exports = function(App) {
       scan_method: 2, // 1 - delay between scans, 2 - scan only once
 
       scan_delay: 30, // days
+
+      limiting_frequency: 3, // times
+
+      limiting_timeframe: 24, // hours
+    },
+
+    data: {
+      last_scan: 0, // seconds
     },
 
     data: {
@@ -38,6 +46,10 @@ module.exports = function(App) {
     initialize() {
       // Compute angle threshold for Sun → Asteroid
       // App.neos.settings.scheduler.threshold = App.neos.computeSunBodyAngleThreshold();
+    },
+
+    scanningFrequencySeconds() {
+      return App.neos.settings.limiting_timeframe * 3600 / App.neos.settings.limiting_frequency;
     },
 
     /**
@@ -57,7 +69,11 @@ module.exports = function(App) {
         return;
       }
 
-      var neo_target = App.neos.feasibleTargetSelector(App.pathFinder.data.neos_in_scope, App.pathFinder.data.timestamp);
+      if(App.pathFinder.data.timestamp - App.neos.data.last_scan <= App.neos.scanningFrequencySeconds()) {
+        return;
+      }
+
+      var neo_target = App.neos.feasibleTargetSelector(App.pathFinder.data.neos_series, App.pathFinder.data.timestamp);
 
       return neo_target ? App.neos.selectByTargetById(neo_target.id) : false;
     },
@@ -75,6 +91,8 @@ module.exports = function(App) {
       if(condition) {
         current_target.spect_num++;
         current_target.last_spectroscopy = App.pathFinder.data.timestamp;
+
+        App.neos.data.last_scan = App.pathFinder.data.timestamp;
 
         App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenCartesianVectors(
           current_target.slew.initial_position,
@@ -100,7 +118,6 @@ module.exports = function(App) {
 
         App.statistics.incrementCounter('neos_scanned');
         App.statistics.incrementIntegrationTime(current_target.data.integration_time);
-        App.comms.addData(data_produced);
         App.targeting.discardTarget();
 
         App.spectroscopy.enterCooldownPeriod();
@@ -135,7 +152,7 @@ module.exports = function(App) {
      * Select new NEO target
      */
     feasibleTargetSelector(data, timestamp) {
-      // Filter out all NEO targets that we can not observe due to integration time being larger than that of transit
+      // Filter out all NEO targets that we can not observe due to integration time or visual magnitude being larger than limit
       data = _.filter(data, function(object) {
         // limiting by integration time
         if(App.neos.settings.limiting_by == 1) {
@@ -157,21 +174,6 @@ module.exports = function(App) {
         return object.spect_num <= 0;
       });
 
-      // If we do allow multiple NEO spectroscopies, let's bring those with least measurements to the front
-      if(App.neos.settings.scan_method == 1) {
-        data = _.filter(data, function(object) {
-          return timestamp > object.last_spectroscopy + App.neos.settings.scan_delay*24*3600;
-        });
-
-        data = _.orderBy(data, function(object) {
-          return object.spect_num;
-        }, ['asc']);
-      } else {
-        data = _.filter(data, function(object) {
-          return object.spect_num <= 0;
-        });
-      }
-
       // Filter out all targets that will fall out of scope or enter Earth's exclusion zone during integration
       data = _.filter(data, function(object) {
         // We know integration time, we can check where the object will end up being at at the end of scan
@@ -183,13 +185,14 @@ module.exports = function(App) {
             exclusion = App.targeting.settings.earth_exclusion_deg,
             exclusion_center = [0, 0];
 
+        // If we are limiting to the outside of Sun exclusion zone
+        if(App.targeting.settings.limiting == 2) {
+          return App.targeting.isNEOOutsideExclusionZones(cartesian);
+        }
+
+        // If we are limiting within 50x50deg scope
         return App.targeting.isWithinScope(mercator)
             && !App.arithmetics.isInCollision(object.mercator[0], object.mercator[1], mercator[0], mercator[1], exclusion_center[0], exclusion_center[1], exclusion);
-      });
-
-      // Filter out objects that we don't have any more data storage left to scan
-      data = _.filter(data, function(object) {
-        return App.comms.approveIntegrationTime(object.data.integration_time);
       });
 
       // Prioritise those without SMASS or Tholen class flag
@@ -296,15 +299,15 @@ module.exports = function(App) {
 
     prepareDataForPlot(data) {
       return _.map(data, function(set) {
-        // if(set.data.nid == 'a0000001' || App.neos.data.close_approaches.includes(set.data.full_name)) {
-        //   return { name: set.data.full_name, x: set.mercator[0], y: set.mercator[1] };
-        // }
-        
         return set.mercator;
       });
     },
 
     propagationScheduler(position) {
+      if(App.targeting.settings.limiting == 2) {
+        return 1;
+      }
+
       var reference = App.astrodynamics.data.SL1.toArray(),
           angle = App.arithmetics.angleBetweenCartesianVectors(reference, position);
 

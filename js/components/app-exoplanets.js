@@ -5,6 +5,12 @@ module.exports = function(App) {
       allow_time_before_transit: 3600, // seconds
       scan_method: 2, // 1 - delay between scans, 2 - scan only once
       scan_delay: 60, // days
+      limiting_frequency: 3, // times
+      limiting_timeframe: 24, // hours
+    },
+
+    data: {
+      last_scan: 0, // seconds
     },
 
     /**
@@ -14,6 +20,10 @@ module.exports = function(App) {
       return _.map(data, function(object) {
         return App.exoplanets.computeNextTransit(object, timestamp);
       });
+    },
+
+    scanningFrequencySeconds() {
+      return App.exoplanets.settings.limiting_timeframe * 3600 / App.exoplanets.settings.limiting_frequency;
     },
 
     /**
@@ -58,13 +68,18 @@ module.exports = function(App) {
         return object.mercator[0] < (25 - App.conversion.secondsToAngle(object.integration_time + (object.next_transit_start - timestamp)));
       });
 
-      // Filter out all targets that will enter/exit Earth's exclusion zone during integration
+      // Filter out all targets that will fall out of scope or enter Earth's exclusion zone during integration
       data = _.filter(data, function(object) {
         var primary = object.mercator[0],
             secondary = primary + App.conversion.secondsToAngle(object.integration_time + (object.next_transit_start - timestamp)),
             vertical = object.mercator[1],
             exclusion = App.targeting.settings.earth_exclusion_deg,
             exclusion_center = [0, 0];
+
+        // If we are limiting to the outside of Sun exclusion zone
+        if(App.targeting.settings.limiting == 2) {
+          return App.targeting.isExoplanetOutsideExclusionZones(object.mercator);
+        }
 
         if(primary === secondary && App.arithmetics.isWithinCircle(primary, vertical, exclusion)) {
           return false;
@@ -89,29 +104,9 @@ module.exports = function(App) {
         return object.spect_num <= 0;
       });
 
-      // If we do allow multiple exoplanet spectroscopies, let's bring those with least measurements to the front
-      if(App.exoplanets.settings.scan_method == 1) {
-        data = _.filter(data, function(object) {
-          return timestamp > object.last_spectroscopy + App.exoplanets.settings.scan_delay*24*3600;
-        });
-
-        data = _.orderBy(data, function(object) {
-          return object.spect_num;
-        }, ['asc']);
-      } else {
-        data = _.filter(data, function(object) {
-          return object.spect_num <= 0;
-        });
-      }
-
       // Do we need to wait longer than `allow_time_before_transit`? If yes, do not consider those planets as targets yet and move on
       data = _.filter(data, function(object) {
         return timestamp > object.next_transit_start - App.exoplanets.settings.allow_time_before_transit
-      });
-
-      // Filter out objects that we don't have any more data storage left to scan
-      data = _.filter(data, function(object) {
-        return App.comms.approveIntegrationTime(object.integration_time);
       });
 
       if(data.length <= 0) {
@@ -157,7 +152,8 @@ module.exports = function(App) {
          * General data
          */
         object.id = ++count;
-        object.initial = App.conversion.equatorialToMercator(object.ra, object.dec);
+        object.cartesian = App.conversion.equatorialToCartesian(object.ra, object.dec);
+        object.initial = App.conversion.cartesianToMercator(object.cartesian[0], object.cartesian[1], object.cartesian[2]);
         object.mercator = JSON.parse(JSON.stringify(object.initial));
 
         object = App.exoplanets.transmissionIntegration(object);
@@ -200,7 +196,7 @@ module.exports = function(App) {
       App.pathFinder.data.exoplanet_series = App.exoplanets.initialProcessing(App.dataManager.storage.exoplanets, App.pathFinder.data.timestamp);
 
       // Crop data vertically
-      App.pathFinder.data.exoplanet_series = App.operations.cropY(App.pathFinder.data.exoplanet_series, 50+10);
+      // App.pathFinder.data.exoplanet_series = App.operations.cropY(App.pathFinder.data.exoplanet_series, 50+10);
 
       // Zero-center data
       App.operations.zeroData(App.pathFinder.data.exoplanet_series);
@@ -279,7 +275,11 @@ module.exports = function(App) {
         return;
       }
 
-      var exoplanet_target = App.exoplanets.feasibleTargetSelector(App.pathFinder.data.exoplanets_in_scope, App.pathFinder.data.timestamp);
+      if(App.pathFinder.data.timestamp - App.exoplanets.data.last_scan <= App.exoplanets.scanningFrequencySeconds()) {
+        return;
+      }
+
+      var exoplanet_target = App.exoplanets.feasibleTargetSelector(App.pathFinder.data.exoplanet_series, App.pathFinder.data.timestamp);
 
       return exoplanet_target ? App.exoplanets.selectExoplanetTargetById(exoplanet_target.id) : false;
     },
@@ -302,6 +302,8 @@ module.exports = function(App) {
           current_target.slew.initial_position,
           current_target.mercator,
         );
+
+        App.exoplanets.data.last_scan = App.pathFinder.data.timestamp;
 
         App.statistics.angleChangeAOCS(total_angle_change);
 
@@ -326,7 +328,6 @@ module.exports = function(App) {
 
         App.statistics.incrementCounter('exoplanets_scanned');
         App.statistics.incrementIntegrationTime(current_target.integration_time);
-        App.comms.addData(data_produced);
         App.targeting.discardTarget();
 
         App.spectroscopy.enterCooldownPeriod();

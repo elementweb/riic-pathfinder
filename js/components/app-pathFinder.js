@@ -75,7 +75,7 @@ module.exports = function(App) {
       // Process exoplanets
       App.pathFinder.data.exoplanets_in_view = App.operations.cropX(App.pathFinder.data.exoplanet_series, 50 + 10);
       App.pathFinder.data.exoplanets_in_scope = App.operations.crop(App.pathFinder.data.exoplanets_in_view, 50, 50);
-      App.pathFinder.data.exoplanets_in_scope = App.exoplanets.computeNextTransits(App.pathFinder.data.exoplanets_in_scope, App.pathFinder.data.timestamp);
+      App.pathFinder.data.exoplanet_series = App.exoplanets.computeNextTransits(App.pathFinder.data.exoplanet_series, App.pathFinder.data.timestamp);
 
       // Update UI exoplanet indicator
       App.UI.updateExoplanetsScope(App.pathFinder.data.exoplanets_in_scope.length);
@@ -102,10 +102,6 @@ module.exports = function(App) {
         object.obs2ast = mL1B;
         object.sun2ast = mSB;
 
-        // if(object.data.nid == 'a0000001') {
-        //   console.log(object.mercator, App.pathFinder.data.timestamp, App.pathFinder.data.offset);
-        // }
-
         if(App.pathFinder.data.target_type == App.targeting.target_types.neo && object.id == App.pathFinder.data.target.id) {
           if(_.isEmpty(object.slew.initial_position)) {
             object.slew.initial_position = cartesian;
@@ -130,9 +126,11 @@ module.exports = function(App) {
 
         return object;
       });
+      // Get NEO population for visualisation screen
       App.pathFinder.data.neos_in_view = App.operations.crop(App.pathFinder.data.neos_series, 50+10, 50+10);
       App.pathFinder.data.neos_in_scope = App.operations.crop(App.pathFinder.data.neos_in_view, 50, 50);
-      App.pathFinder.data.neos_in_scope = App.neos.computeIntegrationTimes(App.pathFinder.data.neos_in_scope, App.pathFinder.data.timestamp);
+
+      App.pathFinder.data.neos_series = App.neos.computeIntegrationTimes(App.pathFinder.data.neos_series, App.pathFinder.data.timestamp);
 
       /**
        * Shift all data points on the plot
@@ -143,33 +141,20 @@ module.exports = function(App) {
        * Targeting decisions happens here (after all orbits propagated and plot updated)
        */
       if(!App.pathFinder.data.target_selected) {
-        // Let's check if we need to make contact with Earth already
-        App.comms.shallWeEnterCommsMode();
-
-        // Should we now perform Early-Warning scan?
-        App.earlyWarning.shallWeScanNow();
-
-        // Can we select NEO for scan?
-        App.neos.attemptNewTargetSelection();
-
-        // Can we select exoplanet for scan?
-        App.exoplanets.attemptNewTargetSelection();
+        // Randomize order of target selection
+        if(App.math.random() >= 0.5) {
+          App.exoplanets.attemptNewTargetSelection();
+          App.neos.attemptNewTargetSelection();
+        } else {
+          App.neos.attemptNewTargetSelection();
+          App.exoplanets.attemptNewTargetSelection();
+        }
       }
 
       /**
        * However, if we have selected target, find out when do we have to stop tracking the target
        */
       if(App.pathFinder.data.target_selected) {
-        if(App.pathFinder.data.target_type == App.targeting.target_types.earth_comms) {
-          // Here we check if we have been in this operation mode long enough
-          App.comms.canWeNowExitCommsMode();
-        }
-
-        if(App.pathFinder.data.target_type == App.targeting.target_types.early_warning_scan) {
-          // Here we check if we have been performing early warning long enough
-          App.earlyWarning.canWeNowStopScanning();
-        }
-
         if(App.pathFinder.data.target_type == App.targeting.target_types.neo) {
           // Can we stop observing NEO now?
           App.neos.attemptTargetDeselection();
@@ -185,18 +170,16 @@ module.exports = function(App) {
        * If we still have the target selected
        */
       if(App.pathFinder.data.target_selected) {
-        if(App.pathFinder.data.target_type != App.targeting.target_types.earth_comms && App.pathFinder.data.target_type != App.targeting.target_types.early_warning_scan) {
-          // Update target coordinates
-          App.pathFinder.data.target.coordinates = App.targeting.getCurrentTarget().mercator;
-          
-          // Translate target
-          App.targeting.translateTarget();
+        // Update target coordinates
+        App.pathFinder.data.target.coordinates = App.targeting.getCurrentTarget().mercator;
+        
+        // Translate target
+        App.targeting.translateTarget();
 
-          // Is NEO being targeted?
-          if(App.pathFinder.data.target_type == App.targeting.target_types.neo) {
-            // Update UI NEO data
-            App.UI.updateNEODetails(App.neos.getTarget(App.pathFinder.data.target.id));
-          }
+        // Is NEO being targeted?
+        if(App.pathFinder.data.target_type == App.targeting.target_types.neo) {
+          // Update UI NEO data
+          App.UI.updateNEODetails(App.neos.getTarget(App.pathFinder.data.target.id));
         }
       }
 
@@ -212,7 +195,7 @@ module.exports = function(App) {
     },
 
     isSpacecraftInCooldownMode() {
-      return App.spectroscopy.isInCooldown() || App.comms.isInCooldown() || App.earlyWarning.isInCooldown();
+      return App.spectroscopy.isInCooldown();
     },
 
     updatePlot() {
