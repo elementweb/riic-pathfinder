@@ -90,11 +90,13 @@ module.exports = function(App) {
         return;
       }
 
-      var condition = App.pathFinder.data.timestamp > App.pathFinder.data.target.time_selected + current_target.data.integration_time;
+      var condition = App.pathFinder.data.timestamp > App.pathFinder.data.target.time_selected + App.targeting.data.current_neo_target_integration;
 
       if(condition) {
         current_target.spect_num++;
         current_target.last_spectroscopy = App.pathFinder.data.timestamp;
+
+        App.targeting.data.current_neo_target_integration = 0;
 
         App.output.operationCompleted(
           App.targeting.target_types.neo,
@@ -138,6 +140,7 @@ module.exports = function(App) {
       App.pathFinder.data.target_selected = true;
 
       App.neos.data.last_scan = App.pathFinder.data.timestamp;
+      App.targeting.data.current_neo_target_integration = target.data.integration_time;
 
       return true;
     },

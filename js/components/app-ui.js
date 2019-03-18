@@ -313,7 +313,6 @@ module.exports = function(App) {
     updateNEODetails(target) {
       _.each({
         vmag:         _.round(target.data.vmag, 2).toFixed(2),
-        integration:  target.data.integration_time > 60 ? _.round(target.data.integration_time / 60) + ' minutes' : '<1 minute',
         obs2ast:      _.round(App.astrodynamics.km2AU(target.obs2ast), 2).toFixed(2) + ' AU',
         obs2astL1E:   _.round(App.astrodynamics.km2L1E(target.obs2ast), 2).toFixed(2) + ' L1E',
         sun2ast:      _.round(App.astrodynamics.km2AU(target.sun2ast), 2).toFixed(2) + ' AU',

@@ -25,7 +25,9 @@ module.exports = function(App) {
      * Define any dynamic data here
      */
     data: {
-      current_target: [0, 0]
+      current_target: [0, 0],
+      // This stores the required integration time for NEO target
+      current_neo_target_integration: 0, // seconds
     },
 
     /**
