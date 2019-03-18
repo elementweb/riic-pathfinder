@@ -121,6 +121,10 @@ module.exports = function(App) {
         App.neos.settings.limiting_timeframe = parseInt(value);
       },
 
+      'neos.limiting_enabled': value => {
+        App.neos.settings.limiting_enabled = value;
+      },
+
       'exoplanets.scan': value => {
         App.exoplanets.settings.scan_enabled = value;
       },
@@ -139,6 +143,10 @@ module.exports = function(App) {
 
       'exoplanets.limiting_timeframe': value => {
         App.exoplanets.settings.limiting_timeframe = parseInt(value);
+      },
+
+      'exoplanets.limiting_enabled': value => {
+        App.exoplanets.settings.limiting_enabled = value;
       },
     },
 
