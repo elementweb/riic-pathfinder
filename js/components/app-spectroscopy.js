@@ -10,8 +10,8 @@ module.exports = function(App) {
       // Spectrograph produced data rate fluctuations
       data_rate_fluct_mbps: 0.1,
 
-      // Allow "cool-down" time after each scan (0 by default)
-      cool_down_minutes: 5,
+      // Allow "cool-down" time after each scan (10 by default)
+      cool_down_minutes: 10,
     },
 
     /**
