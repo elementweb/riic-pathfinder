@@ -22,7 +22,7 @@ module.exports = function(App) {
     legend: { enabled: false },
     credits: { enabled: true, text: 'Data source: NASA Exoplanet Archive, JPL Small-Body Database' },
     title: {
-      text: 'RIIC Pathfinder v5.0.1',
+      text: 'RIIC Pathfinder v5.0.2',
       style: {"color": "#000000", "fontSize": "18px", "fontFamily": "Arial"}
     },
     subtitle: {
