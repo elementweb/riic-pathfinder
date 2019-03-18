@@ -23,6 +23,7 @@ module.exports = function(App) {
         data_rate_fluct: _.round(App.spectroscopy.settings.data_rate_fluct_mbps, 2),
         cool_down_minutes: _.round(App.spectroscopy.settings.cool_down_minutes),
         earth_exclusion_deg: _.round(App.targeting.settings.earth_exclusion_deg * 2, 1),
+        sun_exclusion_deg: _.round(App.targeting.settings.sun_exclusion_deg * 2, 1),
       },
 
       ew: {
