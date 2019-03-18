@@ -1,5 +1,8 @@
 module.exports = function(App) {
   App.arithmetics = {
+    /**
+     * Center the angle within 360 degrees (2 PI) range
+     */
     wrapTo360(n) {
       while (n < 0) {
         n = n + 360;
@@ -12,6 +15,9 @@ module.exports = function(App) {
       return n;
     },
 
+    /**
+     * Center the angle within 2 PI range
+     */
     wrapTo2PI(n) {
       while (n < 0) {
         n = n + 2*Math.PI;
@@ -24,6 +30,9 @@ module.exports = function(App) {
       return n;
     },
 
+    /**
+     * Center the angle within 180 degrees (PI) range
+     */
     wrapTo180(n) {
       while (n < -180) {
         n = n + 360;
@@ -36,6 +45,9 @@ module.exports = function(App) {
       return n;
     },
 
+    /**
+     * Center the angle within 90 degrees range
+     */
     wrapTo90(n) {
       while (n < -90) {
         n = n + 180;
@@ -48,6 +60,9 @@ module.exports = function(App) {
       return n;
     },
 
+    /**
+     * Constrain angle within field of view
+     */
     constrainToFOV(angle, span) {
       let halfspan = span / 2;
 
@@ -62,10 +77,16 @@ module.exports = function(App) {
       return angle;
     },
 
+    /**
+     * Check whether coordinates fall under the circle of given radius
+     */
     isWithinCircle(x, y, r) {
       return Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r, 2);
     },
 
+    /**
+     * Check whether a line is in collision with circle of given coordinates and radius
+     */
     isInCollision(ax, ay, bx, by, cx, cy, r) { 
       P1 = [ax, ay];
       P2 = [bx, by];
@@ -94,6 +115,9 @@ module.exports = function(App) {
       return v <= R;
     },
 
+    /**
+     * Compute angle between two vectors given in mercator representation
+     */
     angleBetweenMercatorVectors(reference, position) {
       var ref = [reference[0] + 180, reference[1]],
           pos = [position[0] + 180, position[1]];
@@ -104,6 +128,9 @@ module.exports = function(App) {
       return App.arithmetics.angleBetweenCartesianVectors(ref, pos);
     },
 
+    /**
+     * Compute angle between two cartesian vectors
+     */
     angleBetweenCartesianVectors(reference, position) {
       return Math.acos(App.math.dot(reference, position) / (App.math.norm(reference) * App.math.norm(position))) * 180 / Math.PI;
     },
