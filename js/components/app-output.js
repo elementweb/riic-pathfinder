@@ -74,7 +74,7 @@ module.exports = function(App) {
         data_rate_fluct_mbps: _.round(App.spectroscopy.settings.data_rate_fluct_mbps, 2),
         exoplanet_count: App.dataManager.storage.exoplanets.length,
         observable_exoplanet_count: App.operations.cropY(App.pathFinder.data.exoplanet_series, 50).length,
-        neo_count: App.dataManager.storage.neos.length,
+        neo_count: App.pathFinder.data.neos_series.length,
         ecliptic_scope: '50°x50°',
         neo_spectroscopy_methodology: App.neos.settings.scan_method == 1 ? 'scan with ' + App.neos.settings.scan_delay + ' days delay' : 'scan once',
         exoplanet_spectroscopy_methodology: App.exoplanets.settings.scan_method == 1 ? 'scan with ' + App.exoplanets.settings.scan_delay + ' days delay' : 'scan once',

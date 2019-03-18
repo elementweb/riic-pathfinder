@@ -85,7 +85,8 @@ module.exports = function(App) {
        * Load NEOs
        */
       // var neos_url = "data/neos-10-mar-2019-ceres.json";
-      var neos_url = "data/neos-10-mar-2019.json";
+      // var neos_url = "data/neos-10-mar-2019.json";
+      var neos_url = "data/neos-18-mar-2019.json";
       // var neos_url = "data/neos-10-mar-2019-test-sample.json";
       $.getJSON(neos_url, function(data) {
         App.dataManager.storage.neos = data;

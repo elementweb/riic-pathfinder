@@ -93,10 +93,12 @@ module.exports = function(App) {
           return object;
         }
 
-        var [cartesian, sun_ref_cartesian, mL1B, mSB] = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp, object.reference);
+        var [cartesian, ref_cartesian, mL1B, mSB] = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp, object.reference);
 
         object.mercator = App.conversion.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], App.pathFinder.data.offset);
-        object.schedule = App.neos.propagationScheduler(sun_ref_cartesian);
+        object.schedule = App.neos.propagationScheduler(ref_cartesian);
+        object.cartesian = cartesian;
+        object.ref_cartesian = ref_cartesian;
         object.obs2ast = mL1B;
         object.sun2ast = mSB;
 

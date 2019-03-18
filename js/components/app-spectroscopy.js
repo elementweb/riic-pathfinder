@@ -42,11 +42,20 @@ module.exports = function(App) {
       return (rate * integration + fluctuations) * 1e6;
     },
 
-    computeVisualMagnitude(H, Obs2Ast, Sun2Ast) {
+    computeVisualMagnitude(H, G, L1B, SB, Obs2Ast, Sun2Ast) {
       Obs2Ast = App.astrodynamics.km2AU(Obs2Ast);
       Sun2Ast = App.astrodynamics.km2AU(Sun2Ast);
 
-      return H * 1 + 5 * App.math.log(Obs2Ast * Sun2Ast, 10);
+      let κ = App.arithmetics.angleBetweenCartesianVectors(L1B, SB);
+      
+      κ = App.conversion.deg2rad(κ);
+
+      let phase1 = App.math.exp(-3.33 * App.math.pow(App.math.tan(κ / 2), 0.63)),
+          phase2 = App.math.exp(-1.87 * App.math.pow(App.math.tan(κ / 2), 1.22));
+
+      let Hk = H * 1 - 2.5 * App.math.log((1 - G * 1) * phase1 + G * phase2, 10);
+
+      return V = Hk + 5 * App.math.log(Obs2Ast * Sun2Ast, 10);
     },
 
     isInCooldown() {

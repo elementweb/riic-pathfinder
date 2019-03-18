@@ -31,6 +31,8 @@ module.exports = function(App) {
         '2019 CM4', '2019 DH', '2019 EE1', '2019 DJ1', '2013 EG68', '2012 VZ19', '2019 ES', '2019 DH1', '2019 CL2',
         '2019 CD5', '2019 DS', '2019 EN', '2016 GE1', '2014 UR', '2016 GW221', '2012 XO134', '2016 JP', '2018 KK1',
       ],
+
+      default_slope_parameter: 0.15,
     },
 
     initialize() {
@@ -43,7 +45,7 @@ module.exports = function(App) {
      */
     computeIntegrationTimes(data) {
       return _.map(data, function(object) {
-        object.data.vmag = App.spectroscopy.computeVisualMagnitude(object.data.mag, object.obs2ast, object.sun2ast),
+        object.data.vmag = App.spectroscopy.computeVisualMagnitude(object.data.mag, object.data.slope, object.cartesian, object.ref_cartesian, object.obs2ast, object.sun2ast),
         object.data.integration_time = App.spectroscopy.integrationTime(object.data.vmag);
 
         return object;
@@ -228,9 +230,11 @@ module.exports = function(App) {
           object.GM.length > 0 ? object.GM : 0,
         ];
 
-        var [cartesian, cartesian_ref, mL1B, mSB] = App.astrodynamics.L1cartesianAtUnix(keplerian, timestamp, reference);
+        var slope = object.G || App.neos.data.default_slope_parameter;
 
-        var vmag = App.spectroscopy.computeVisualMagnitude(object.H, mL1B, mSB),
+        var [cartesian, ref_cartesian, mL1B, mSB] = App.astrodynamics.L1cartesianAtUnix(keplerian, timestamp, reference);
+
+        var vmag = App.spectroscopy.computeVisualMagnitude(object.H, slope, cartesian, ref_cartesian, mL1B, mSB),
             integration_time = App.spectroscopy.integrationTime(vmag);
 
         return {
@@ -244,6 +248,7 @@ module.exports = function(App) {
             albedo: object.albedo,
             pha: object.pha == 'Y' ? 1 : 0,
             mag: object.H,
+            slope,
             vmag,
             integration_time,
             smass: object.spec_B,
@@ -253,6 +258,8 @@ module.exports = function(App) {
           kepler: keplerian,
           mercator: App.conversion.cartesianToScopedMercator(cartesian[0], cartesian[1], cartesian[2], offset),
           schedule: 1,
+          cartesian,
+          ref_cartesian,
           obs2ast: mL1B,
           sun2ast: mSB,
           spect_num: 0,
