@@ -1,5 +1,11 @@
 module.exports = function(App) {
+  /**
+   * Astrodynamics class
+   */
   App.astrodynamics = {
+    /**
+     * Define constants
+     */
     constants: {
       timestamp_mjd2000: 946728000,
       earth_mjd2000: [1, 0.0167091140000000, 0, 0, 1.79665003808771, -0.0431892049938299, 398600],
@@ -9,20 +15,32 @@ module.exports = function(App) {
       mass_earth: 5.974e+24,
     },
 
+    /**
+     * Data storage object
+     */
     data: {
       SL1: [],
       L1E: [],
       propagation_reference: 0,
     },
 
+    /**
+     * Convert km to AU
+     */
     km2AU(km) {
       return km / App.astrodynamics.constants.AU;
     },
 
+    /**
+     * Convert km to L1E units (number of lenghts between Earth and L1)
+     */
     km2L1E(km) {
       return km / App.astrodynamics.constants.EL1_km;
     },
 
+    /**
+     * Compute cartesian vector at given time and time reference
+     */
     cartesianAtUnix(data, timestamp, reference) {
       return App.conversion.keplerianToCartesianTime(
         data[0] * App.astrodynamics.constants.AU,
@@ -55,6 +73,9 @@ module.exports = function(App) {
       App.astrodynamics.data.L1E = App.math.subtract(SE, App.astrodynamics.data.SL1);
     },
 
+    /**
+     * Compute position of given object with respect to L1 at given time and time reference
+     */
     L1cartesianAtUnix(data, timestamp, reference) {
       App.astrodynamics.propagateL1(App.pathFinder.data.timestamp);
 
@@ -71,6 +92,9 @@ module.exports = function(App) {
       ];
     },
 
+    /**
+     * Compute offset - angle on ecliptical plan
+     */
     propagatedSL1Offset() {
       var SL1 = App.astrodynamics.data.SL1.toArray(),
           offset = App.math.atan2(SL1[1], SL1[0]) - Math.PI;

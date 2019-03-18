@@ -1,14 +1,20 @@
 module.exports = function(App) {
   App.exoplanets = {
+    /**
+     * Define settings here
+     */
     settings: {
       scan_enabled: true,
       allow_time_before_transit: 3600, // seconds
       scan_method: 2, // 1 - delay between scans, 2 - scan only once
       scan_delay: 60, // days
-      limiting_frequency: 3, // times
+      limiting_frequency: 6, // times
       limiting_timeframe: 24, // hours
     },
 
+    /**
+     * Define any dynamic properties here
+     */
     data: {
       last_scan: 0, // seconds
     },
@@ -22,6 +28,9 @@ module.exports = function(App) {
       });
     },
 
+    /**
+     * Determine scanning frequency based on provided settings
+     */
     scanningFrequencySeconds() {
       return App.exoplanets.settings.limiting_timeframe * 3600 / App.exoplanets.settings.limiting_frequency;
     },
@@ -63,11 +72,6 @@ module.exports = function(App) {
         return object.integration_time < object.transit_duration;
       });
 
-      // Filter out all targets that will fall out of scope during integration
-      data = _.filter(data, function(object) {
-        return object.mercator[0] < (25 - App.conversion.secondsToAngle(object.integration_time + (object.next_transit_start - timestamp)));
-      });
-
       // Filter out all targets that will fall out of scope or enter Earth's exclusion zone during integration
       data = _.filter(data, function(object) {
         var primary = object.mercator[0],
@@ -77,8 +81,12 @@ module.exports = function(App) {
             exclusion_center = [0, 0];
 
         // If we are limiting to the outside of Sun exclusion zone
-        if(App.targeting.settings.limiting == 2) {
+        if(App.targeting.settings.limiting == 2) {         
           return App.targeting.isExoplanetOutsideExclusionZones(object.mercator);
+        }
+
+        if(!App.targeting.isWithinScope(object.mercator) || !App.targeting.isWithinScope([secondary, vertical])) {
+          return;
         }
 
         if(primary === secondary && App.arithmetics.isWithinCircle(primary, vertical, exclusion)) {
@@ -117,12 +125,18 @@ module.exports = function(App) {
       return _.first(data);
     },
 
+    /**
+     * Re-calculate integration times for given set of exoplanets
+     */
     recalculateIntegrationTimes() {
       _.each(App.pathFinder.data.exoplanet_series, function(object) {
         return App.exoplanets.transmissionIntegration(object);
       });
     },
 
+    /**
+     * Compute the required integration time for given exoplanet object
+     */
     transmissionIntegration(object) {
       object.integration_time = App.spectroscopy.integrationTime(object.st_optmag);
 
@@ -152,8 +166,7 @@ module.exports = function(App) {
          * General data
          */
         object.id = ++count;
-        object.cartesian = App.conversion.equatorialToCartesian(object.ra, object.dec);
-        object.initial = App.conversion.cartesianToMercator(object.cartesian[0], object.cartesian[1], object.cartesian[2]);
+        object.initial = App.conversion.equatorialToMercator(object.ra, object.dec);
         object.mercator = JSON.parse(JSON.stringify(object.initial));
 
         object = App.exoplanets.transmissionIntegration(object);
@@ -227,6 +240,9 @@ module.exports = function(App) {
       App.targeting.loadEarthExclusionIndicator();
     },
 
+    /**
+     * Get target by given ID
+     */
     getTarget(id) {
       return App.pathFinder.data.exoplanet_series.find(el => el.id === id);
     },
@@ -254,6 +270,10 @@ module.exports = function(App) {
       return true;
     },
 
+    /**
+     * Resolve catalog status - return appropriate label based on number
+     * that is provided in NASA database
+     */
     resolveCatalogStatus(status) {
       switch(status*1) {
         case 0: return 'retracted';
@@ -264,12 +284,18 @@ module.exports = function(App) {
       }
     },
 
+    /**
+     * Prepare data for plot
+     */
     prepareDataForPlot(data) {
       return _.map(data, function(set) {
         return set.mercator;
       });
     },
 
+    /**
+     * Attempt new target selection - called from the main loop
+     */
     attemptNewTargetSelection() {
       if(!App.exoplanets.settings.scan_enabled || App.pathFinder.isSpacecraftInCooldownMode() || App.pathFinder.data.target_selected) {
         return;
@@ -284,6 +310,9 @@ module.exports = function(App) {
       return exoplanet_target ? App.exoplanets.selectExoplanetTargetById(exoplanet_target.id) : false;
     },
 
+    /**
+     * Attempt new target de-selection - called from the main loop
+     */
     attemptTargetDeselection() {
       // Checking if currently selected exoplanet has exceeded integration time
       var current_target = App.exoplanets.getTarget(App.pathFinder.data.target.id);
@@ -305,8 +334,6 @@ module.exports = function(App) {
 
         App.exoplanets.data.last_scan = App.pathFinder.data.timestamp;
 
-        App.statistics.angleChangeAOCS(total_angle_change);
-
         App.output.operationCompleted(
           App.targeting.target_types.exoplanet,
           App.pathFinder.data.target.time_selected,
@@ -327,13 +354,15 @@ module.exports = function(App) {
         current_target.slew = App.neos.slewDefault();
 
         App.statistics.incrementCounter('exoplanets_scanned');
-        App.statistics.incrementIntegrationTime(current_target.integration_time);
         App.targeting.discardTarget();
 
         App.spectroscopy.enterCooldownPeriod();
       }
     },
 
+    /**
+     * Define default slew object values
+     */
     slewDefault() {
       return JSON.parse(JSON.stringify({
         initial_time: 0,
@@ -341,6 +370,9 @@ module.exports = function(App) {
       }));
     },
 
+    /**
+     * Prepare data for visualisation output
+     */
     prepareForOutput(exoplanet) {
       return {
         name: exoplanet.pl_name,

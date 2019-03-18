@@ -1,4 +1,7 @@
 module.exports = function(App) {
+  /**
+   * Arithmetics class - helper in dealing with mathematical conversions
+   */
   App.arithmetics = {
     /**
      * Center the angle within 360 degrees (2 PI) range

@@ -1,5 +1,11 @@
 module.exports = function(App) {
+  /**
+   * User Interface class respnsible for presenting data to a user
+   */
   App.UI = {
+    /**
+     * Define any dynamic data here
+     */
     data: {
       subjects: 3,
       loaded_subjects: {
@@ -10,8 +16,14 @@ module.exports = function(App) {
       last_highlight: 0,
     },
 
+    /**
+     * Define moment class required for time conversions
+     */
     moment: require('moment'),
     
+    /**
+     * Convert seconds to a human readable form
+     */
     humanizeDuration(seconds) {
       var days = _.round(seconds / (24 * 3600)),
           avg_days_in_month = 30.43;
@@ -23,28 +35,47 @@ module.exports = function(App) {
       return _.round(days / avg_days_in_month) + ' month(s) ago';
     },
 
+    /**
+     * Get current UNIX timestamp
+     */
     currentTimestamp() {
       return App.UI.moment().unix() * 1;
     },
 
+    /**
+     * Get current UNIX timestamp in milliseconds
+     */
     currentTimestampMs() {
       return App.UI.moment().format('x') * 1;
     },
 
+    /**
+     * Initialize the iterations-per-seconds counter above the plot
+     */
     initializePerformanceIndicator() {
       $('#performance-container').removeClass('hidden');
       $('#performance-timestep').html(App.pathFinder.data.simulation.timestep_sec);
       App.pathFinder.data.iteration_reference = App.UI.currentTimestampMs();
     },
 
+    /**
+     * Update IPS counter
+     */
     updateIPS(reference, iterations) {
      $('#performance-itps').html(_.round(iterations * 1000 / (App.UI.currentTimestampMs() - reference), 1).toFixed(1));
     },
 
+    /**
+     * Update timestep indicator
+     */
     updateTimestep(timestep) {
      $('#performance-timestep').html(timestep);
     },
 
+    /**
+     * Initialize UI
+     * @return {[type]} [description]
+     */
     initialize() {
       /**
        * Initially disabling some of the buttons

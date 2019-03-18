@@ -1,4 +1,7 @@
 module.exports = function(App) {
+  /**
+   * All chart settings are defined here
+   */
   App.chartSettings = {
     chart: {
       type: 'scatter',

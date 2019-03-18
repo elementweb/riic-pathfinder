@@ -21,6 +21,9 @@ module.exports = function(App) {
       });
     },
 
+    /**
+     * Propagate positions of given set of objects
+     */
     propagate(data) {
       return _.map(data, function(object) {
         var [cartesian] = App.astrodynamics.L1cartesianAtUnix(object.kepler, App.pathFinder.data.timestamp, App.astrodynamics.constants.timestamp_mjd2000);
@@ -42,6 +45,9 @@ module.exports = function(App) {
       App.pathFinder.setData('Objects', App.objects.prepareDataForPlot(App.pathFinder.data.objects_in_view));
     },
 
+    /**
+     * Prepare data for scoped plot
+     */
     prepareDataForPlot(data) {
       return _.map(data, function(set) {
         return { name: set.title, x: set.mercator[0], y: set.mercator[1] };

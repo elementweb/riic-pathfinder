@@ -1,27 +1,31 @@
 module.exports = function(App) {
+  /**
+   * Targeting class reponsible for selecting and maintaining targets for spectroscopy
+   */
   App.targeting = {
+    /**
+     * Define target types
+     */
     target_types: {
       none: 0,
       exoplanet: 1,
       neo: 2,
     },
 
+    /**
+     * Define settings
+     */
+    settings: {
+      limiting: 2, // 1 - 50°x50° scope, 2 - outside Sun exclusion zone
+      sun_exclusion_deg: 50, // radius in degrees
+      earth_exclusion_deg: 5, // radius in degrees
+    },
+
+    /**
+     * Define any dynamic data here
+     */
     data: {
       current_target: [0, 0]
-    },
-
-    settings: {
-      reorientation_speed: 0.45, // deg/sec
-      early_warning_speed: 0.01, // deg/s
-      earth_exclusion_deg: 5, // radius in degrees
-
-      limiting: 2, // 1 - 50°x50° scope, 2 - outside Sun exclusion zone
-
-      sun_exclusion_deg: 50, // radius in degrees
-    },
-
-    timeRequired(angle) {
-      return _.round(angle / App.targeting.data.reorientation_speed);
     },
 
     /**
@@ -120,6 +124,9 @@ module.exports = function(App) {
       }).add();
     },
 
+    /**
+     * Load the Earth exclusion zone indicator
+     */
     loadEarthExclusionIndicator() {
       if($('#earth-exclusion-indicator').length) {
         $('#earth-exclusion-indicator').remove();
@@ -152,8 +159,6 @@ module.exports = function(App) {
       if(!App.pathFinder.data.visualisation_enabled) {
         return;
       }
-
-      // console.log(x, y);
       
       let $target = $('#scope-target'),
           $chart = App.pathFinder.chart,
@@ -167,8 +172,6 @@ module.exports = function(App) {
 
       var $horizontal = $('#scope-horizontal'),
           $vertical = $('#scope-vertical');
-
-      // x = App.arithmetics.wrapTo180(x);
 
       var px = $chart.xAxis[0].toPixels(-size[0] + x),
           py = $chart.yAxis[0].toPixels(size[1] + y),
@@ -190,11 +193,6 @@ module.exports = function(App) {
         x = App.arithmetics.constrainToFOV(x, 50);
         y = App.arithmetics.constrainToFOV(y, 50);
       }
-
-      App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenMercatorVectors(
-        App.targeting.data.current_target,
-        [x, y]
-      ));
 
       App.targeting.setTarget(x, y);
       App.pathFinder.data.target.translate = false;
@@ -226,11 +224,6 @@ module.exports = function(App) {
      */
     setCelestialTarget(x, y) {
       var resolved = App.targeting.resolveCelestialTarget(x, y);
-
-      App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenMercatorVectors(
-        App.targeting.data.current_target,
-        [resolved.x, resolved.y]
-      ));
       
       App.pathFinder.data.target.coordinates = [x, y];
       App.targeting.setTarget(resolved.x, resolved.y);
@@ -241,11 +234,6 @@ module.exports = function(App) {
      * Set NEO as target
      */
     setNEOTarget(target) {
-      App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenMercatorVectors(
-        App.targeting.data.current_target,
-        target.mercator
-      ));
-
       App.pathFinder.data.target.coordinates = target.mercator;
 
       App.targeting.setTarget(target.mercator[0], target.mercator[1]);
@@ -293,14 +281,6 @@ module.exports = function(App) {
 
       [x, y] = App.pathFinder.data.target.coordinates;
 
-      // console.log(x, y);
-
-      // if(!App.targeting.isWithinScope([x, y])) {
-      //   App.targeting.discardTarget();
-
-      //   return;
-      // }
-
       App.targeting.setTarget(x, y);
     },
 
@@ -317,6 +297,9 @@ module.exports = function(App) {
       App.UI.targetSelected(false);
     },
 
+    /**
+     * Check whether the targets is within 50°x50° scope
+     */
     isWithinScope(mercator) {
       return App.math.abs(mercator[0]) <= 25
           && App.math.abs(mercator[1]) <= 25;

@@ -1,53 +1,35 @@
 module.exports = function(App) {
   App.neos = {
-    exoplanet_type: 2,
-
+    /**
+     * Define any settings here
+     */
     settings: {
       scheduler: {
         threshold: 60,
         offscope_min: 10,
         offscope_max: 1000,
       },
-
       scan_enabled: true,
-
       limiting_by: 1, // 1 - integration time, 2 - visual magnitude
       vmag_limit: 20,
-      int_time_limit: 180*60, // seconds
-
-      // Allow spectroscopy to be performed for single target more than once?
-      // allow_multiple_spectroscopies: true,
-
-      // Minimum delay between NEO spectroscopies in seconds.
-      // min_delay_between_specs: 10368000, // 4 months = 4*30*24*3600
-
+      int_time_limit: 120 * 60, // seconds
       scan_method: 2, // 1 - delay between scans, 2 - scan only once
-
       scan_delay: 30, // days
-
-      limiting_frequency: 3, // times
-
+      limiting_frequency: 6, // times
       limiting_timeframe: 24, // hours
     },
 
+    /**
+     * Dynamic data object
+     */
     data: {
       last_scan: 0, // seconds
+      default_slope_parameter: 0.15, // G
     },
 
-    data: {
-      close_approaches: [
-        '2019 CM4', '2019 DH', '2019 EE1', '2019 DJ1', '2013 EG68', '2012 VZ19', '2019 ES', '2019 DH1', '2019 CL2',
-        '2019 CD5', '2019 DS', '2019 EN', '2016 GE1', '2014 UR', '2016 GW221', '2012 XO134', '2016 JP', '2018 KK1',
-      ],
-
-      default_slope_parameter: 0.15,
-    },
-
-    initialize() {
-      // Compute angle threshold for Sun → Asteroid
-      // App.neos.settings.scheduler.threshold = App.neos.computeSunBodyAngleThreshold();
-    },
-
+    /**
+     * Compute scanning frequency in seconds
+     */
     scanningFrequencySeconds() {
       return App.neos.settings.limiting_timeframe * 3600 / App.neos.settings.limiting_frequency;
     },
@@ -64,6 +46,9 @@ module.exports = function(App) {
       });
     },
 
+    /**
+     * Attempt new target selection - called from the main loop
+     */
     attemptNewTargetSelection() {
       if(!App.neos.settings.scan_enabled || App.pathFinder.isSpacecraftInCooldownMode() || App.pathFinder.data.target_selected) {
         return;
@@ -78,6 +63,9 @@ module.exports = function(App) {
       return neo_target ? App.neos.selectByTargetById(neo_target.id) : false;
     },
 
+    /**
+     * Attempt new target de-selection - called from the main loop
+     */
     attemptTargetDeselection() {
       // Checking if currently selected exoplanet has exceeded integration time
       var current_target = App.neos.getTarget(App.pathFinder.data.target.id);
@@ -93,11 +81,6 @@ module.exports = function(App) {
         current_target.last_spectroscopy = App.pathFinder.data.timestamp;
 
         App.neos.data.last_scan = App.pathFinder.data.timestamp;
-
-        App.statistics.angleChangeAOCS(App.arithmetics.angleBetweenCartesianVectors(
-          current_target.slew.initial_position,
-          current_target.slew.last_position,
-        ));
 
         App.output.operationCompleted(
           App.targeting.target_types.neo,
@@ -117,7 +100,6 @@ module.exports = function(App) {
         current_target.slew = App.neos.slewDefault();
 
         App.statistics.incrementCounter('neos_scanned');
-        App.statistics.incrementIntegrationTime(current_target.data.integration_time);
         App.targeting.discardTarget();
 
         App.spectroscopy.enterCooldownPeriod();
@@ -144,6 +126,9 @@ module.exports = function(App) {
       return true;
     },
 
+    /**
+     * Get target by given ID
+     */
     getTarget(id) {
       return App.pathFinder.data.neos_series.find(el => el.id === id);
     },
@@ -272,6 +257,9 @@ module.exports = function(App) {
       });
     },
 
+    /**
+     * Define default slew object values
+     */
     slewDefault() {
       return JSON.parse(JSON.stringify({
         initial_time: 0,
@@ -297,12 +285,18 @@ module.exports = function(App) {
       App.pathFinder.setData('NEOs', App.neos.prepareDataForPlot(App.pathFinder.data.neos_in_view));
     },
 
+    /**
+     * Prepare data for scoped plot
+     */
     prepareDataForPlot(data) {
       return _.map(data, function(set) {
         return set.mercator;
       });
     },
 
+    /**
+     * Schedule next NEO propagation based on settings
+     */
     propagationScheduler(position) {
       if(App.targeting.settings.limiting == 2) {
         return 1;
@@ -322,13 +316,9 @@ module.exports = function(App) {
       return _.round(absence_angle * (schedule_max / max_angle) + App.neos.settings.scheduler.offscope_min);
     },
 
-    computeSunBodyAngleThreshold(reference) {
-      var SE = App.astrodynamics.constants.AU,
-          EL1 = App.astrodynamics.constants.EL1_km;
-
-      return App.math.atan((EL1 / SE) * App.math.tan(App.conversion.deg2rad(reference)));
-    },
-
+    /**
+     * Prepare data for visualisation output
+     */
     prepareForOutput(neo) {
       return {
         nid: neo.data.nid,

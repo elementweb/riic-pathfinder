@@ -1,5 +1,11 @@
 module.exports = function(App) {
+  /**
+   * Data manager class is reponsible for loading objects used for analysis
+   */
   App.dataManager = {
+    /**
+     * All data is stored in this object
+     */
     storage: {
       exoplanets: [],
       objects: [],
@@ -86,8 +92,8 @@ module.exports = function(App) {
        */
       // var neos_url = "data/neos-10-mar-2019-ceres.json";
       // var neos_url = "data/neos-10-mar-2019.json";
-      var neos_url = "data/neos-18-mar-2019.json";
       // var neos_url = "data/neos-10-mar-2019-test-sample.json";
+      var neos_url = "data/neos-18-mar-2019.json";
       $.getJSON(neos_url, function(data) {
         App.dataManager.storage.neos = data;
         App.UI.subjectLoaded('neos');
