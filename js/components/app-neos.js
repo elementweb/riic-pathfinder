@@ -96,13 +96,16 @@ module.exports = function(App) {
         current_target.spect_num++;
         current_target.last_spectroscopy = App.pathFinder.data.timestamp;
 
+        var output_data = App.neos.prepareForOutput(current_target);
+        output_data.integration_time = App.targeting.data.current_neo_target_integration * 1;
+
         App.targeting.data.current_neo_target_integration = 0;
 
         App.output.operationCompleted(
           App.targeting.target_types.neo,
           App.pathFinder.data.target.time_selected,
           App.pathFinder.data.timestamp,
-          App.neos.prepareForOutput(current_target),
+          output_data,
         );
 
         App.statistics.logOperationTime(App.targeting.target_types.neo, App.pathFinder.data.timestamp - App.pathFinder.data.target.time_selected);

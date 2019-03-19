@@ -1,0 +1,2038 @@
+{
+  "started": 1561935600,
+  "ended": 1567292880,
+  "timestep": 60,
+  "telescope": "⌀0.3m",
+  "neos_scanned": 21,
+  "exoplanets_scanned": 124,
+  "max_slew_rate": 1.27,
+  "operations": [
+    {
+      "type": 1,
+      "begin": 1561935660,
+      "end": 1561937100,
+      "data": {
+        "name": "Kepler-804 b",
+        "host": "Kepler-804",
+        "period": 1241963,
+        "transit_duration": 17215,
+        "optmag": 13.749,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1561937400,
+      "end": 1561940160,
+      "data": {
+        "nid": "a0010145",
+        "spkid": 2010145,
+        "designation": 10145,
+        "name": "",
+        "full_name": "10145 1994 CK1",
+        "integration_time": 2724,
+        "mag": 16.8,
+        "vmag": 14.463,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.16
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1561940460,
+      "end": 1561944300,
+      "data": {
+        "nid": "a0214088",
+        "spkid": 2214088,
+        "designation": 214088,
+        "name": "",
+        "full_name": "214088 2004 JN13",
+        "integration_time": 3772,
+        "mag": 15.3,
+        "vmag": 14.818,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1561944600,
+      "end": 1561945620,
+      "data": {
+        "nid": "a0000433",
+        "spkid": 2000433,
+        "designation": 433,
+        "name": "Eros",
+        "full_name": "433 Eros 1898 DQ",
+        "integration_time": 1020,
+        "mag": 11.16,
+        "vmag": 13.39,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "S",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1561945920,
+      "end": 1561949340,
+      "data": {
+        "nid": "a0001036",
+        "spkid": 2001036,
+        "designation": 1036,
+        "name": "Ganymed",
+        "full_name": "1036 Ganymed 1924 TD",
+        "integration_time": 3378,
+        "mag": 9.45,
+        "vmag": 14.697,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "S",
+        "slew_max": 0
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1561949640,
+      "end": 1561950660,
+      "data": {
+        "nid": "a0001866",
+        "spkid": 2001866,
+        "designation": 1866,
+        "name": "Sisyphus",
+        "full_name": "1866 Sisyphus 1972 XA",
+        "integration_time": 993,
+        "mag": 12.4,
+        "vmag": 13.361,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "",
+        "slew_max": 0.05
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1561978920,
+      "end": 1561982760,
+      "data": {
+        "name": "Kepler-1489 b",
+        "host": "Kepler-1489",
+        "period": 7110266,
+        "transit_duration": 25232,
+        "optmag": 14.828,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562022180,
+      "end": 1562024520,
+      "data": {
+        "name": "Kepler-498 b",
+        "host": "Kepler-498",
+        "period": 830628,
+        "transit_duration": 17030,
+        "optmag": 14.283,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562065440,
+      "end": 1562068200,
+      "data": {
+        "name": "Kepler-1516 b",
+        "host": "Kepler-1516",
+        "period": 627205,
+        "transit_duration": 22313,
+        "optmag": 14.461,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562108700,
+      "end": 1562110440,
+      "data": {
+        "name": "Kepler-458 c",
+        "host": "KIC 9663113",
+        "period": 1791961,
+        "transit_duration": 37387,
+        "optmag": 13.955,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562151960,
+      "end": 1562153280,
+      "data": {
+        "name": "Kepler-364 c",
+        "host": "Kepler-364",
+        "period": 5182326,
+        "transit_duration": 30828,
+        "optmag": 13.66,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562195220,
+      "end": 1562196960,
+      "data": {
+        "name": "Kepler-627 b",
+        "host": "Kepler-627",
+        "period": 3516432,
+        "transit_duration": 25949,
+        "optmag": 13.949,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562238480,
+      "end": 1562239380,
+      "data": {
+        "name": "Kepler-815 b",
+        "host": "Kepler-815",
+        "period": 740883,
+        "transit_duration": 30762,
+        "optmag": 13.242,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562281740,
+      "end": 1562281800,
+      "data": {
+        "name": "HAT-P-67 b",
+        "host": "HAT-P-67",
+        "period": 415593,
+        "transit_duration": 26162,
+        "optmag": 10.069,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562325000,
+      "end": 1562329560,
+      "data": {
+        "name": "Kepler-1621 b",
+        "host": "Kepler-1621",
+        "period": 7971585,
+        "transit_duration": 35503,
+        "optmag": 15.015,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562368260,
+      "end": 1562368920,
+      "data": {
+        "name": "Kepler-7 b",
+        "host": "Kepler-7",
+        "period": 422106,
+        "transit_duration": 18922,
+        "optmag": 12.885,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562411520,
+      "end": 1562413320,
+      "data": {
+        "name": "Kepler-149 c",
+        "host": "Kepler-149",
+        "period": 4780368,
+        "transit_duration": 21159,
+        "optmag": 14.001,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562454780,
+      "end": 1562456040,
+      "data": {
+        "name": "Kepler-1424 b",
+        "host": "Kepler-1424",
+        "period": 2558233,
+        "transit_duration": 19696,
+        "optmag": 13.619,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562498040,
+      "end": 1562499780,
+      "data": {
+        "name": "Kepler-906 b",
+        "host": "Kepler-906",
+        "period": 3602707,
+        "transit_duration": 20431,
+        "optmag": 13.956,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562541300,
+      "end": 1562544180,
+      "data": {
+        "name": "Kepler-951 b",
+        "host": "Kepler-951",
+        "period": 6179787,
+        "transit_duration": 21338,
+        "optmag": 14.521,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562584560,
+      "end": 1562589180,
+      "data": {
+        "name": "Kepler-1545 b",
+        "host": "Kepler-1545",
+        "period": 14143019,
+        "transit_duration": 24682,
+        "optmag": 15.031,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562627820,
+      "end": 1562629080,
+      "data": {
+        "name": "Kepler-839 b",
+        "host": "Kepler-839",
+        "period": 3267169,
+        "transit_duration": 30883,
+        "optmag": 13.601,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562671080,
+      "end": 1562674320,
+      "data": {
+        "name": "Kepler-1060 b",
+        "host": "Kepler-1060",
+        "period": 4050254,
+        "transit_duration": 34686,
+        "optmag": 14.632,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562714340,
+      "end": 1562714880,
+      "data": {
+        "name": "HATS-60 b",
+        "host": "HATS-60",
+        "period": 307656,
+        "transit_duration": 13928,
+        "optmag": 12.641,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562757600,
+      "end": 1562759520,
+      "data": {
+        "name": "Kepler-1280 b",
+        "host": "Kepler-1280",
+        "period": 5750603,
+        "transit_duration": 37436,
+        "optmag": 14.074,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562800860,
+      "end": 1562809260,
+      "data": {
+        "name": "Kepler-1192 b",
+        "host": "Kepler-1192",
+        "period": 2177581,
+        "transit_duration": 16387,
+        "optmag": 15.684,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562844120,
+      "end": 1562852160,
+      "data": {
+        "name": "Kepler-943 b",
+        "host": "Kepler-943",
+        "period": 4300140,
+        "transit_duration": 36306,
+        "optmag": 15.64,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562887380,
+      "end": 1562887560,
+      "data": {
+        "name": "Kepler-1298 b",
+        "host": "Kepler-1298",
+        "period": 615870,
+        "transit_duration": 20211,
+        "optmag": 11.392,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562930640,
+      "end": 1562931360,
+      "data": {
+        "name": "Kepler-513 b",
+        "host": "Kepler-513",
+        "period": 2493708,
+        "transit_duration": 18735,
+        "optmag": 12.935,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1562973900,
+      "end": 1562976660,
+      "data": {
+        "name": "Kepler-433 b",
+        "host": "Kepler-433",
+        "period": 460865,
+        "transit_duration": 24252,
+        "optmag": 14.463,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563017160,
+      "end": 1563024540,
+      "data": {
+        "name": "Kepler-728 b",
+        "host": "Kepler-728",
+        "period": 496236,
+        "transit_duration": 12430,
+        "optmag": 15.543,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1563050400,
+      "end": 1563061200,
+      "data": {
+        "nid": "a0293054",
+        "spkid": 2293054,
+        "designation": 293054,
+        "name": "",
+        "full_name": "293054 2006 WP127",
+        "integration_time": 10648,
+        "mag": 18.3,
+        "vmag": 15.951,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.29
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563061500,
+      "end": 1563061860,
+      "data": {
+        "name": "Kepler-14 b",
+        "host": "Kepler-14",
+        "period": 586667,
+        "transit_duration": 22386,
+        "optmag": 12.128,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563104760,
+      "end": 1563108000,
+      "data": {
+        "name": "Kepler-365 c",
+        "host": "Kepler-365",
+        "period": 1536549,
+        "transit_duration": 17271,
+        "optmag": 14.651,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563148020,
+      "end": 1563148500,
+      "data": {
+        "name": "Kepler-432 b",
+        "host": "Kepler-432",
+        "period": 4536098,
+        "transit_duration": 81389,
+        "optmag": 12.465,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563191280,
+      "end": 1563192540,
+      "data": {
+        "name": "Kepler-1218 b",
+        "host": "Kepler-1218",
+        "period": 1980472,
+        "transit_duration": 29740,
+        "optmag": 13.578,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1563192840,
+      "end": 1563203640,
+      "data": {
+        "nid": "a0455432",
+        "spkid": 2455432,
+        "designation": 455432,
+        "name": "",
+        "full_name": "455432 2003 RP8",
+        "integration_time": 10587,
+        "mag": 18.2,
+        "vmag": 15.944,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.09
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563234540,
+      "end": 1563234600,
+      "data": {
+        "name": "WASP-136 b",
+        "host": "WASP-136",
+        "period": 450607,
+        "transit_duration": 19829,
+        "optmag": 9.98,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563277800,
+      "end": 1563280800,
+      "data": {
+        "name": "Kepler-797 b",
+        "host": "Kepler-797",
+        "period": 2339053,
+        "transit_duration": 24995,
+        "optmag": 14.556,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563321060,
+      "end": 1563321300,
+      "data": {
+        "name": "Kepler-1394 b",
+        "host": "Kepler-1394",
+        "period": 340214,
+        "transit_duration": 17697,
+        "optmag": 11.801,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1563362280,
+      "end": 1563373080,
+      "data": {
+        "nid": "bK05N56G",
+        "spkid": 3283947,
+        "designation": "2005 NG56",
+        "name": "",
+        "full_name": "2005 NG56",
+        "integration_time": 9209,
+        "mag": 22.4,
+        "vmag": 15.792,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 1.27
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563373380,
+      "end": 1563379920,
+      "data": {
+        "name": "Kepler-1495 b",
+        "host": "Kepler-1495",
+        "period": 7367609,
+        "transit_duration": 34063,
+        "optmag": 15.417,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563416640,
+      "end": 1563419940,
+      "data": {
+        "name": "Kepler-903 b",
+        "host": "Kepler-903",
+        "period": 894307,
+        "transit_duration": 23634,
+        "optmag": 14.659,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563459900,
+      "end": 1563460500,
+      "data": {
+        "name": "Kepler-321 c",
+        "host": "Kepler-321",
+        "period": 1131315,
+        "transit_duration": 18455,
+        "optmag": 12.706,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563503160,
+      "end": 1563504720,
+      "data": {
+        "name": "Kepler-146 b",
+        "host": "Kepler-146",
+        "period": 2692120,
+        "transit_duration": 24278,
+        "optmag": 13.838,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563546420,
+      "end": 1563556260,
+      "data": {
+        "name": "Kepler-1462 b",
+        "host": "Kepler-1462",
+        "period": 5672059,
+        "transit_duration": 26751,
+        "optmag": 15.858,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563589680,
+      "end": 1563591840,
+      "data": {
+        "name": "Kepler-300 c",
+        "host": "Kepler-300",
+        "period": 3517772,
+        "transit_duration": 15085,
+        "optmag": 14.201,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563632940,
+      "end": 1563633000,
+      "data": {
+        "name": "WASP-76 b",
+        "host": "WASP-76",
+        "period": 156374,
+        "transit_duration": 13522,
+        "optmag": 9.5,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563676200,
+      "end": 1563678960,
+      "data": {
+        "name": "Kepler-1386 b",
+        "host": "Kepler-1386",
+        "period": 582312,
+        "transit_duration": 14781,
+        "optmag": 14.455,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563719460,
+      "end": 1563719940,
+      "data": {
+        "name": "Kepler-91 b",
+        "host": "Kepler-91",
+        "period": 539705,
+        "transit_duration": 37636,
+        "optmag": 12.495,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563762720,
+      "end": 1563763080,
+      "data": {
+        "name": "K2-79 b",
+        "host": "K2-79",
+        "period": 950031,
+        "transit_duration": 15912,
+        "optmag": 12.075,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563805980,
+      "end": 1563807480,
+      "data": {
+        "name": "Kepler-643 b",
+        "host": "Kepler-643",
+        "period": 1411681,
+        "transit_duration": 33687,
+        "optmag": 13.781,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563849240,
+      "end": 1563849960,
+      "data": {
+        "name": "Kepler-391 c",
+        "host": "Kepler-391",
+        "period": 1769942,
+        "transit_duration": 58415,
+        "optmag": 13.007,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563892500,
+      "end": 1563895860,
+      "data": {
+        "name": "Kepler-272 c",
+        "host": "Kepler-272",
+        "period": 523354,
+        "transit_duration": 12027,
+        "optmag": 14.678,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563935760,
+      "end": 1563942240,
+      "data": {
+        "name": "Kepler-667 b",
+        "host": "Kepler-667",
+        "period": 3580384,
+        "transit_duration": 38329,
+        "optmag": 15.4,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1563979020,
+      "end": 1563980700,
+      "data": {
+        "name": "Kepler-1360 b",
+        "host": "Kepler-1360",
+        "period": 3501675,
+        "transit_duration": 37893,
+        "optmag": 13.913,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1564008120,
+      "end": 1564018920,
+      "data": {
+        "nid": "a0054509",
+        "spkid": 2054509,
+        "designation": 54509,
+        "name": "YORP",
+        "full_name": "54509 YORP 2000 PH5",
+        "integration_time": 10252,
+        "mag": 22.7,
+        "vmag": 15.909,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.8
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564022280,
+      "end": 1564022340,
+      "data": {
+        "name": "HD 1397 b",
+        "host": "HD 1397",
+        "period": 996653,
+        "transit_duration": 32512,
+        "optmag": 7.781,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564065540,
+      "end": 1564066140,
+      "data": {
+        "name": "Kepler-337 b",
+        "host": "Kepler-337",
+        "period": 284496,
+        "transit_duration": 16692,
+        "optmag": 12.727,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1564092300,
+      "end": 1564103100,
+      "data": {
+        "nid": "bK10P09K",
+        "spkid": 3542519,
+        "designation": "2010 PK9",
+        "name": "",
+        "full_name": "2010 PK9",
+        "integration_time": 10184,
+        "mag": 21.8,
+        "vmag": 15.902,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.75
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564108800,
+      "end": 1564117020,
+      "data": {
+        "name": "Kepler-717 b",
+        "host": "Kepler-717",
+        "period": 380886,
+        "transit_duration": 17759,
+        "optmag": 15.662,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564152060,
+      "end": 1564155660,
+      "data": {
+        "name": "Kepler-84 f",
+        "host": "Kepler-84",
+        "period": 3849307,
+        "transit_duration": 25574,
+        "optmag": 14.764,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564195320,
+      "end": 1564196760,
+      "data": {
+        "name": "Kepler-208 c",
+        "host": "Kepler-208",
+        "period": 645116,
+        "transit_duration": 15431,
+        "optmag": 13.749,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564238580,
+      "end": 1564239240,
+      "data": {
+        "name": "Kepler-1300 b",
+        "host": "Kepler-1300",
+        "period": 1921701,
+        "transit_duration": 26118,
+        "optmag": 12.816,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1564250940,
+      "end": 1564261740,
+      "data": {
+        "nid": "a0153842",
+        "spkid": 2153842,
+        "designation": 153842,
+        "name": "",
+        "full_name": "153842 2001 XT30",
+        "integration_time": 10715,
+        "mag": 16.7,
+        "vmag": 15.957,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564281840,
+      "end": 1564283580,
+      "data": {
+        "name": "Kepler-1568 b",
+        "host": "Kepler-1568",
+        "period": 1807954,
+        "transit_duration": 23821,
+        "optmag": 13.966,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564325100,
+      "end": 1564325700,
+      "data": {
+        "name": "Kepler-403 d",
+        "host": "Kepler-403",
+        "period": 1176041,
+        "transit_duration": 27029,
+        "optmag": 12.805,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564368360,
+      "end": 1564369320,
+      "data": {
+        "name": "K2-258 b",
+        "host": "K2-258",
+        "period": 1649557,
+        "transit_duration": 20434,
+        "optmag": 13.298,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564411620,
+      "end": 1564412340,
+      "data": {
+        "name": "Kepler-391 b",
+        "host": "Kepler-391",
+        "period": 640808,
+        "transit_duration": 38811,
+        "optmag": 13.007,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564454880,
+      "end": 1564456560,
+      "data": {
+        "name": "Kepler-1511 b",
+        "host": "Kepler-1511",
+        "period": 2007787,
+        "transit_duration": 29487,
+        "optmag": 13.932,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564498140,
+      "end": 1564500240,
+      "data": {
+        "name": "Kepler-313 b",
+        "host": "Kepler-313",
+        "period": 1293444,
+        "transit_duration": 23959,
+        "optmag": 14.167,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564541400,
+      "end": 1564549560,
+      "data": {
+        "name": "Kepler-1504 b",
+        "host": "Kepler-1504",
+        "period": 7111066,
+        "transit_duration": 49835,
+        "optmag": 15.654,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564584660,
+      "end": 1564586460,
+      "data": {
+        "name": "Kepler-1316 b",
+        "host": "Kepler-1316",
+        "period": 7600886,
+        "transit_duration": 52885,
+        "optmag": 14,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564627920,
+      "end": 1564628280,
+      "data": {
+        "name": "Kepler-540 b",
+        "host": "Kepler-540",
+        "period": 14921710,
+        "transit_duration": 40605,
+        "optmag": 12.209,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564671180,
+      "end": 1564674480,
+      "data": {
+        "name": "Kepler-903 c",
+        "host": "Kepler-903",
+        "period": 5436535,
+        "transit_duration": 40673,
+        "optmag": 14.659,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1564709160,
+      "end": 1564711860,
+      "data": {
+        "nid": "a0001566",
+        "spkid": 2001566,
+        "designation": 1566,
+        "name": "Icarus",
+        "full_name": "1566 Icarus 1949 MA",
+        "integration_time": 81034,
+        "mag": 16.9,
+        "vmag": 18.166,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564714440,
+      "end": 1564716900,
+      "data": {
+        "name": "Kepler-180 c",
+        "host": "Kepler-180",
+        "period": 3618931,
+        "transit_duration": 17384,
+        "optmag": 14.35,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564757700,
+      "end": 1564759380,
+      "data": {
+        "name": "Kepler-270 b",
+        "host": "Kepler-270",
+        "period": 991535,
+        "transit_duration": 20105,
+        "optmag": 13.908,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564800960,
+      "end": 1564809480,
+      "data": {
+        "name": "Kepler-747 b",
+        "host": "Kepler-747",
+        "period": 3077361,
+        "transit_duration": 30315,
+        "optmag": 15.703,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564844220,
+      "end": 1564854180,
+      "data": {
+        "name": "Kepler-1593 b",
+        "host": "Kepler-1593",
+        "period": 15077650,
+        "transit_duration": 25553,
+        "optmag": 15.873,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564887480,
+      "end": 1564888440,
+      "data": {
+        "name": "Kepler-318 c",
+        "host": "Kepler-318",
+        "period": 1020817,
+        "transit_duration": 17634,
+        "optmag": 13.297,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564930740,
+      "end": 1564939860,
+      "data": {
+        "name": "Kepler-1183 b",
+        "host": "Kepler-1183",
+        "period": 2462894,
+        "transit_duration": 22507,
+        "optmag": 15.778,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1564974000,
+      "end": 1564975500,
+      "data": {
+        "name": "Kepler-1345 b",
+        "host": "Kepler-1345",
+        "period": 3854905,
+        "transit_duration": 27475,
+        "optmag": 13.791,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565017260,
+      "end": 1565022000,
+      "data": {
+        "name": "Kepler-1122 b",
+        "host": "Kepler-1122",
+        "period": 3645366,
+        "transit_duration": 25589,
+        "optmag": 15.06,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565060520,
+      "end": 1565062560,
+      "data": {
+        "name": "Kepler-1597 b",
+        "host": "Kepler-1597",
+        "period": 254581,
+        "transit_duration": 11811,
+        "optmag": 14.144,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1565064180,
+      "end": 1565072460,
+      "data": {
+        "nid": "a0005143",
+        "spkid": 2005143,
+        "designation": 5143,
+        "name": "Heracles",
+        "full_name": "5143 Heracles 1991 VL",
+        "integration_time": 8245,
+        "mag": 14,
+        "vmag": 15.671,
+        "pha": 0,
+        "smass": "O",
+        "tholen": "",
+        "slew_max": 0.1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565103780,
+      "end": 1565104620,
+      "data": {
+        "name": "HAT-P-65 b",
+        "host": "HAT-P-65",
+        "period": 225111,
+        "transit_duration": 15854,
+        "optmag": 13.145,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565147040,
+      "end": 1565148480,
+      "data": {
+        "name": "Kepler-1375 b",
+        "host": "Kepler-1375",
+        "period": 285156,
+        "transit_duration": 16193,
+        "optmag": 13.749,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1565148840,
+      "end": 1565159640,
+      "data": {
+        "nid": "bK06Q23Q",
+        "spkid": 3338368,
+        "designation": "2006 QQ23",
+        "name": "",
+        "full_name": "2006 QQ23",
+        "integration_time": 10770,
+        "mag": 20.1,
+        "vmag": 15.963,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.11
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565190300,
+      "end": 1565194500,
+      "data": {
+        "name": "Kepler-1407 b",
+        "host": "Kepler-1407",
+        "period": 1734147,
+        "transit_duration": 22093,
+        "optmag": 14.935,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565233560,
+      "end": 1565234220,
+      "data": {
+        "name": "Kepler-521 b",
+        "host": "Kepler-521",
+        "period": 1918783,
+        "transit_duration": 26361,
+        "optmag": 12.885,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565276820,
+      "end": 1565281620,
+      "data": {
+        "name": "Kepler-897 b",
+        "host": "Kepler-897",
+        "period": 695284,
+        "transit_duration": 16243,
+        "optmag": 15.068,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565320080,
+      "end": 1565321100,
+      "data": {
+        "name": "Kepler-1311 b",
+        "host": "Kepler-1311",
+        "period": 965321,
+        "transit_duration": 21625,
+        "optmag": 13.349,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565363340,
+      "end": 1565365440,
+      "data": {
+        "name": "Kepler-494 b",
+        "host": "Kepler-494",
+        "period": 693370,
+        "transit_duration": 19148,
+        "optmag": 14.153,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565406600,
+      "end": 1565409240,
+      "data": {
+        "name": "Kepler-427 b",
+        "host": "Kepler-427",
+        "period": 889142,
+        "transit_duration": 21306,
+        "optmag": 14.42,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565449860,
+      "end": 1565451060,
+      "data": {
+        "name": "Kepler-638 b",
+        "host": "Kepler-638",
+        "period": 525289,
+        "transit_duration": 26435,
+        "optmag": 13.532,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565493120,
+      "end": 1565497860,
+      "data": {
+        "name": "Kepler-222 d",
+        "host": "Kepler-222",
+        "period": 2426277,
+        "transit_duration": 16347,
+        "optmag": 15.063,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565536380,
+      "end": 1565536440,
+      "data": {
+        "name": "KELT-9 b",
+        "host": "KELT-9",
+        "period": 127969,
+        "transit_duration": 14075,
+        "optmag": 7.55,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565579640,
+      "end": 1565584080,
+      "data": {
+        "name": "Kepler-487 c",
+        "host": "Kepler-487",
+        "period": 3339533,
+        "transit_duration": 22810,
+        "optmag": 14.991,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1565597280,
+      "end": 1565608080,
+      "data": {
+        "nid": "a0001620",
+        "spkid": 2001620,
+        "designation": 1620,
+        "name": "Geographos",
+        "full_name": "1620 Geographos 1951 RA",
+        "integration_time": 10696,
+        "mag": 15.6,
+        "vmag": 15.955,
+        "pha": 1,
+        "smass": "S",
+        "tholen": "S",
+        "slew_max": 0.07
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565622900,
+      "end": 1565624460,
+      "data": {
+        "name": "Kepler-1391 b",
+        "host": "Kepler-1391",
+        "period": 4700958,
+        "transit_duration": 34239,
+        "optmag": 13.852,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565666160,
+      "end": 1565670720,
+      "data": {
+        "name": "Kepler-1609 b",
+        "host": "Kepler-1609",
+        "period": 9879165,
+        "transit_duration": 46804,
+        "optmag": 15.015,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565709420,
+      "end": 1565712120,
+      "data": {
+        "name": "Kepler-1611 b",
+        "host": "Kepler-1611",
+        "period": 447227,
+        "transit_duration": 18541,
+        "optmag": 14.435,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565752680,
+      "end": 1565755080,
+      "data": {
+        "name": "Kepler-1142 b",
+        "host": "Kepler-1142",
+        "period": 1581355,
+        "transit_duration": 29391,
+        "optmag": 14.31,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565795940,
+      "end": 1565797440,
+      "data": {
+        "name": "KOI-351 f",
+        "host": "KOI-351",
+        "period": 10792604,
+        "transit_duration": 38353,
+        "optmag": 13.804,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565839200,
+      "end": 1565843220,
+      "data": {
+        "name": "Kepler-1125 b",
+        "host": "Kepler-1125",
+        "period": 1526694,
+        "transit_duration": 20779,
+        "optmag": 14.874,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565882460,
+      "end": 1565882940,
+      "data": {
+        "name": "Kepler-107 d",
+        "host": "Kepler-107",
+        "period": 687589,
+        "transit_duration": 17004,
+        "optmag": 12.487,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565925720,
+      "end": 1565930280,
+      "data": {
+        "name": "Kepler-1468 b",
+        "host": "Kepler-1468",
+        "period": 711923,
+        "transit_duration": 20221,
+        "optmag": 15.024,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1565968980,
+      "end": 1565974200,
+      "data": {
+        "name": "Kepler-1510 b",
+        "host": "Kepler-1510",
+        "period": 7318419,
+        "transit_duration": 37609,
+        "optmag": 15.169,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1565981040,
+      "end": 1565991840,
+      "data": {
+        "nid": "a0002100",
+        "spkid": 2002100,
+        "designation": 2100,
+        "name": "Ra-Shalom",
+        "full_name": "2100 Ra-Shalom 1978 RA",
+        "integration_time": 10730,
+        "mag": 16.05,
+        "vmag": 15.959,
+        "pha": 0,
+        "smass": "Xc",
+        "tholen": "C",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566012240,
+      "end": 1566013080,
+      "data": {
+        "name": "Kepler-1069 b",
+        "host": "Kepler-1069",
+        "period": 2064876,
+        "transit_duration": 56599,
+        "optmag": 13.153,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566055500,
+      "end": 1566055980,
+      "data": {
+        "name": "Kepler-1253 b",
+        "host": "Kepler-1253",
+        "period": 5951767,
+        "transit_duration": 21419,
+        "optmag": 12.464,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566098760,
+      "end": 1566104220,
+      "data": {
+        "name": "Kepler-745 b",
+        "host": "Kepler-745",
+        "period": 858076,
+        "transit_duration": 20372,
+        "optmag": 15.214,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566142020,
+      "end": 1566143520,
+      "data": {
+        "name": "Kepler-12 b",
+        "host": "Kepler-12",
+        "period": 383440,
+        "transit_duration": 16908,
+        "optmag": 13.8,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1566171540,
+      "end": 1566174000,
+      "data": {
+        "nid": "a0066146",
+        "spkid": 2066146,
+        "designation": 66146,
+        "name": "",
+        "full_name": "66146 1998 TU3",
+        "integration_time": 2399,
+        "mag": 14.5,
+        "vmag": 14.324,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.19
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566185280,
+      "end": 1566186480,
+      "data": {
+        "name": "Kepler-984 b",
+        "host": "Kepler-984",
+        "period": 3718157,
+        "transit_duration": 21861,
+        "optmag": 13.534,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566228540,
+      "end": 1566228840,
+      "data": {
+        "name": "Kepler-144 b",
+        "host": "Kepler-144",
+        "period": 508488,
+        "transit_duration": 13470,
+        "optmag": 11.992,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566271800,
+      "end": 1566275580,
+      "data": {
+        "name": "Kepler-769 b",
+        "host": "Kepler-769",
+        "period": 641614,
+        "transit_duration": 13326,
+        "optmag": 14.818,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566315060,
+      "end": 1566321720,
+      "data": {
+        "name": "Kepler-1239 b",
+        "host": "Kepler-1239",
+        "period": 448506,
+        "transit_duration": 15365,
+        "optmag": 15.438,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566358320,
+      "end": 1566359400,
+      "data": {
+        "name": "Kepler-628 b",
+        "host": "Kepler-628",
+        "period": 1335576,
+        "transit_duration": 31666,
+        "optmag": 13.398,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1566388740,
+      "end": 1566399540,
+      "data": {
+        "nid": "a0237805",
+        "spkid": 2237805,
+        "designation": 237805,
+        "name": "",
+        "full_name": "237805 2002 CF26",
+        "integration_time": 10634,
+        "mag": 17.4,
+        "vmag": 15.949,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.07
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566401580,
+      "end": 1566408300,
+      "data": {
+        "name": "Kepler-698 b",
+        "host": "Kepler-698",
+        "period": 1410891,
+        "transit_duration": 22943,
+        "optmag": 15.447,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566444840,
+      "end": 1566445260,
+      "data": {
+        "name": "Kepler-1581 b",
+        "host": "Kepler-1581",
+        "period": 542925,
+        "transit_duration": 14846,
+        "optmag": 12.4,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566488100,
+      "end": 1566491820,
+      "data": {
+        "name": "Kepler-830 b",
+        "host": "Kepler-830",
+        "period": 976057,
+        "transit_duration": 16499,
+        "optmag": 14.788,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566531360,
+      "end": 1566535920,
+      "data": {
+        "name": "Kepler-1304 b",
+        "host": "Kepler-1304",
+        "period": 1393536,
+        "transit_duration": 21377,
+        "optmag": 15.022,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566574620,
+      "end": 1566577260,
+      "data": {
+        "name": "Kepler-163 c",
+        "host": "Kepler-163",
+        "period": 1844403,
+        "transit_duration": 16727,
+        "optmag": 14.415,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566617880,
+      "end": 1566624000,
+      "data": {
+        "name": "Kepler-912 b",
+        "host": "Kepler-912",
+        "period": 219003,
+        "transit_duration": 15894,
+        "optmag": 15.341,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566661140,
+      "end": 1566662340,
+      "data": {
+        "name": "Kepler-634 b",
+        "host": "Kepler-634",
+        "period": 446645,
+        "transit_duration": 16225,
+        "optmag": 13.55,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566704400,
+      "end": 1566706740,
+      "data": {
+        "name": "Kepler-1508 b",
+        "host": "Kepler-1508",
+        "period": 1788968,
+        "transit_duration": 32505,
+        "optmag": 14.276,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566747660,
+      "end": 1566749760,
+      "data": {
+        "name": "Kepler-1226 b",
+        "host": "Kepler-1226",
+        "period": 1494059,
+        "transit_duration": 24207,
+        "optmag": 14.15,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566790920,
+      "end": 1566799140,
+      "data": {
+        "name": "Kepler-1422 b",
+        "host": "Kepler-1422",
+        "period": 1607489,
+        "transit_duration": 25851,
+        "optmag": 15.665,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566834180,
+      "end": 1566834540,
+      "data": {
+        "name": "Kepler-953 b",
+        "host": "Kepler-953",
+        "period": 7638326,
+        "transit_duration": 44306,
+        "optmag": 12.16,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566877440,
+      "end": 1566878340,
+      "data": {
+        "name": "Kepler-393 b",
+        "host": "Kepler-393",
+        "period": 793361,
+        "transit_duration": 14040,
+        "optmag": 13.223,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566920700,
+      "end": 1566923820,
+      "data": {
+        "name": "Kepler-1500 b",
+        "host": "Kepler-1500",
+        "period": 1298852,
+        "transit_duration": 19498,
+        "optmag": 14.606,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1566963960,
+      "end": 1566969780,
+      "data": {
+        "name": "Kepler-891 b",
+        "host": "Kepler-891",
+        "period": 4618033,
+        "transit_duration": 19162,
+        "optmag": 15.287,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1567007220,
+      "end": 1567007400,
+      "data": {
+        "name": "EPIC 246851721 b",
+        "host": "EPIC 246851721",
+        "period": 533972,
+        "transit_duration": 14800,
+        "optmag": 11.439,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1567046700,
+      "end": 1567047360,
+      "data": {
+        "nid": "a0003200",
+        "spkid": 2003200,
+        "designation": 3200,
+        "name": "Phaethon",
+        "full_name": "3200 Phaethon 1983 TB",
+        "integration_time": 28038,
+        "mag": 14.6,
+        "vmag": 17.007,
+        "pha": 1,
+        "smass": "B",
+        "tholen": "F",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1567050480,
+      "end": 1567051380,
+      "data": {
+        "name": "Kepler-982 b",
+        "host": "Kepler-982",
+        "period": 1362858,
+        "transit_duration": 17800,
+        "optmag": 13.205,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1567073400,
+      "end": 1567084200,
+      "data": {
+        "nid": "a0354030",
+        "spkid": 2354030,
+        "designation": 354030,
+        "name": "",
+        "full_name": "354030 2001 RB18",
+        "integration_time": 10728,
+        "mag": 18.5,
+        "vmag": 15.959,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1567093740,
+      "end": 1567099800,
+      "data": {
+        "name": "Kepler-1486 b",
+        "host": "Kepler-1486",
+        "period": 4721723,
+        "transit_duration": 30258,
+        "optmag": 15.335,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1567126080,
+      "end": 1567136880,
+      "data": {
+        "nid": "a0467317",
+        "spkid": 2467317,
+        "designation": 467317,
+        "name": "",
+        "full_name": "467317 2000 QW7",
+        "integration_time": 10670,
+        "mag": 19.8,
+        "vmag": 15.953,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.07
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1567137180,
+      "end": 1567147440,
+      "data": {
+        "name": "Kepler-832 b",
+        "host": "Kepler-832",
+        "period": 616870,
+        "transit_duration": 14145,
+        "optmag": 15.906,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1567180440,
+      "end": 1567181400,
+      "data": {
+        "name": "Kepler-480 b",
+        "host": "Kepler-480",
+        "period": 425052,
+        "transit_duration": 15075,
+        "optmag": 13.273,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1567223700,
+      "end": 1567226400,
+      "data": {
+        "name": "Kepler-590 b",
+        "host": "Kepler-590",
+        "period": 505696,
+        "transit_duration": 16561,
+        "optmag": 14.434,
+        "spect_num": 1
+      }
+    },
+    {
+      "type": 1,
+      "begin": 1567266960,
+      "end": 1567267260,
+      "data": {
+        "name": "Kepler-1408 b",
+        "host": "Kepler-1408",
+        "period": 259021,
+        "transit_duration": 15811,
+        "optmag": 12.003,
+        "spect_num": 1
+      }
+    }
+  ],
+  "earth_exclusion": 10,
+  "exoplanet_spectroscopy_limiting": "not limited",
+  "neo_spectroscopy_limiting": "180 minutes integration time",
+  "exoplanet_avg_scan_time": 2723,
+  "neo_avg_scan_time": 12258,
+  "time_exoplanet_scans": "6.4",
+  "time_neo_scans": "2.9",
+  "time_idle": "90.7",
+  "total_data_produced_tb": 1.19,
+  "data_rate_mbps": 2,
+  "data_rate_fluct_mbps": 0.1,
+  "exoplanet_count": 2629,
+  "neo_count": 19782,
+  "ecliptic_scope": "outside Sun 100° exclusion zone",
+  "neo_spectroscopy_methodology": "scan once",
+  "exoplanet_spectroscopy_methodology": "scan once"
+}

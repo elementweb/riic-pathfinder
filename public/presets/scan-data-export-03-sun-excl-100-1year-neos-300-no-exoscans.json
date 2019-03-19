@@ -1,0 +1,2174 @@
+{
+  "started": 1577836800,
+  "ended": 1609373640,
+  "timestep": 3600,
+  "telescope": "⌀0.3m",
+  "neos_scanned": 113,
+  "exoplanets_scanned": 0,
+  "max_slew_rate": 133.44,
+  "operations": [
+    {
+      "type": 2,
+      "begin": 1577836860,
+      "end": 1577844840,
+      "data": {
+        "nid": "a0018172",
+        "spkid": 2018172,
+        "designation": 18172,
+        "name": "",
+        "full_name": "18172 2000 QL7",
+        "integration_time": 7547.828052751437,
+        "mag": 15.6,
+        "vmag": 15.574,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1577848440,
+      "end": 1577862840,
+      "data": {
+        "nid": "a0066146",
+        "spkid": 2066146,
+        "designation": 66146,
+        "name": "",
+        "full_name": "66146 1998 TU3",
+        "integration_time": 12093.903279752261,
+        "mag": 14.5,
+        "vmag": 16.089,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1577866440,
+      "end": 1577873640,
+      "data": {
+        "nid": "a0137199",
+        "spkid": 2137199,
+        "designation": 137199,
+        "name": "",
+        "full_name": "137199 1999 KX4",
+        "integration_time": 5532.81180629065,
+        "mag": 16.9,
+        "vmag": 15.227,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1577877240,
+      "end": 1577895240,
+      "data": {
+        "nid": "a0243025",
+        "spkid": 2243025,
+        "designation": 243025,
+        "name": "",
+        "full_name": "243025 2006 UM216",
+        "integration_time": 17802.851505911487,
+        "mag": 15.9,
+        "vmag": 16.52,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1577898840,
+      "end": 1577913240,
+      "data": {
+        "nid": "a0310442",
+        "spkid": 2310442,
+        "designation": 310442,
+        "name": "",
+        "full_name": "310442 2000 CH59",
+        "integration_time": 11171.808358102358,
+        "mag": 19.9,
+        "vmag": 16.018,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.16
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1577916840,
+      "end": 1577934840,
+      "data": {
+        "nid": "a0333555",
+        "spkid": 2333555,
+        "designation": 333555,
+        "name": "",
+        "full_name": "333555 2005 VY17",
+        "integration_time": 17315.45938962706,
+        "mag": 17.3,
+        "vmag": 16.489,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.06
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1577938440,
+      "end": 1577942040,
+      "data": {
+        "nid": "a0001866",
+        "spkid": 2001866,
+        "designation": 1866,
+        "name": "Sisyphus",
+        "full_name": "1866 Sisyphus 1972 XA",
+        "integration_time": 3176.7276377119574,
+        "mag": 12.4,
+        "vmag": 14.631,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "",
+        "slew_max": 0
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1577945640,
+      "end": 1577952840,
+      "data": {
+        "nid": "a0005626",
+        "spkid": 2005626,
+        "designation": 5626,
+        "name": "",
+        "full_name": "5626 1991 FE",
+        "integration_time": 7142.683674909047,
+        "mag": 14.2,
+        "vmag": 15.514,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1577956440,
+      "end": 1577967240,
+      "data": {
+        "nid": "a0020826",
+        "spkid": 2020826,
+        "designation": 20826,
+        "name": "",
+        "full_name": "20826 2000 UV13",
+        "integration_time": 9828.7409141541,
+        "mag": 13.9,
+        "vmag": 15.863,
+        "pha": 0,
+        "smass": "Sq",
+        "tholen": "",
+        "slew_max": 0.06
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1578230040,
+      "end": 1578248040,
+      "data": {
+        "nid": "a0096744",
+        "spkid": 2096744,
+        "designation": 96744,
+        "name": "",
+        "full_name": "96744 1999 OW3",
+        "integration_time": 17991.191965515456,
+        "mag": 14.7,
+        "vmag": 16.516,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1578492840,
+      "end": 1578510840,
+      "data": {
+        "nid": "a0052768",
+        "spkid": 2052768,
+        "designation": 52768,
+        "name": "",
+        "full_name": "52768 1998 OR2",
+        "integration_time": 17997.50950782292,
+        "mag": 15.8,
+        "vmag": 16.511,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1578550440,
+      "end": 1578568440,
+      "data": {
+        "nid": "a0437316",
+        "spkid": 2437316,
+        "designation": 437316,
+        "name": "",
+        "full_name": "437316 2013 OS3",
+        "integration_time": 17988.32804777143,
+        "mag": 18.5,
+        "vmag": 16.494,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.07
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1578874440,
+      "end": 1578892440,
+      "data": {
+        "nid": "a0103067",
+        "spkid": 2103067,
+        "designation": 103067,
+        "name": "",
+        "full_name": "103067 1999 XA143",
+        "integration_time": 17944.99473766555,
+        "mag": 16.8,
+        "vmag": 16.499,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.05
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1579205640,
+      "end": 1579223640,
+      "data": {
+        "nid": "a0035107",
+        "spkid": 2035107,
+        "designation": 35107,
+        "name": "",
+        "full_name": "35107 1991 VH",
+        "integration_time": 17971.865940433505,
+        "mag": 16.7,
+        "vmag": 16.513,
+        "pha": 1,
+        "smass": "Sk",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1579338840,
+      "end": 1579342440,
+      "data": {
+        "nid": "a0003200",
+        "spkid": 2003200,
+        "designation": 3200,
+        "name": "Phaethon",
+        "full_name": "3200 Phaethon 1983 TB",
+        "integration_time": 2424.008271885125,
+        "mag": 14.6,
+        "vmag": 19.322,
+        "pha": 1,
+        "smass": "B",
+        "tholen": "F",
+        "slew_max": 0
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1579490040,
+      "end": 1579508040,
+      "data": {
+        "nid": "a0162825",
+        "spkid": 2162825,
+        "designation": 162825,
+        "name": "",
+        "full_name": "162825 2001 BO61",
+        "integration_time": 17938.15184174967,
+        "mag": 18,
+        "vmag": 16.493,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.08
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1579824840,
+      "end": 1579842840,
+      "data": {
+        "nid": "a0001627",
+        "spkid": 2001627,
+        "designation": 1627,
+        "name": "Ivar",
+        "full_name": "1627 Ivar 1929 SH",
+        "integration_time": 17987.193231518348,
+        "mag": 13.2,
+        "vmag": 16.519,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "S",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1579846440,
+      "end": 1579864440,
+      "data": {
+        "nid": "a0163373",
+        "spkid": 2163373,
+        "designation": 163373,
+        "name": "",
+        "full_name": "163373 2002 PZ39",
+        "integration_time": 17574.55082368399,
+        "mag": 18.9,
+        "vmag": 16.464,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1580303640,
+      "end": 1580321640,
+      "data": {
+        "nid": "a0137924",
+        "spkid": 2137924,
+        "designation": 137924,
+        "name": "",
+        "full_name": "137924 2000 BD19",
+        "integration_time": 17957.162035206937,
+        "mag": 17.2,
+        "vmag": 16.494,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.08
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1580325240,
+      "end": 1580343240,
+      "data": {
+        "nid": "a0250577",
+        "spkid": 2250577,
+        "designation": 250577,
+        "name": "",
+        "full_name": "250577 2005 AC",
+        "integration_time": 17689.48104839767,
+        "mag": 18.2,
+        "vmag": 16.484,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.18
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1580469240,
+      "end": 1580487240,
+      "data": {
+        "nid": "a0040267",
+        "spkid": 2040267,
+        "designation": 40267,
+        "name": "",
+        "full_name": "40267 1999 GJ4",
+        "integration_time": 17882.38227763639,
+        "mag": 15.5,
+        "vmag": 16.468,
+        "pha": 0,
+        "smass": "Sq",
+        "tholen": "",
+        "slew_max": 0.15
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1580735640,
+      "end": 1580750040,
+      "data": {
+        "nid": "a0089958",
+        "spkid": 2089958,
+        "designation": 89958,
+        "name": "",
+        "full_name": "89958 2002 LY45",
+        "integration_time": 12294.245183292773,
+        "mag": 17,
+        "vmag": 22.396,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1580753640,
+      "end": 1580771640,
+      "data": {
+        "nid": "a0036284",
+        "spkid": 2036284,
+        "designation": 36284,
+        "name": "",
+        "full_name": "36284 2000 DM8",
+        "integration_time": 17784.895641713312,
+        "mag": 14.9,
+        "vmag": 16.497,
+        "pha": 0,
+        "smass": "Sq",
+        "tholen": "",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1581351240,
+      "end": 1581369240,
+      "data": {
+        "nid": "a0163243",
+        "spkid": 2163243,
+        "designation": 163243,
+        "name": "",
+        "full_name": "163243 2002 FB3",
+        "integration_time": 17979.3386175866,
+        "mag": 16.4,
+        "vmag": 16.516,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.07
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1581516840,
+      "end": 1581534840,
+      "data": {
+        "nid": "a0315098",
+        "spkid": 2315098,
+        "designation": 315098,
+        "name": "",
+        "full_name": "315098 2007 EX",
+        "integration_time": 17949.93120269529,
+        "mag": 16.9,
+        "vmag": 16.495,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.15
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1581671640,
+      "end": 1581689640,
+      "data": {
+        "nid": "bK03O03C",
+        "spkid": 3157483,
+        "designation": "2003 OC3",
+        "name": "",
+        "full_name": "2003 OC3",
+        "integration_time": 17975.86785977832,
+        "mag": 18.6,
+        "vmag": 16.505,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1582110840,
+      "end": 1582128840,
+      "data": {
+        "nid": "a0137052",
+        "spkid": 2137052,
+        "designation": 137052,
+        "name": "Tjelvar",
+        "full_name": "137052 Tjelvar 1998 VO33",
+        "integration_time": 15562.466515195016,
+        "mag": 16.9,
+        "vmag": 21.227,
+        "pha": 0,
+        "smass": "V",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1583687640,
+      "end": 1583705640,
+      "data": {
+        "nid": "a0276732",
+        "spkid": 2276732,
+        "designation": 276732,
+        "name": "",
+        "full_name": "276732 2004 EV9",
+        "integration_time": 17849.207549205796,
+        "mag": 17.7,
+        "vmag": 16.467,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.32
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1583802840,
+      "end": 1583820840,
+      "data": {
+        "nid": "a0065690",
+        "spkid": 2065690,
+        "designation": 65690,
+        "name": "",
+        "full_name": "65690 1991 DG",
+        "integration_time": 17995.828015462583,
+        "mag": 19,
+        "vmag": 16.512,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1584256440,
+      "end": 1584274440,
+      "data": {
+        "nid": "bK00B28O",
+        "spkid": 3028804,
+        "designation": "2000 BO28",
+        "name": "",
+        "full_name": "2000 BO28",
+        "integration_time": 17982.368024063075,
+        "mag": 19.8,
+        "vmag": 16.511,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.18
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1584386040,
+      "end": 1584400440,
+      "data": {
+        "nid": "a0276033",
+        "spkid": 2276033,
+        "designation": 276033,
+        "name": "",
+        "full_name": "276033 2002 AJ129",
+        "integration_time": 12523.032078820319,
+        "mag": 18.7,
+        "vmag": 22.326,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1584929640,
+      "end": 1584947640,
+      "data": {
+        "nid": "a0142555",
+        "spkid": 2142555,
+        "designation": 142555,
+        "name": "",
+        "full_name": "142555 2002 TB58",
+        "integration_time": 17995.528998304213,
+        "mag": 16.2,
+        "vmag": 16.522,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1585232040,
+      "end": 1585250040,
+      "data": {
+        "nid": "a0373428",
+        "spkid": 2373428,
+        "designation": 373428,
+        "name": "",
+        "full_name": "373428 1999 TC5",
+        "integration_time": 17990.641511201058,
+        "mag": 18.4,
+        "vmag": 16.518,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1585689240,
+      "end": 1585707240,
+      "data": {
+        "nid": "bK15F35C",
+        "spkid": 3713989,
+        "designation": "2015 FC35",
+        "name": "",
+        "full_name": "2015 FC35",
+        "integration_time": 17987.110399725578,
+        "mag": 21.9,
+        "vmag": 16.482,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.28
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1586207640,
+      "end": 1586225640,
+      "data": {
+        "nid": "a0413989",
+        "spkid": 2413989,
+        "designation": 413989,
+        "name": "",
+        "full_name": "413989 2007 EL88",
+        "integration_time": 17994.028458583292,
+        "mag": 19,
+        "vmag": 16.511,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.14
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1586340840,
+      "end": 1586358840,
+      "data": {
+        "nid": "a0004954",
+        "spkid": 2004954,
+        "designation": 4954,
+        "name": "Eric",
+        "full_name": "4954 Eric 1990 SQ",
+        "integration_time": 17995.909996362498,
+        "mag": 12.5,
+        "vmag": 16.52,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1586549640,
+      "end": 1586567640,
+      "data": {
+        "nid": "bK14J25O",
+        "spkid": 3670721,
+        "designation": "2014 JO25",
+        "name": "",
+        "full_name": "2014 JO25",
+        "integration_time": 17941.149370954172,
+        "mag": 17.8,
+        "vmag": 16.482,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.24
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1586733240,
+      "end": 1586751240,
+      "data": {
+        "nid": "a0144411",
+        "spkid": 2144411,
+        "designation": 144411,
+        "name": "",
+        "full_name": "144411 2004 EW9",
+        "integration_time": 17963.287107371634,
+        "mag": 16.6,
+        "vmag": 16.51,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1587014040,
+      "end": 1587032040,
+      "data": {
+        "nid": "a0099935",
+        "spkid": 2099935,
+        "designation": 99935,
+        "name": "",
+        "full_name": "99935 2002 AV4",
+        "integration_time": 17955.374577996765,
+        "mag": 15.9,
+        "vmag": 16.506,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1587294840,
+      "end": 1587312840,
+      "data": {
+        "nid": "bK17H01W",
+        "spkid": 3774031,
+        "designation": "2017 HW1",
+        "name": "",
+        "full_name": "2017 HW1",
+        "integration_time": 17932.96621803741,
+        "mag": 17.8,
+        "vmag": 16.498,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.08
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1587482040,
+      "end": 1587500040,
+      "data": {
+        "nid": "a0086667",
+        "spkid": 2086667,
+        "designation": 86667,
+        "name": "",
+        "full_name": "86667 2000 FO10",
+        "integration_time": 17955.871570355626,
+        "mag": 17.6,
+        "vmag": 16.502,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.05
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1587723240,
+      "end": 1587741240,
+      "data": {
+        "nid": "a0085184",
+        "spkid": 2085184,
+        "designation": 85184,
+        "name": "",
+        "full_name": "85184 1991 JG1",
+        "integration_time": 17923.6787831959,
+        "mag": 18.3,
+        "vmag": 16.494,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1587744840,
+      "end": 1587762840,
+      "data": {
+        "nid": "a0388945",
+        "spkid": 2388945,
+        "designation": 388945,
+        "name": "",
+        "full_name": "388945 2008 TZ3",
+        "integration_time": 17423.48335248779,
+        "mag": 20.4,
+        "vmag": 16.461,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1587921240,
+      "end": 1587939240,
+      "data": {
+        "nid": "a0137170",
+        "spkid": 2137170,
+        "designation": 137170,
+        "name": "",
+        "full_name": "137170 1999 HF1",
+        "integration_time": 17996.07326748912,
+        "mag": 14.6,
+        "vmag": 16.521,
+        "pha": 0,
+        "smass": "X:",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1588223640,
+      "end": 1588241640,
+      "data": {
+        "nid": "a0495615",
+        "spkid": 2495615,
+        "designation": 495615,
+        "name": "",
+        "full_name": "495615 2015 PQ291",
+        "integration_time": 17971.495443423762,
+        "mag": 17.7,
+        "vmag": 16.506,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.09
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1588540440,
+      "end": 1588558440,
+      "data": {
+        "nid": "a0438908",
+        "spkid": 2438908,
+        "designation": 438908,
+        "name": "",
+        "full_name": "438908 2009 XO",
+        "integration_time": 17404.005953669228,
+        "mag": 20.5,
+        "vmag": 16.3,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.53
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1588824840,
+      "end": 1588842840,
+      "data": {
+        "nid": "a0331471",
+        "spkid": 2331471,
+        "designation": 331471,
+        "name": "",
+        "full_name": "331471 1984 QY1",
+        "integration_time": 17969.30894530113,
+        "mag": 15.6,
+        "vmag": 16.494,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.11
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1588936440,
+      "end": 1588954440,
+      "data": {
+        "nid": "a0267494",
+        "spkid": 2267494,
+        "designation": 267494,
+        "name": "",
+        "full_name": "267494 2002 JB9",
+        "integration_time": 17933.815145624812,
+        "mag": 15.9,
+        "vmag": 16.498,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1589152440,
+      "end": 1589170440,
+      "data": {
+        "nid": "bK00K00A",
+        "spkid": 3035252,
+        "designation": "2000 KA",
+        "name": "",
+        "full_name": "2000 KA",
+        "integration_time": 17761.751412310045,
+        "mag": 21.7,
+        "vmag": 16.378,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.74
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1589397240,
+      "end": 1589415240,
+      "data": {
+        "nid": "a0433992",
+        "spkid": 2433992,
+        "designation": 433992,
+        "name": "",
+        "full_name": "433992 2000 HD74",
+        "integration_time": 17962.317877592894,
+        "mag": 18,
+        "vmag": 16.486,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.11
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1589735640,
+      "end": 1589753640,
+      "data": {
+        "nid": "a0136795",
+        "spkid": 2136795,
+        "designation": 136795,
+        "name": "",
+        "full_name": "136795 1997 BQ",
+        "integration_time": 17260.557125941858,
+        "mag": 18.1,
+        "vmag": 16.373,
+        "pha": 1,
+        "smass": "S",
+        "tholen": "",
+        "slew_max": 0.35
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1589778840,
+      "end": 1589796840,
+      "data": {
+        "nid": "a0242450",
+        "spkid": 2242450,
+        "designation": 242450,
+        "name": "",
+        "full_name": "242450 2004 QY2",
+        "integration_time": 17983.912664361094,
+        "mag": 14.7,
+        "vmag": 16.514,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1589800440,
+      "end": 1589818440,
+      "data": {
+        "nid": "a0169675",
+        "spkid": 2169675,
+        "designation": 169675,
+        "name": "",
+        "full_name": "169675 2002 JM97",
+        "integration_time": 17915.007582383016,
+        "mag": 16.5,
+        "vmag": 16.506,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1589883240,
+      "end": 1589901240,
+      "data": {
+        "nid": "a0001685",
+        "spkid": 2001685,
+        "designation": 1685,
+        "name": "Toro",
+        "full_name": "1685 Toro 1948 OA",
+        "integration_time": 17990.89040043639,
+        "mag": 14.23,
+        "vmag": 16.516,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "S",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1590066840,
+      "end": 1590074040,
+      "data": {
+        "nid": "a0394392",
+        "spkid": 2394392,
+        "designation": 394392,
+        "name": "",
+        "full_name": "394392 2007 EP88",
+        "integration_time": 6354.841147016462,
+        "mag": 18.5,
+        "vmag": 21.376,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1590358440,
+      "end": 1590376440,
+      "data": {
+        "nid": "a0066391",
+        "spkid": 2066391,
+        "designation": 66391,
+        "name": "",
+        "full_name": "66391 1999 KW4",
+        "integration_time": 17908.408679471835,
+        "mag": 16.5,
+        "vmag": 16.482,
+        "pha": 1,
+        "smass": "S:",
+        "tholen": "",
+        "slew_max": 0.22
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1590880440,
+      "end": 1590898440,
+      "data": {
+        "nid": "a0106589",
+        "spkid": 2106589,
+        "designation": 106589,
+        "name": "",
+        "full_name": "106589 2000 WN107",
+        "integration_time": 17986.145817653676,
+        "mag": 15.9,
+        "vmag": 16.518,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.08
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1591046040,
+      "end": 1591064040,
+      "data": {
+        "nid": "a0163348",
+        "spkid": 2163348,
+        "designation": 163348,
+        "name": "",
+        "full_name": "163348 2002 NN4",
+        "integration_time": 17946.292906153543,
+        "mag": 20.1,
+        "vmag": 16.43,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.31
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1591280040,
+      "end": 1591298040,
+      "data": {
+        "nid": "a0513170",
+        "spkid": 2513170,
+        "designation": 513170,
+        "name": "",
+        "full_name": "513170 2004 KH15",
+        "integration_time": 17896.063432937473,
+        "mag": 19.7,
+        "vmag": 16.479,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.17
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1591355640,
+      "end": 1591373640,
+      "data": {
+        "nid": "bK16J38T",
+        "spkid": 3753590,
+        "designation": "2016 JT38",
+        "name": "",
+        "full_name": "2016 JT38",
+        "integration_time": 17976.581158881138,
+        "mag": 20.2,
+        "vmag": 16.509,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.24
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1591445640,
+      "end": 1591463640,
+      "data": {
+        "nid": "a0006569",
+        "spkid": 2006569,
+        "designation": 6569,
+        "name": "Ondaatje",
+        "full_name": "6569 Ondaatje 1993 MO",
+        "integration_time": 17993.410528429897,
+        "mag": 16.4,
+        "vmag": 16.514,
+        "pha": 0,
+        "smass": "Sr",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1591618440,
+      "end": 1591636440,
+      "data": {
+        "nid": "a0065733",
+        "spkid": 2065733,
+        "designation": 65733,
+        "name": "",
+        "full_name": "65733 1993 PC",
+        "integration_time": 17987.489561393817,
+        "mag": 18.4,
+        "vmag": 16.516,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.17
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1591798440,
+      "end": 1591816440,
+      "data": {
+        "nid": "a0382503",
+        "spkid": 2382503,
+        "designation": 382503,
+        "name": "",
+        "full_name": "382503 2001 RE8",
+        "integration_time": 17990.939755330262,
+        "mag": 18.9,
+        "vmag": 16.515,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.06
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1591902840,
+      "end": 1591920840,
+      "data": {
+        "nid": "a0420302",
+        "spkid": 2420302,
+        "designation": 420302,
+        "name": "",
+        "full_name": "420302 2011 XZ1",
+        "integration_time": 17970.43840081452,
+        "mag": 17.5,
+        "vmag": 16.512,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1592133240,
+      "end": 1592151240,
+      "data": {
+        "nid": "a0002102",
+        "spkid": 2002102,
+        "designation": 2102,
+        "name": "Tantalus",
+        "full_name": "2102 Tantalus 1975 YA",
+        "integration_time": 17977.61949894132,
+        "mag": 16,
+        "vmag": 16.515,
+        "pha": 1,
+        "smass": "Q",
+        "tholen": "",
+        "slew_max": 0.08
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1592154840,
+      "end": 1592172840,
+      "data": {
+        "nid": "a0428086",
+        "spkid": 2428086,
+        "designation": 428086,
+        "name": "",
+        "full_name": "428086 2006 NM",
+        "integration_time": 17974.74372768789,
+        "mag": 16.3,
+        "vmag": 16.518,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.07
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1592248440,
+      "end": 1592266440,
+      "data": {
+        "nid": "a0008014",
+        "spkid": 2008014,
+        "designation": 8014,
+        "name": "",
+        "full_name": "8014 1990 MF",
+        "integration_time": 17982.46343156531,
+        "mag": 18.7,
+        "vmag": 16.517,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1592270040,
+      "end": 1592288040,
+      "data": {
+        "nid": "a0159608",
+        "spkid": 2159608,
+        "designation": 159608,
+        "name": "",
+        "full_name": "159608 2002 AC2",
+        "integration_time": 17709.83529640935,
+        "mag": 16.5,
+        "vmag": 16.49,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.11
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1592381640,
+      "end": 1592399640,
+      "data": {
+        "nid": "a0085275",
+        "spkid": 2085275,
+        "designation": 85275,
+        "name": "",
+        "full_name": "85275 1994 LY",
+        "integration_time": 17994.062582038463,
+        "mag": 16.1,
+        "vmag": 16.515,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1592410440,
+      "end": 1592428440,
+      "data": {
+        "nid": "a0498066",
+        "spkid": 2498066,
+        "designation": 498066,
+        "name": "",
+        "full_name": "498066 2007 RM133",
+        "integration_time": 17971.15626379152,
+        "mag": 18.1,
+        "vmag": 16.512,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1593854040,
+      "end": 1593872040,
+      "data": {
+        "nid": "a0085989",
+        "spkid": 2085989,
+        "designation": 85989,
+        "name": "",
+        "full_name": "85989 1999 JD6",
+        "integration_time": 17957.653780128232,
+        "mag": 17.1,
+        "vmag": 16.504,
+        "pha": 1,
+        "smass": "K",
+        "tholen": "",
+        "slew_max": 0.07
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1593954840,
+      "end": 1593972840,
+      "data": {
+        "nid": "a0004055",
+        "spkid": 2004055,
+        "designation": 4055,
+        "name": "Magellan",
+        "full_name": "4055 Magellan 1985 DO2",
+        "integration_time": 17993.679740099666,
+        "mag": 14.7,
+        "vmag": 16.521,
+        "pha": 0,
+        "smass": "V",
+        "tholen": "V",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1594062840,
+      "end": 1594080840,
+      "data": {
+        "nid": "bK08M01G",
+        "spkid": 3414391,
+        "designation": "2008 MG1",
+        "name": "",
+        "full_name": "2008 MG1",
+        "integration_time": 14950.48459924102,
+        "mag": 19.9,
+        "vmag": 21.362,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 55.82
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1594120440,
+      "end": 1594138440,
+      "data": {
+        "nid": "bK06N00L",
+        "spkid": 3337325,
+        "designation": "2006 NL",
+        "name": "",
+        "full_name": "2006 NL",
+        "integration_time": 17870.522751740282,
+        "mag": 20,
+        "vmag": 16.448,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.38
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1594505640,
+      "end": 1594523640,
+      "data": {
+        "nid": "a0009202",
+        "spkid": 2009202,
+        "designation": 9202,
+        "name": "",
+        "full_name": "9202 1993 PB",
+        "integration_time": 17994.760310759142,
+        "mag": 15.9,
+        "vmag": 16.519,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.08
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1595153640,
+      "end": 1595171640,
+      "data": {
+        "nid": "bK04L03U",
+        "spkid": 3183848,
+        "designation": "2004 LU3",
+        "name": "",
+        "full_name": "2004 LU3",
+        "integration_time": 17997.67257727079,
+        "mag": 18.4,
+        "vmag": 16.518,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1595290440,
+      "end": 1595308440,
+      "data": {
+        "nid": "a0003691",
+        "spkid": 2003691,
+        "designation": 3691,
+        "name": "Bede",
+        "full_name": "3691 Bede 1982 FT",
+        "integration_time": 17991.2458901673,
+        "mag": 14.7,
+        "vmag": 16.519,
+        "pha": 0,
+        "smass": "Xc",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1595438040,
+      "end": 1595456040,
+      "data": {
+        "nid": "a0019764",
+        "spkid": 2019764,
+        "designation": 19764,
+        "name": "",
+        "full_name": "19764 2000 NF5",
+        "integration_time": 17997.352066061936,
+        "mag": 15.9,
+        "vmag": 16.522,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1595506440,
+      "end": 1595524440,
+      "data": {
+        "nid": "a0054509",
+        "spkid": 2054509,
+        "designation": 54509,
+        "name": "YORP",
+        "full_name": "54509 YORP 2000 PH5",
+        "integration_time": 17515.675367207747,
+        "mag": 22.7,
+        "vmag": 16.322,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.85
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1595812440,
+      "end": 1595830440,
+      "data": {
+        "nid": "bK16P00N",
+        "spkid": 3756788,
+        "designation": "2016 PN",
+        "name": "",
+        "full_name": "2016 PN",
+        "integration_time": 17963.070074063136,
+        "mag": 20.4,
+        "vmag": 16.503,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.17
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1596348840,
+      "end": 1596352440,
+      "data": {
+        "nid": "a0001036",
+        "spkid": 2001036,
+        "designation": 1036,
+        "name": "Ganymed",
+        "full_name": "1036 Ganymed 1924 TD",
+        "integration_time": 686.3783591595837,
+        "mag": 9.45,
+        "vmag": 12.958,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "S",
+        "slew_max": 0
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1596604440,
+      "end": 1596622440,
+      "data": {
+        "nid": "a0030825",
+        "spkid": 2030825,
+        "designation": 30825,
+        "name": "",
+        "full_name": "30825 1990 TG1",
+        "integration_time": 17286.735679669287,
+        "mag": 14.7,
+        "vmag": 16.479,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.06
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1596683640,
+      "end": 1596701640,
+      "data": {
+        "nid": "a0159402",
+        "spkid": 2159402,
+        "designation": 159402,
+        "name": "",
+        "full_name": "159402 1999 AP10",
+        "integration_time": 17991.242012296996,
+        "mag": 16.1,
+        "vmag": 16.509,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1596770040,
+      "end": 1596784440,
+      "data": {
+        "nid": "a0504181",
+        "spkid": 2504181,
+        "designation": 504181,
+        "name": "",
+        "full_name": "504181 2006 TC",
+        "integration_time": 13206.58041916065,
+        "mag": 18.7,
+        "vmag": 23.933,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1596806040,
+      "end": 1596820440,
+      "data": {
+        "nid": "bK12U68S",
+        "spkid": 3613388,
+        "designation": "2012 US68",
+        "name": "",
+        "full_name": "2012 US68",
+        "integration_time": 13613.708120200185,
+        "mag": 18.2,
+        "vmag": 22.373,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 79.88
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1597194840,
+      "end": 1597212840,
+      "data": {
+        "nid": "bK10J87G",
+        "spkid": 3522125,
+        "designation": "2010 JG87",
+        "name": "",
+        "full_name": "2010 JG87",
+        "integration_time": 16477.108249449633,
+        "mag": 19.1,
+        "vmag": 25.906,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1597216440,
+      "end": 1597220040,
+      "data": {
+        "nid": "a0000433",
+        "spkid": 2000433,
+        "designation": 433,
+        "name": "Eros",
+        "full_name": "433 Eros 1898 DQ",
+        "integration_time": 1585.2392597746602,
+        "mag": 11.16,
+        "vmag": 13.871,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "S",
+        "slew_max": null
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1597288440,
+      "end": 1597306440,
+      "data": {
+        "nid": "a0053435",
+        "spkid": 2053435,
+        "designation": 53435,
+        "name": "",
+        "full_name": "53435 1999 VM40",
+        "integration_time": 17995.1258102204,
+        "mag": 14.6,
+        "vmag": 16.518,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1597832040,
+      "end": 1597850040,
+      "data": {
+        "nid": "a0011405",
+        "spkid": 2011405,
+        "designation": 11405,
+        "name": "",
+        "full_name": "11405 1999 CV3",
+        "integration_time": 17994.9476950822,
+        "mag": 15.2,
+        "vmag": 16.522,
+        "pha": 0,
+        "smass": "Sq",
+        "tholen": "",
+        "slew_max": 0.07
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1598408040,
+      "end": 1598426040,
+      "data": {
+        "nid": "bK13U14X",
+        "spkid": 3655374,
+        "designation": "2013 UX14",
+        "name": "",
+        "full_name": "2013 UX14",
+        "integration_time": 17978.035133522477,
+        "mag": 18,
+        "vmag": 16.516,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.05
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1598537640,
+      "end": 1598555640,
+      "data": {
+        "nid": "a0000887",
+        "spkid": 2000887,
+        "designation": 887,
+        "name": "Alinda",
+        "full_name": "887 Alinda 1918 DB",
+        "integration_time": 17990.846658896193,
+        "mag": 13.4,
+        "vmag": 16.513,
+        "pha": 0,
+        "smass": "",
+        "tholen": "S",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1598778840,
+      "end": 1598796840,
+      "data": {
+        "nid": "bK11E04S",
+        "spkid": 3558279,
+        "designation": "2011 ES4",
+        "name": "",
+        "full_name": "2011 ES4",
+        "integration_time": 16663.27651881737,
+        "mag": 25.7,
+        "vmag": 15.874,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 3.23
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1600506840,
+      "end": 1600524840,
+      "data": {
+        "nid": "a0005645",
+        "spkid": 2005645,
+        "designation": 5645,
+        "name": "",
+        "full_name": "5645 1990 SP",
+        "integration_time": 17990.138567008104,
+        "mag": 17.1,
+        "vmag": 16.512,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.05
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1601068440,
+      "end": 1601086440,
+      "data": {
+        "nid": "bK16E85D",
+        "spkid": 3746215,
+        "designation": "2016 ED85",
+        "name": "",
+        "full_name": "2016 ED85",
+        "integration_time": 17990.200630508723,
+        "mag": 17.7,
+        "vmag": 16.515,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.1
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1601237640,
+      "end": 1601255640,
+      "data": {
+        "nid": "a0004953",
+        "spkid": 2004953,
+        "designation": 4953,
+        "name": "",
+        "full_name": "4953 1990 MU",
+        "integration_time": 17991.38138131766,
+        "mag": 14.1,
+        "vmag": 16.515,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1601615640,
+      "end": 1601626440,
+      "data": {
+        "nid": "a0155140",
+        "spkid": 2155140,
+        "designation": 155140,
+        "name": "",
+        "full_name": "155140 2005 UD",
+        "integration_time": 8296.23100750238,
+        "mag": 17.4,
+        "vmag": 21.449,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1602756840,
+      "end": 1602764040,
+      "data": {
+        "nid": "a0002212",
+        "spkid": 2002212,
+        "designation": 2212,
+        "name": "Hephaistos",
+        "full_name": "2212 Hephaistos 1978 SB",
+        "integration_time": 4726.102150566935,
+        "mag": 13.87,
+        "vmag": 18.888,
+        "pha": 0,
+        "smass": "",
+        "tholen": "SG",
+        "slew_max": 133.44
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1602778440,
+      "end": 1602792840,
+      "data": {
+        "nid": "bK17T01C",
+        "spkid": 3782059,
+        "designation": "2017 TC1",
+        "name": "",
+        "full_name": "2017 TC1",
+        "integration_time": 13860.700061793983,
+        "mag": 20.9,
+        "vmag": 27.22,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.01
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1603592040,
+      "end": 1603610040,
+      "data": {
+        "nid": "a0474179",
+        "spkid": 2474179,
+        "designation": 474179,
+        "name": "",
+        "full_name": "474179 1999 VS6",
+        "integration_time": 17975.411278717205,
+        "mag": 19,
+        "vmag": 16.502,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.11
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1604931240,
+      "end": 1604949240,
+      "data": {
+        "nid": "bK15W01N",
+        "spkid": 3735453,
+        "designation": "2015 WN1",
+        "name": "",
+        "full_name": "2015 WN1",
+        "integration_time": 17931.831580923776,
+        "mag": 26.5,
+        "vmag": 15.742,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 4.56
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1605892440,
+      "end": 1605910440,
+      "data": {
+        "nid": "a0007753",
+        "spkid": 2007753,
+        "designation": 7753,
+        "name": "",
+        "full_name": "7753 1988 XB",
+        "integration_time": 17881.51142906817,
+        "mag": 18.6,
+        "vmag": 16.44,
+        "pha": 1,
+        "smass": "B",
+        "tholen": "",
+        "slew_max": 0.25
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1606043640,
+      "end": 1606061640,
+      "data": {
+        "nid": "bK02G08Z",
+        "spkid": 3120894,
+        "designation": "2002 GZ8",
+        "name": "",
+        "full_name": "2002 GZ8",
+        "integration_time": 17977.180704151757,
+        "mag": 18.2,
+        "vmag": 16.511,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.05
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1606331640,
+      "end": 1606349640,
+      "data": {
+        "nid": "a0066272",
+        "spkid": 2066272,
+        "designation": 66272,
+        "name": "",
+        "full_name": "66272 1999 JW6",
+        "integration_time": 17969.277979856306,
+        "mag": 17.1,
+        "vmag": 16.506,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.08
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1606382040,
+      "end": 1606400040,
+      "data": {
+        "nid": "a0153201",
+        "spkid": 2153201,
+        "designation": 153201,
+        "name": "",
+        "full_name": "153201 2000 WO107",
+        "integration_time": 17849.121725589135,
+        "mag": 19.3,
+        "vmag": 16.285,
+        "pha": 1,
+        "smass": "X",
+        "tholen": "",
+        "slew_max": 0.54
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1606648440,
+      "end": 1606666440,
+      "data": {
+        "nid": "a0163902",
+        "spkid": 2163902,
+        "designation": 163902,
+        "name": "",
+        "full_name": "163902 2003 SW222",
+        "integration_time": 17986.976744015778,
+        "mag": 17.1,
+        "vmag": 16.515,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1606778040,
+      "end": 1606796040,
+      "data": {
+        "nid": "a0162173",
+        "spkid": 2162173,
+        "designation": 162173,
+        "name": "Ryugu",
+        "full_name": "162173 Ryugu 1999 JU3",
+        "integration_time": 17997.50942975375,
+        "mag": 19.3,
+        "vmag": 16.522,
+        "pha": 1,
+        "smass": "Cg",
+        "tholen": "",
+        "slew_max": 0.05
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1607249640,
+      "end": 1607267640,
+      "data": {
+        "nid": "a0004179",
+        "spkid": 2004179,
+        "designation": 4179,
+        "name": "Toutatis",
+        "full_name": "4179 Toutatis 1989 AC",
+        "integration_time": 17992.31709992318,
+        "mag": 15.3,
+        "vmag": 16.519,
+        "pha": 1,
+        "smass": "Sk",
+        "tholen": "",
+        "slew_max": 0.05
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1607440440,
+      "end": 1607458440,
+      "data": {
+        "nid": "a0006053",
+        "spkid": 2006053,
+        "designation": 6053,
+        "name": "",
+        "full_name": "6053 1993 BW3",
+        "integration_time": 17997.510068773423,
+        "mag": 14.8,
+        "vmag": 16.522,
+        "pha": 0,
+        "smass": "Sq",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1607753640,
+      "end": 1607771640,
+      "data": {
+        "nid": "a0012538",
+        "spkid": 2012538,
+        "designation": 12538,
+        "name": "",
+        "full_name": "12538 1998 OH",
+        "integration_time": 17994.174057503773,
+        "mag": 15.8,
+        "vmag": 16.52,
+        "pha": 1,
+        "smass": "S:",
+        "tholen": "",
+        "slew_max": 0.04
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1608423240,
+      "end": 1608441240,
+      "data": {
+        "nid": "a0415029",
+        "spkid": 2415029,
+        "designation": 415029,
+        "name": "",
+        "full_name": "415029 2011 UL21",
+        "integration_time": 17989.859630438994,
+        "mag": 15.7,
+        "vmag": 16.512,
+        "pha": 1,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.03
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1608444840,
+      "end": 1608462840,
+      "data": {
+        "nid": "a0090147",
+        "spkid": 2090147,
+        "designation": 90147,
+        "name": "",
+        "full_name": "90147 2002 YK14",
+        "integration_time": 17944.454632217636,
+        "mag": 18.3,
+        "vmag": 16.505,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.11
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1608639240,
+      "end": 1608657240,
+      "data": {
+        "nid": "a0501647",
+        "spkid": 2501647,
+        "designation": 501647,
+        "name": "",
+        "full_name": "501647 2014 SD224",
+        "integration_time": 17896.275064799112,
+        "mag": 22.3,
+        "vmag": 16.475,
+        "pha": 0,
+        "smass": "",
+        "tholen": "",
+        "slew_max": 0.21
+      }
+    },
+    {
+      "type": 2,
+      "begin": 1608844440,
+      "end": 1608862440,
+      "data": {
+        "nid": "a0089355",
+        "spkid": 2089355,
+        "designation": 89355,
+        "name": "",
+        "full_name": "89355 2001 VS78",
+        "integration_time": 17987.731826437757,
+        "mag": 15.6,
+        "vmag": 16.512,
+        "pha": 0,
+        "smass": "S",
+        "tholen": "",
+        "slew_max": 0.02
+      }
+    }
+  ],
+  "earth_exclusion": 10,
+  "exoplanet_spectroscopy_limiting": "not limited",
+  "neo_spectroscopy_limiting": "300 minutes integration time",
+  "exoplanet_avg_scan_time": 0,
+  "neo_avg_scan_time": 4043954,
+  "time_exoplanet_scans": "0.0",
+  "time_neo_scans": "6.0",
+  "time_idle": "94.0",
+  "total_data_produced_tb": 913.93,
+  "data_rate_mbps": 2,
+  "data_rate_fluct_mbps": 0.1,
+  "exoplanet_count": 2629,
+  "neo_count": 19782,
+  "ecliptic_scope": "outside Sun 100° exclusion zone",
+  "neo_spectroscopy_methodology": "scan once",
+  "exoplanet_spectroscopy_methodology": "scan once"
+}

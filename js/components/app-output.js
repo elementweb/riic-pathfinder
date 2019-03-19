@@ -74,7 +74,7 @@ module.exports = function(App) {
         data_rate_fluct_mbps: _.round(App.spectroscopy.settings.data_rate_fluct_mbps, 2),
         exoplanet_count: App.dataManager.storage.exoplanets.length,
         neo_count: App.pathFinder.data.neos_series.length,
-        ecliptic_scope: App.targeting.settings.limiting == 2 ? 'outside Sun\'s ' + _.round(App.targeting.settings.sun_exclusion_deg * 2, 1) + '° exclusion zone' : '50°x50°',
+        ecliptic_scope: App.targeting.settings.limiting == 2 ? 'outside Sun ' + _.round(App.targeting.settings.sun_exclusion_deg * 2, 1) + '° exclusion zone' : '50°x50°',
         neo_spectroscopy_methodology: App.neos.settings.scan_method == 1 ? 'scan with ' + App.neos.settings.scan_delay + ' days delay' : 'scan once',
         exoplanet_spectroscopy_methodology: App.exoplanets.settings.scan_method == 1 ? 'scan with ' + App.exoplanets.settings.scan_delay + ' days delay' : 'scan once',
       };

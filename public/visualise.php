@@ -111,7 +111,7 @@
     <script type="text/javascript">
         <?php
         if (isset($_GET['preset']) && file_exists('presets/' . basename($_GET['preset']))) {
-            $json = file_get_contents('presets/' . basename($_GET['preset']));
+            $json = json_encode(json_decode(file_get_contents('presets/' . basename($_GET['preset']))));
 
             echo 'App.main.preset = JSON.parse(\'' . $json . '\');';
         }

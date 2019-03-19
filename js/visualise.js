@@ -26,5 +26,6 @@ const App = {
 window.App = App;
 
 require('./visualisation/app-main')(App);
+require('./visualisation/app-export')(App);
 
 App.container.initialize();
