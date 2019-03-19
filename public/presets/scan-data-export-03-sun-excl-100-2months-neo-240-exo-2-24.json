@@ -2073,7 +2073,7 @@
   "exoplanet_spectroscopy_limiting": "not limited",
   "neo_spectroscopy_limiting": "240 minutes integration time",
   "exoplanet_avg_scan_time": 2397,
-  "neo_avg_scan_time": 27368205,
+  "neo_avg_scan_time": 13936,
   "time_exoplanet_scans": "5.5",
   "time_neo_scans": "4.7",
   "time_idle": "89.8",
