@@ -2202,7 +2202,7 @@
   "data_rate_fluct_mbps": 0.1,
   "exoplanet_count": 2629,
   "neo_count": 19782,
-  "ecliptic_scope": "outside Sun's 100° exclusion zone",
+  "ecliptic_scope": "outside Sun 100° exclusion zone",
   "neo_spectroscopy_methodology": "scan once",
   "exoplanet_spectroscopy_methodology": "scan once"
 }
