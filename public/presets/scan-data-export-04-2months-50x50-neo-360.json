@@ -5,7 +5,7 @@
   "telescope": "⌀0.4m",
   "neos_scanned": 31,
   "exoplanets_scanned": 77,
-  "max_slew_rate": 211.47,
+  "max_slew_rate": 0.73,
   "operations": [
     {
       "type": 2,
