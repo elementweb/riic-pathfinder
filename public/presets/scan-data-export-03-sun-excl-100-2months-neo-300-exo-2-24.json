@@ -2197,7 +2197,7 @@
   "time_exoplanet_scans": "5.6",
   "time_neo_scans": "8.3",
   "time_idle": "86.1",
-  "total_data_produced_tb": 1647.88,
+  "total_data_produced_tb": 1.61,
   "data_rate_mbps": 2,
   "data_rate_fluct_mbps": 0.1,
   "exoplanet_count": 2629,
