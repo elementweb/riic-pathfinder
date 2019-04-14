@@ -1,3 +1,3 @@
 # RIIC Pathfinder
 
-Live version avaialble: http://pathfinder.stargate.lt/
+Live version available: http://pathfinder.stargate.lt/
